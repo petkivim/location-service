@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="false" name="com.pkrete.locationservice.endpoint.model.language.Language" table="LANGUAGE">
+    <id column="id" name="id" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="code" index="code_idx" length="20" name="code" type="string"/>
+    <property column="name" length="50" name="name" type="string"/>
+  </class>
+</hibernate-mapping>

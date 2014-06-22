@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="true" name="com.pkrete.locationservice.endpoint.model.location.Note" table="NOTE">
+    <id column="note_id" name="id" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="note" length="1000" name="note" type="string"/>
+    <many-to-one column="language_id" fetch="join" lazy="false" name="language"/>
+  </class>
+</hibernate-mapping>

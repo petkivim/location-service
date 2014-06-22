@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class abstract="true" lazy="false" name="com.pkrete.locationservice.admin.model.illustration.Illustration">
+    <id column="id" name="id" type="int" unsaved-value="0">
+      <generator class="increment"/>
+    </id>
+    <property column="path" length="500" name="path" type="string"/>
+    <property column="description" length="100" name="description" type="string"/>
+    <property column="isExternal" name="isExternal" type="yes_no"/>
+    <many-to-one column="owner_id" lazy="no-proxy" name="owner" not-null="true"/>
+    <property column="created" name="created" type="timestamp"/>
+    <property column="creator" length="100" name="creator" type="string"/>
+    <property column="updated" name="updated" type="timestamp"/>
+    <property column="updater" length="100" name="updater" type="string"/>
+    <union-subclass name="com.pkrete.locationservice.admin.model.illustration.Map" table="MAP">
+      <property column="color" length="6" name="color" type="string"/>
+      <property column="opacity" length="3" name="opacity" type="string"/>
+    </union-subclass>
+    <union-subclass name="com.pkrete.locationservice.admin.model.illustration.Image" table="IMAGE">
+      <property column="x" name="x" type="integer"/>
+      <property column="y" name="y" type="integer"/>
+    </union-subclass>
+  </class>
+</hibernate-mapping>

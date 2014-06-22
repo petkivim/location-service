@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:solr="http://www.springframework.org/schema/data/solr"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+       http://www.springframework.org/schema/data/solr http://www.springframework.org/schema/data/solr/spring-solr-1.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+             
+    <!-- Bean to load messages properties file -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!-- UI translations -->
+                <value>messages</value>
+                <!-- REST API messages -->
+                <value>rest-messages</value>
+                <!-- Email content -->
+                <value>mail-messages</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!--Bean to load properties file -->
+    <bean id="placeholderConfig" class="com.pkrete.locationservice.admin.util.PropertiesUtil">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Run SQL scripts on application startup. -->
+    <!--
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="/WEB-INF/sql/init-db.sql"/>
+    </jdbc:initialize-database>
+    -->
+    
+    <!-- Data source object -->
+    <!-- http://www.mchange.com/projects/c3p0/index.html#basic_pool_configuration -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${db.driverClass}"></property>
+        <property name="jdbcUrl" value="${db.jdbcUrl}"/>
+        <property name="user" value="${db.user}"/>
+        <property name="password" value="${db.password}"/>
+        <!-- Production: 5 -->
+        <property name="initialPoolSize" value="1" />
+        <!-- Production: 5 -->
+        <property name="minPoolSize" value="1" />
+        <!-- Production: 15 -->
+        <property name="maxPoolSize" value="1"/>
+        <property name="numHelperThreads" value="6"/>
+        <!-- Determines how many connections at a time -->
+        <!-- c3p0 will try to acquire when the pool is exhausted. -->
+        <property name="acquireIncrement" value="1"/>
+        <!-- attempts to acquire a new db connection before giving up -->
+        <property name="acquireRetryAttempts" value="6" />
+        <!-- ms to wait for a connection when the pool is exhausted -->
+        <property name="checkoutTimeout" value="1000"/>
+        <property name="maxStatements" value="100" />
+        <property name="preferredTestQuery" value="select 1" />
+        <!-- Test connections every 5 minutes -->
+        <!-- MySQL closes unused connections after 8 hours -->
+        <property name="idleConnectionTestPeriod" value="300" />
+        <property name="testConnectionOnCheckin" value="false" />
+        <property name="testConnectionOnCheckout" value="false" />
+        <!-- Seconds a Connection can remain pooled -->
+        <!-- but unused before being discarded. -->
+        <property name="maxIdleTime" value="7200" />
+        <!-- Number of seconds that Connections in excess of -->
+        <!-- minPoolSize should be permitted to remain idle -->
+        <!-- in the pool before being culled. -->
+        <property name="maxIdleTimeExcessConnections" value="600" />
+    </bean>
+
+    <!-- Session factory object -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mappingResources">
+            <list>
+                <value>com/pkrete/locationservice/admin/conf/Location.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/Area.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/Illustration.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/Language.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/SubjectMatter.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/Owner.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/User.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/UserInfo.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/Description.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/Note.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/CallnoModification.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/SearchEvent.hbm.xml</value>
+                <value>com/pkrete/locationservice/admin/conf/SearchIndex.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${db.dialect}</prop>
+                <prop key="hibernate.show_sql">${db.showSql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${db.auto}</prop>
+                <!--
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> 
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.cache.provider_configuration_file_resource_path">../ehcache.xml</prop>
+                -->
+            </props>
+        </property>
+    </bean>
+
+    <!-- Transaction manager object -->
+    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- Service objects -->   
+    <bean id="imagesService" class="com.pkrete.locationservice.admin.service.illustrations.ImagesServiceImpl" >
+        <property name="dao" ref="imagesDao" />
+        <property name="fileService" ref="fileService" />
+        <property name="dirService" ref="directoryService" />
+        <property name="jsonizer" ref="imageJSONizerService" />
+    </bean>
+    
+    <bean id="mapsService" class="com.pkrete.locationservice.admin.service.illustrations.MapsServiceImpl" >
+        <property name="dao" ref="mapsDao" />
+        <property name="fileService" ref="fileService" />
+        <property name="dirService" ref="directoryService" />
+        <property name="languagesService" ref="languagesService" />
+        <property name="jsonizer" ref="mapJSONizerService" />
+    </bean>
+    
+    <bean id="languagesService" class="com.pkrete.locationservice.admin.service.languages.LanguagesServiceWithExtIndexSupportImpl" >
+        <property name="dao" ref="languagesDao" />
+        <property name="dirService" ref="directoryService" />
+        <property name="jsonizer" ref="languageJSONizerService" />
+        <property name="languageIndexService" ref="languageIndexService" />
+    </bean>
+    
+    <bean id="locationsService" class="com.pkrete.locationservice.admin.service.locations.LocationsServiceWithExtIndexSupportImpl" >
+        <property name="dao" ref="locationsDao" />
+        <property name="libJsonizer" ref="libraryJSONizerService" />
+        <property name="colJsonizer" ref="collectionJSONizerService" />
+        <property name="shelfJsonizer" ref="shelfJSONizerService" />
+        <property name="locationIndexService" ref="locationIndexService" />
+    </bean>
+    
+    <bean id="ownersService" class="com.pkrete.locationservice.admin.service.owners.OwnersServiceWithExtIndexSupportImpl" >
+        <property name="dao" ref="ownersDao" />
+        <property name="dirService" ref="directoryService" />
+        <property name="jsonizer" ref="ownerJSONizerService" />
+        <property name="ignoredFiles">
+            <util:map map-class="java.util.HashMap">
+                <entry key="template.txt" value="true" />
+                <entry key="style.css" value="true" />
+            </util:map>
+        </property>
+        <property name="ownerIndexService" ref="ownerIndexService" />
+        <property name="locationIndexService" ref="locationIndexService" />
+    </bean>
+    
+    <bean id="statisticsService" class="com.pkrete.locationservice.admin.service.statistics.StatisticsServiceImpl" >
+        <property name="dao" ref="statisticsDao" />
+    </bean>
+    
+    <bean id="subjectMattersService" class="com.pkrete.locationservice.admin.service.subjectmatters.SubjectMattersServiceWithExtIndexSupportImpl" >
+        <property name="dao" ref="subjectMattersDao" />
+        <property name="jsonizer" ref="subjectMatterJSONizerService" />
+        <property name="locationIndexService" ref="locationIndexService" />
+    </bean>
+    
+    <bean id="usersService" class="com.pkrete.locationservice.admin.service.users.UsersServiceImpl" >
+        <property name="dao" ref="usersDao" />
+        <property name="encryptionService" ref="encryptionService" />
+        <property name="mailerService" ref="mailerService" />
+        <property name="userJsonizer" ref="userJSONizerService" />
+        <property name="userInfoJsonizer" ref="userInfoJSONizerService" />
+    </bean>
+    
+    <bean id="directoryService" class="com.pkrete.locationservice.admin.io.directory.DirectoryServiceImpl" />
+    
+    <bean id="fileService" class="com.pkrete.locationservice.admin.io.file.FileServiceImpl" />
+    
+    <bean id="encryptionService" class="com.pkrete.locationservice.admin.converter.encryption.BasicEncryptionService" />
+    
+    <bean id="mailerService" class="com.pkrete.locationservice.admin.mailer.impl.BasicEmailService">
+        <property name="converterService" ref="converterService" />
+        <property name="messageSource" ref="messageSource" />
+    </bean>
+    
+    <bean id="templatesService" class="com.pkrete.locationservice.admin.io.templates.TemplatesServiceImpl" >
+        <property name="fileService" ref="fileService" />
+        <property name="locationsService" ref="locationsService" />
+        <property name="languagesService" ref="languagesService" />
+        <property name="dirService" ref="directoryService" />
+    </bean>
+    
+    <bean id="cssService" class="com.pkrete.locationservice.admin.io.css.CSSServiceImpl" >
+        <property name="fileService" ref="fileService" />
+        <property name="dirService" ref="directoryService" />
+    </bean>
+    
+    <bean id="jsService" class="com.pkrete.locationservice.admin.io.js.JSServiceImpl" >
+        <property name="fileService" ref="fileService" />
+        <property name="dirService" ref="directoryService" />
+    </bean>
+    
+    <bean id="converterService" class="com.pkrete.locationservice.admin.converter.converter.ConverterServiceImpl" />
+    
+    <!-- JSONizer services BEGIN -->
+    <bean id="libraryJSONizerService" class="com.pkrete.locationservice.admin.converter.json.LibraryJSONizer" />
+    
+    <bean id="collectionJSONizerService" class="com.pkrete.locationservice.admin.converter.json.CollectionJSONizer" />
+    
+    <bean id="shelfJSONizerService" class="com.pkrete.locationservice.admin.converter.json.ShelfJSONizer" />
+    
+    <bean id="languageJSONizerService" class="com.pkrete.locationservice.admin.converter.json.LanguageJSONizer" />
+    
+    <bean id="subjectMatterJSONizerService" class="com.pkrete.locationservice.admin.converter.json.SubjectMatterJSONizer" />
+    
+    <bean id="imageJSONizerService" class="com.pkrete.locationservice.admin.converter.json.ImageJSONizer" />
+    
+    <bean id="mapJSONizerService" class="com.pkrete.locationservice.admin.converter.json.MapJSONizer">
+        <property name="fileService" ref="fileService" />
+        <property name="languagesService" ref="languagesService" />
+    </bean>
+    
+    <bean id="ownerJSONizerService" class="com.pkrete.locationservice.admin.converter.json.OwnerJSONizer" />
+    
+    <bean id="userJSONizerService" class="com.pkrete.locationservice.admin.converter.json.UserJSONizer" />
+    
+    <bean id="userInfoJSONizerService" class="com.pkrete.locationservice.admin.converter.json.UserInfoJSONizer" />
+    
+    <!-- JSONizer services END-->
+    
+    <!-- ObjectMap services BEGIN -->
+    <bean id="simpleLocationMapService" class="com.pkrete.locationservice.admin.converter.objectmap.SimpleLocationMapService" />
+    
+    <bean id="libraryMapService" class="com.pkrete.locationservice.admin.converter.objectmap.LibraryMapService" />
+    
+    <bean id="collectionMapService" class="com.pkrete.locationservice.admin.converter.objectmap.CollectionMapService" />
+    
+    <bean id="shelfMapService" class="com.pkrete.locationservice.admin.converter.objectmap.ShelfMapService" />
+    
+    <bean id="languageMapService" class="com.pkrete.locationservice.admin.converter.objectmap.LanguageMapService" />
+    
+    <bean id="subjectMatterMapService" class="com.pkrete.locationservice.admin.converter.objectmap.SubjectMatterMapService" />
+    
+    <bean id="imageMapService" class="com.pkrete.locationservice.admin.converter.objectmap.ImageMapService" />
+    
+    <bean id="mapMapService" class="com.pkrete.locationservice.admin.converter.objectmap.MapMapService">
+        <property name="languagesService" ref="languagesService" />
+        <property name="fileService" ref="fileService" />
+    </bean>
+    
+    <bean id="ownerMapService" class="com.pkrete.locationservice.admin.converter.objectmap.OwnerMapService" />
+        
+    <bean id="ownerSettingsMapService" class="com.pkrete.locationservice.admin.converter.objectmap.OwnerSettingsMapService" />
+    
+    <bean id="userInfoMapService" class="com.pkrete.locationservice.admin.converter.objectmap.UserInfoMapService" />
+    
+    <bean id="templateMapService" class="com.pkrete.locationservice.admin.converter.objectmap.TemplateMapService" />
+    
+    <bean id="cssMapService" class="com.pkrete.locationservice.admin.converter.objectmap.CSSMapService" />
+    
+    <bean id="jsMapService" class="com.pkrete.locationservice.admin.converter.objectmap.JSMapService" />
+    
+    <bean id="statisticsSearchResultMapService" class="com.pkrete.locationservice.admin.converter.objectmap.StatisticsSearchResultMapService" />
+    <!-- ObjectMap services END-->  
+    
+    <!-- DAO Data Access Objects -->    
+    <bean id="imagesDao" class="com.pkrete.locationservice.admin.dao.illustrations.ImagesDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="mapsDao" class="com.pkrete.locationservice.admin.dao.illustrations.MapsDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="languagesDao" class="com.pkrete.locationservice.admin.dao.languages.LanguagesDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="locationsDao" class="com.pkrete.locationservice.admin.dao.locations.LocationsDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="ownersDao" class="com.pkrete.locationservice.admin.dao.owners.OwnersDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="statisticsDao" class="com.pkrete.locationservice.admin.dao.statistics.StatisticsDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="subjectMattersDao" class="com.pkrete.locationservice.admin.dao.subjectmatters.SubjectMattersDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="usersDao" class="com.pkrete.locationservice.admin.dao.users.UsersDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!-- Transactional advice (i.e. what 'happens'; see the <aop:advisor/> bean below) -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <!-- all methods starting with 'get', 'can', 'is' and 'check' are read-only -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="can*" read-only="true"/>
+            <tx:method name="is*" read-only="true"/>
+            <tx:method name="check*" read-only="true"/>
+            <!-- other methods use the default transaction settings (see below) -->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- Ensure that the above transactional advice runs for any execution -->
+    <!-- of an operation defined by the DbService class -->
+    <aop:config>
+        <!-- Matches any operation in the service layer -->
+        <aop:pointcut id="dbServiceOperation" expression="
+            execution(* com.pkrete.locationservice.admin.service.*.*(..)) and
+            !execution(* com.pkrete.locationservice.admin.service.locations.LocationsServiceWithExtIndexSupportImpl.get*(..)) and
+            !execution(* com.pkrete.locationservice.admin.service.languages.LanguagesServiceWithExtIndexSupportImpl.get*(..)) and
+            !execution(* com.pkrete.locationservice.admin.service.owners.OwnersServiceWithExtIndexSupportImpl.get*(..))"
+            />
+        <aop:advisor pointcut-ref="dbServiceOperation" advice-ref="txAdvice"/>
+    </aop:config>
+    
+    <!-- This bean offers access to applicationContext anywhere from the source code -->
+    <bean id="applicationContextUtils" class="com.pkrete.locationservice.admin.util.ApplicationContextUtils" />
+    
+    <!-- mapDrawer is used by ImageCreator servlet. -->
+    <!-- mapDrawer must implement Drawer interface. -->
+    <bean id="mapDrawer" class="com.pkrete.locationservice.admin.drawer.MapDrawer">    
+        <property name="converterService" ref="converterService"/>
+    </bean>
+    
+    <!-- xmlGenerator is used by Search servlet. -->
+    <!-- xmlGenerator must implement Generator interface. -->
+    <bean id="xmlGenerator" class="com.pkrete.locationservice.admin.generator.xml.XmlGenerator" /> 
+    
+    <!-- searcher is used by Search servlet. -->
+    <!-- searcher must implement Searcher interface. -->   
+    <bean id="searcher" class="com.pkrete.locationservice.admin.search.impl.SearcherImpl">
+        <property name="locationsService" ref="locationsService" />
+        <property name="ownersService" ref="ownersService"/>
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- Property editors - Begin -->
+    <!-- Image Editor object -->
+    <bean id="imageEditor" class="com.pkrete.locationservice.admin.editor.ImageEditor" >
+        <property name="imagesService" ref="imagesService" />
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- Map Editor object -->
+    <bean id="mapEditor" class="com.pkrete.locationservice.admin.editor.MapEditor" >
+        <property name="mapsService" ref="mapsService" />
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- Language Editor object -->
+    <bean id="languageEditor" class="com.pkrete.locationservice.admin.editor.LanguageEditor" >
+        <property name="languagesService" ref="languagesService" />
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- SubjectMatter Editor object -->
+    <bean id="subjectMatterEditor" class="com.pkrete.locationservice.admin.editor.SubjectMatterEditor" >
+        <property name="subjectMattersService" ref="subjectMattersService" />
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- Owner Editor object -->
+    <bean id="ownerEditor" class="com.pkrete.locationservice.admin.editor.OwnerEditor" >
+        <property name="ownersService" ref="ownersService" />
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- User group Editor object -->
+    <bean id="userGroupEditor" class="com.pkrete.locationservice.admin.editor.UserGroupEditor" >
+        <property name="converterService" ref="converterService" />
+    </bean>
+    
+    <!-- Library Editor object -->
+    <bean id="libraryEditor" class="com.pkrete.locationservice.admin.editor.LibraryEditor" >
+        <property name="locationsService" ref="locationsService" />
+        <property name="converterService" ref="converterService"/>
+    </bean>
+    
+    <!-- LibraryCollection Editor object -->
+    <bean id="collectionEditor" class="com.pkrete.locationservice.admin.editor.CollectionEditor" >
+        <property name="locationsService" ref="locationsService" />
+        <property name="converterService" ref="converterService"/>
+    </bean>
+    <!-- Property editors - END -->
+       
+    <!-- Validators - BEGIN -->
+    <bean id="languageValidator" class="com.pkrete.locationservice.admin.validator.LanguageValidator">
+        <property name="languagesService" ref="languagesService"/>
+    </bean>
+    
+    <bean id="subjectMatterValidator" class="com.pkrete.locationservice.admin.validator.SubjectMatterValidator" />
+    
+    <bean id="imageValidator" class="com.pkrete.locationservice.admin.validator.SimplifiedImageValidator">
+        <property name="imagesService" ref="imagesService"/>
+    </bean>
+    
+    <bean id="mapValidator" class="com.pkrete.locationservice.admin.validator.SimplifiedMapValidator">
+        <property name="converterService" ref="converterService"/>
+        <property name="mapsService" ref="mapsService" />
+    </bean>
+    
+    <bean id="userInfoValidator" class="com.pkrete.locationservice.admin.validator.UserInfoValidator">
+        <property name="usersService" ref="usersService"/>
+    </bean>
+    
+    <bean id="ownerValidator" class="com.pkrete.locationservice.admin.validator.OwnerValidator">
+        <property name="ownersService" ref="ownersService"/>
+        <property name="converterService" ref="converterService"/>
+    </bean>
+    
+    <bean id="templateValidator" class="com.pkrete.locationservice.admin.validator.TemplateValidator">
+        <property name="templatesService" ref="templatesService"/>
+    </bean>
+    
+    <bean id="cssValidator" class="com.pkrete.locationservice.admin.validator.CSSValidator">
+        <property name="cssService" ref="cssService"/>
+    </bean>
+    
+    <bean id="jsValidator" class="com.pkrete.locationservice.admin.validator.JSValidator">
+        <property name="jsService" ref="jsService"/>
+    </bean>
+    
+    <bean id="libraryValidator" class="com.pkrete.locationservice.admin.validator.LibraryValidator">
+        <property name="locationsService" ref="locationsService" />
+    </bean>
+    
+    <!-- This validator doesn't validate areas - it's used in MVC controllers  -->
+    <bean id="libraryValidatorMVC" class="com.pkrete.locationservice.admin.validator.LibraryValidator">
+        <property name="locationsService" ref="locationsService" />
+        <property name="validateAreas" value="false" />
+    </bean>
+    
+    <bean id="collectionValidator" class="com.pkrete.locationservice.admin.validator.CollectionValidator">
+        <property name="locationsService" ref="locationsService" />
+        <property name="subjectMattersService" ref="subjectMattersService" />
+    </bean>
+    
+    <bean id="collectionValidatorMVC" class="com.pkrete.locationservice.admin.validator.CollectionValidator">
+        <property name="locationsService" ref="locationsService" />
+        <property name="subjectMattersService" ref="subjectMattersService" />
+        <property name="validateAreas" value="false" />
+    </bean>
+    
+    <bean id="shelfValidator" class="com.pkrete.locationservice.admin.validator.ShelfValidator">
+        <property name="locationsService" ref="locationsService" />
+    </bean>
+    
+    <bean id="shelfValidatorMVC" class="com.pkrete.locationservice.admin.validator.ShelfValidator">
+        <property name="locationsService" ref="locationsService" />
+        <property name="validateAreas" value="false" />
+    </bean>
+    <!-- Validators - END -->
+    
+    <!-- Supported tags - BEGIN -->
+    <bean id="libraryTags" class="java.util.TreeMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="Debug" value="&lt;!--$DEBUG--&gt;" />
+                <entry key="Google map" value="&lt;!--$GOOGLE_MAP('')--&gt;" />
+                <entry key="Link" value="&lt;!--$LINK('', '')--&gt;" />
+                <entry key="Call number" value="&lt;!--$CALLNO--&gt;" />
+                <entry key="Library location code" value="&lt;!--$LIBRARY_LOCATION_CODE--&gt;" />
+                <entry key="Library image" value="&lt;!--$LIBRARY_IMAGE--&gt;" />
+                <entry key="Library map" value="&lt;!--$LIBRARY_MAP--&gt;" />
+                <entry key="Library floor" value="&lt;!--$LIBRARY_FLOOR--&gt;" />
+                <entry key="Library description" value="&lt;!--$LIBRARY_DESCRIPTION--&gt;" />
+                <entry key="Library note" value="&lt;!--$LIBRARY_NOTE--&gt;" />
+            </map>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="collectionTags" class="java.util.TreeMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="Link to library" value="&lt;!--$LINK_LIBRARY('')--&gt;" />
+                <entry key="Main word" value="&lt;!--$MAIN_WORD--&gt;" />
+                <entry key="Collection location code" value="&lt;!--$COLLECTION_LOCATION_CODE--&gt;" />
+                <entry key="Collection image" value="&lt;!--$COLLECTION_IMAGE--&gt;" />
+                <entry key="Collection map" value="&lt;!--$COLLECTION_MAP--&gt;" />
+                <entry key="Collection subject" value="&lt;!--$COLLECTION_SUBJECT--&gt;" />
+                <entry key="Collection shelf number" value="&lt;!--$COLLECTION_SHELF_NUMBER--&gt;" />
+                <entry key="Collection floor" value="&lt;!--$COLLECTION_FLOOR--&gt;" />
+                <entry key="Collection description" value="&lt;!--$COLLECTION_DESCRIPTION--&gt;" />
+                <entry key="Collection note" value="&lt;!--$COLLECTION_NOTE--&gt;" />
+            </map>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="shelfTags" class="java.util.TreeMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="Link to collection" value="&lt;!--$LINK_COLLECTION('')--&gt;" />
+                <entry key="Shelf location code" value="&lt;!--$SHELF_LOCATION_CODE--&gt;" />
+                <entry key="Shelf image" value="&lt;!--$SHELF_IMAGE--&gt;" />
+                <entry key="Shelf map" value="&lt;!--$SHELF_MAP--&gt;" />
+                <entry key="Shelf subject" value="&lt;!--$SHELF_SUBJECT--&gt;" />
+                <entry key="Shelf number" value="&lt;!--$SHELF_NUMBER--&gt;" />
+                <entry key="Shelf floor" value="&lt;!--$SHELF_FLOOR--&gt;" />
+                <entry key="Shelf description" value="&lt;!--$SHELF_DESCRIPTION--&gt;" />
+                <entry key="Shelf note" value="&lt;!--$SHELF_NOTE--&gt;" />
+            </map>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="notFoundNotAvailableTags" class="java.util.TreeMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="Google map" value="&lt;!--$GOOGLE_MAP('')--&gt;" />
+                <entry key="Link" value="&lt;!--$LINK('', '')--&gt;" />
+            </map>
+        </constructor-arg>
+    </bean>
+    <!-- Supported tags - END -->
+    
+    <!-- Solr configuration - START -->
+    <solr:repositories base-package="com.pkrete.locationservice.admin.solr.repository" />
+    
+    <!-- Configures Solr server -->
+    <solr:solr-server id="solrServer" url="${solr.host}" />
+    
+    <!-- Configures Solr template -->
+    <bean id="solrTemplate" class="org.springframework.data.solr.core.SolrTemplate">
+        <constructor-arg index="0" ref="solrServer"/>
+    </bean>
+    
+    <bean id="locationIndexService" class="com.pkrete.locationservice.admin.solr.service.impl.LocationIndexServiceImpl">
+        <property name="repository" ref="locationDocumentRepository"/>
+    </bean>
+    
+    <bean id="ownerIndexService" class="com.pkrete.locationservice.admin.solr.service.impl.OwnerIndexServiceImpl">
+        <property name="repository" ref="ownerDocumentRepository"/>
+    </bean>
+    
+    <bean id="languageIndexService" class="com.pkrete.locationservice.admin.solr.service.impl.LanguageIndexServiceImpl">
+        <property name="repository" ref="languageDocumentRepository"/>
+    </bean>
+    <!-- Solr configuration - END -->
+</beans>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="true" name="com.pkrete.locationservice.admin.model.search.SearchIndex" table="SEARCH_INDEX">
+    <id column="id" name="id" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="location_id" index="_location_id_idx" name="locationId" not-null="true" type="integer"/>
+    <property column="location_type" index="_location_type_idx" name="locationType" not-null="true">
+      <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">com.pkrete.locationservice.admin.model.search.LocationType</param>
+        <param name="type">12</param>
+      </type>
+    </property>
+    <property column="call_number" length="300" name="callNumber" not-null="true" type="string"/>
+    <property column="location_code" index="location_code_idx" length="100" name="locationCode" not-null="true" type="string"/>
+    <property column="collection_code" index="collection_code_idx" length="50" name="collectionCode" type="string"/>
+    <many-to-one column="owner_id" lazy="no-proxy" name="owner" not-null="true"/>
+  </class>
+</hibernate-mapping>

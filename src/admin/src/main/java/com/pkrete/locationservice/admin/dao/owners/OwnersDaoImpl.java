@@ -1,0 +1,256 @@
+/**
+ * This file is part of Location Service :: Admin.
+ * Copyright (C) 2014 Petteri Kivimäki
+ *
+ * Location Service :: Admin is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Location Service :: Admin is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.pkrete.locationservice.admin.dao.owners;
+
+import com.pkrete.locationservice.admin.dao.OwnersDao;
+import com.pkrete.locationservice.admin.model.owner.CallnoModification;
+import com.pkrete.locationservice.admin.model.location.Location;
+import com.pkrete.locationservice.admin.model.owner.Owner;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.hibernate.Session;
+
+/**
+ * This class implements {@link OwnersDao OwnersDao} interface that
+ * defines data access layer for Owner objects.
+ * 
+ * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class 
+ * that is a wrapper over {@link HibernateTemplate HibernateTemplate} class. 
+ * HibernateTemplate is a convenience class for Hibernate based database access. 
+ * HibernateDaoSupport creates the HibernateTemplate and subclasses can use 
+ * the getHibernateTemplate() method to obtain the hibernateTemplate and 
+ * then perform operations on it. HibernateTemplate takes care of obtaining or 
+ * releasing sessions and managing exceptions. 
+ * 
+ * @author Petteri Kivimäki
+ */
+public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
+
+    private final static Logger localLogger = Logger.getLogger(OwnersDaoImpl.class.getName());
+
+    /**
+     * Returns a list of all the owners in the database.
+     * @return all the owners in the database
+     */
+    public List<Owner> getOwners() {
+        List result = getHibernateTemplate().find("from Owner owner order by owner.name ASC");
+        return result;
+    }
+
+    /**
+     * Returns the owner with the given id or null, if the owner cannot
+     * be found.
+     * @param id the id that is used for searching
+     * @return the owner with the given id or null
+     */
+    public Owner getOwner(int id) {
+        List<Owner> list = getHibernateTemplate().find(
+                "from Owner owner left join fetch owner.languages "
+                + "where owner.id=?", id);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    /**
+     * Returns the owner with the given id with all the collections related
+     * to the owner loaded. If the owner cannot be found, null is returned.
+     * @param id the id that is used for searching
+     * @return the owner with the given id or null
+     */
+    public Owner getFullOwner(int id) {
+        List<Owner> list = getHibernateTemplate().find(
+                "from Owner owner left join fetch owner.languages "
+                + "where owner.id=?", id);
+        if (list.isEmpty()) {
+            return null;
+        }
+        Owner owner = list.get(0);
+        Hibernate.initialize(owner.getNotFoundRedirects());
+        Hibernate.initialize(owner.getPreprocessingRedirects());
+        return list.get(0);
+    }
+
+    /**
+     * Returns the owner with the given code or null, if the owner cannot
+     * be found.
+     * @param code the code that is used for searching
+     * @return the owner with the given code or null
+     */
+    public Owner getOwnerByCode(String code) {
+        List<Owner> list = getHibernateTemplate().find(
+                "from Owner owner where owner.code = '" + code + "'");
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    /**
+     * Checks if the given owner object can be removed from the database.
+     * @param owner owner object to be removed
+     * @return true if the owner object can be removed; otherwise false
+     */
+    public boolean canBeDeleted(Owner owner) {
+        List<Location> result = null;
+
+        result = getHibernateTemplate().find("from Library as library where library.owner.id =?", owner.getId());
+        if (!result.isEmpty()) {
+            return false;
+        }
+
+        result = getHibernateTemplate().find("from Image as image where image.owner.id =?", owner.getId());
+        if (!result.isEmpty()) {
+            return false;
+        }
+
+        result = getHibernateTemplate().find("from Map as map where map.owner.id =?", owner.getId());
+        if (!result.isEmpty()) {
+            return false;
+        }
+
+        result = getHibernateTemplate().find("from SubjectMatter as subject where subject.owner.id =?", owner.getId());
+        if (!result.isEmpty()) {
+            return false;
+        }
+
+        result = getHibernateTemplate().find("from UserFull as user where user.owner.id =?", owner.getId());
+        if (!result.isEmpty()) {
+            return false;
+        }
+
+        result = getHibernateTemplate().find("from Language as lang where lang.owner.id =?", owner.getId());
+        if (!result.isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Saves the given owner object to the database.
+     * @param owner the owner to be created
+     * @return true if and only if the object was succesfully created;
+     * otherwise false
+     */
+    public boolean create(Owner owner) {
+        try {
+            getHibernateTemplate().save(owner);
+        } catch (Exception e) {
+            localLogger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Updates the given owner object to the database.
+     * @param owner the owner to be updated
+     * @return true if and only if the object was succesfully updated;
+     * otherwise false
+     */
+    public boolean update(Owner owner) {
+        try {
+            getHibernateTemplate().update(owner);
+        } catch (Exception e) {
+            localLogger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Deletes the given owner object from the database.
+     * @param owner the owner to be deleted
+     * @return true if and only if the object was succesfully deleted;
+     * otherwise false
+     */
+    public boolean delete(Owner owner) {
+        try {
+            Owner temp = this.getOwner(owner.getId());
+            Hibernate.initialize(temp.getLanguages());
+            getHibernateTemplate().delete(temp);
+        } catch (Exception e) {
+            localLogger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Deletes the given call number modification object from the database.
+     * @param mod the call number modification to be deleted
+     * @return true if and only if the object was succesfully deleted;
+     * otherwise false
+     */
+    public boolean delete(CallnoModification mod) {
+        try {
+            getHibernateTemplate().delete(mod);
+        } catch (Exception e) {
+            localLogger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Deletes all the PreporcessingRedirects and NotFoundRedirects that
+     * don't have an Owner.
+     * @return true if and only if all the orphans were succesfully deleted;
+     * otherwise false
+     */
+    public boolean deleteOrphanRedirects() {
+        try {
+            Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
+            sess.createQuery("delete from PreprocessingRedirect where owner is null").executeUpdate();
+            sess.createQuery("delete from NotFoundRedirect where owner is null").executeUpdate();
+        } catch (Exception e) {
+            localLogger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns a list of PreprocessingRedirect ids related to the owner with
+     * the given id.
+     * @param ownerId owner id
+     * @return list of PreprocessingRedirect ids related to the owner
+     */
+    public List<Integer> getPreprocessingRedirectIds(int ownerId) {
+        List<Integer> list = new ArrayList<Integer>();
+        list = getHibernateTemplate().find("select id from PreprocessingRedirect where owner.id = " + ownerId);
+        return list;
+    }
+
+    /**
+     * Returns a list of NotFoundRedirect ids related to the owner with
+     * the given id.
+     * @param ownerId owner id
+     * @return list of NotFoundRedirect ids related to the owner
+     */
+    public List<Integer> getNotFoundRedirectIds(int ownerId) {
+        List<Integer> list = new ArrayList<Integer>();
+        list = getHibernateTemplate().find("select id from NotFoundRedirect where owner.id = " + ownerId);
+        return list;
+    }
+}

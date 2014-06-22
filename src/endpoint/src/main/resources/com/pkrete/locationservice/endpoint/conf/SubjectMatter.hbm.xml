@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="false" name="com.pkrete.locationservice.endpoint.model.subjectmatter.SubjectMatter" table="SUBJECT_MATTER">
+    <id column="subject_matter_id" name="id" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="index_term" index="index_term_idx" length="100" name="indexTerm" type="string"/>
+    <many-to-one column="language_id" fetch="join" lazy="false" name="language"/>
+    <bag cascade="delete-orphan" lazy="true" name="locations" table="SUBJECT_MATTERS">
+      <key column="subject_matter_id"/>
+      <many-to-many class="com.pkrete.locationservice.endpoint.model.location.Location" column="location_id"/>
+    </bag>
+  </class>
+</hibernate-mapping>

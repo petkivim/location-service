@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:oxm="http://www.springframework.org/schema/oxm"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:context="http://www.springframework.org/schema/context"
+                xmlns:tx="http://www.springframework.org/schema/tx"
+                xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                                    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                                    http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+                                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                                    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+                                    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+    
+    <!-- Enables automatic mapping of fund objects to and from JSON -->
+    <mvc:annotation-driven/>
+
+    <!--
+     Setup spring to pull in @Controller, @RequestMapping, etc Configuration scans specified packages
+     for classes configured as Spring managed beans and automatically sets up objects annotated with
+     @Controller, @Service etc.
+    -->
+    <context:component-scan base-package="com.pkrete.locationservice.admin.controller.rest" />
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" /> 
+    
+    <!-- Configures view for returning JSON to the client -->
+    <!--<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">-->
+    <bean class="com.pkrete.locationservice.admin.util.CustomJacksonMappingView">
+        <property name="contentType" value="application/json"/>
+    </bean>
+
+
+    <!-- Maps handler methods based on HTTP paths -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <util:list id="beanList">
+                <ref bean="jsonMessageConverter"/>
+            </util:list>
+        </property>
+    </bean>
+    
+    <!-- Exception resolver and list of message converters-->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jsonMessageConverter" />
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Converts JSON to POJO and vice versa -->
+    <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="prefixJson" value="false"/>
+        <property name="supportedMediaTypes" value="application/json"/>
+    </bean>
+
+    <!-- Interceptors configuration -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/owners/**" />
+            <mvc:exclude-mapping path="/users/**" />
+            <mvc:exclude-mapping path="/admin/**" />
+            <bean class="com.pkrete.locationservice.admin.interceptor.RestAuthenticationInterceptor">
+                <property name="usersService" ref="usersService" />
+                <property name="encryptionService" ref="encryptionService" />
+                <property name="messageSource" ref="messageSource" />
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**" />
+            <mvc:mapping path="/owners/**" />
+            <bean class="com.pkrete.locationservice.admin.interceptor.RestAuthenticationInterceptor">
+                <property name="usersService" ref="usersService" />
+                <property name="encryptionService" ref="encryptionService" />
+                <property name="messageSource" ref="messageSource" />
+                <property name="allowedGroups">
+                    <util:map map-class="java.util.TreeMap">
+                        <entry key="ADMIN" value="" />
+                    </util:map>
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/users/**" />
+            <bean class="com.pkrete.locationservice.admin.interceptor.RestAuthenticationInterceptor">
+                <property name="usersService" ref="usersService" />
+                <property name="encryptionService" ref="encryptionService" />
+                <property name="messageSource" ref="messageSource" />
+                <property name="allowedGroups">
+                    <util:map map-class="java.util.TreeMap">
+                        <entry key="ADMIN" value="" />
+                        <entry key="LOCAL_ADMIN" value="" />
+                    </util:map>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
+    <!-- Use the Commons-based implementation of the MultipartResolver interface -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+</beans>

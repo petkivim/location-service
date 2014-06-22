@@ -1,0 +1,1 @@
+<%@page contentType="application/txt" pageEncoding="UTF-8"%>${stats}

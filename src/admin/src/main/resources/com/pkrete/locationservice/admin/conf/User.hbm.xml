@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="false" name="com.pkrete.locationservice.admin.model.user.UserFull" table="MY_USER">
+    <id column="login" length="15" name="username" type="string"/>
+    <property column="first_name" length="100" name="firstName" type="string"/>
+    <property column="last_name" length="100" name="lastName" type="string"/>
+    <property column="pass" length="100" name="password" type="string"/>
+    <property column="email" length="100" name="email" type="string"/>
+    <property column="organization" length="100" name="organization" type="string"/>
+    <many-to-one column="owner_id" fetch="join" lazy="false" name="owner" not-null="true"/>
+    <property column="created" name="created" type="timestamp"/>
+    <property column="creator" length="100" name="creator" type="string"/>
+    <property column="updated" name="updated" type="timestamp"/>
+    <property column="updater" length="100" name="updater" type="string"/>
+  </class>
+</hibernate-mapping>

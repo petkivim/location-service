@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="false" name="com.pkrete.locationservice.endpoint.model.owner.Owner" table="OWNER">
+    <id column="id" name="id" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="code" index="code_idx" length="10" name="code" type="string" unique="true"/>
+    <property column="name" length="100" name="name" type="string"/>
+    <property column="color" length="6" name="color" type="string"/>
+    <property column="opacity" length="3" name="opacity" type="string"/>
+    <property column="exporter_visible" name="exporterVisible" type="boolean"/>
+    <property column="allowed_ips" length="500" name="allowedIPs" type="string"/>
+    <bag cascade="none" fetch="subselect" inverse="true" lazy="false" name="languages">
+      <key column="owner_id"/>
+      <one-to-many class="com.pkrete.locationservice.endpoint.model.language.Language"/>
+    </bag>
+    <property column="locating_strategy" name="locatingStrategy" not-null="true">
+      <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">com.pkrete.locationservice.endpoint.callnoparser.LocatingStrategy</param>
+        <param name="type">12</param>
+      </type>
+    </property>
+  </class>
+</hibernate-mapping>

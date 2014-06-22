@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class abstract="true" lazy="false" name="com.pkrete.locationservice.endpoint.model.location.Location">
+    <id column="location_id" name="locationId" type="int">
+      <generator class="increment"/>
+    </id>
+    <property name="name" type="string">
+      <column length="100" name="name"/>
+    </property>
+    <property name="locationCode" type="string">
+      <column index="_location_code_idx" length="100" name="location_code"/>
+    </property>
+    <bag cascade="none" inverse="true" lazy="true" name="areas">
+      <key column="location_id"/>
+      <one-to-many class="com.pkrete.locationservice.endpoint.model.location.Area"/>
+    </bag>
+    <bag cascade="none" lazy="true" name="subjectMatters" table="SUBJECT_MATTERS">
+      <key column="location_id"/>
+      <many-to-many class="com.pkrete.locationservice.endpoint.model.subjectmatter.SubjectMatter" column="subject_matter_id"/>
+    </bag>
+    <many-to-one column="map_id" lazy="no-proxy" name="map"/>
+    <many-to-one column="image_id" lazy="no-proxy" name="image"/>
+    <many-to-one column="owner_id" lazy="no-proxy" name="owner" not-null="true"/>
+    <property name="floor" type="string">
+      <column length="100" name="floor"/>
+    </property>
+    <property column="staff_note_1" length="1000" name="staffNotePri" type="string"/>
+    <property column="staff_note_2" length="1000" name="staffNoteSec" type="string"/>
+    <bag cascade="none" lazy="true" name="descriptions">
+      <key column="location_id"/>
+      <one-to-many class="com.pkrete.locationservice.endpoint.model.location.Description"/>
+    </bag>
+    <bag cascade="none" lazy="true" name="notes">
+      <key column="location_id"/>
+      <one-to-many class="com.pkrete.locationservice.endpoint.model.location.Note"/>
+    </bag>
+    <union-subclass name="com.pkrete.locationservice.endpoint.model.location.Library" table="LIBRARY">
+      <bag cascade="none" inverse="true" lazy="true" name="collections">
+        <!-- lazy=true parantaa suorituskykyä -->
+        <key column="library_id"/>
+        <one-to-many class="com.pkrete.locationservice.endpoint.model.location.LibraryCollection"/>
+      </bag>
+    </union-subclass>
+    <union-subclass name="com.pkrete.locationservice.endpoint.model.location.LibraryCollection" table="COLLECTION">
+      <many-to-one column="library_id" fetch="join" lazy="false" name="library"/>
+      <property column="is_substring" name="isSubstring" type="boolean"/>
+      <property column="collection_code" index="collection_code_idx" length="50" name="collectionCode" type="string"/>
+      <bag cascade="none" inverse="true" lazy="true" name="shelves">
+        <!-- lazy=true parantaa suorituskykyä -->
+        <key column="collection_id"/>
+        <one-to-many class="com.pkrete.locationservice.endpoint.model.location.Shelf"/>
+      </bag>
+      <property name="shelfNumber" type="string">
+        <column length="40" name="shelf_number"/>
+      </property>
+    </union-subclass>
+    <union-subclass name="com.pkrete.locationservice.endpoint.model.location.Shelf" table="SHELF">
+      <many-to-one column="collection_id" fetch="join" lazy="false" name="collection"/>
+      <property name="shelfNumber" type="string">
+        <column length="40" name="shelf_number"/>
+      </property>
+    </union-subclass>
+  </class>
+</hibernate-mapping>

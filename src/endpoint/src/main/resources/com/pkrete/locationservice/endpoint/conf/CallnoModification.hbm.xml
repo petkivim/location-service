@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class abstract="true" lazy="true" name="com.pkrete.locationservice.endpoint.modifier.CallnoModification">
+    <id column="id" name="id" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="mod_condition" length="200" name="condition" type="string"/>
+    <property column="mod_operation" length="200" name="operation" type="string"/>
+    <property column="is_active" name="isActive" type="boolean"/>
+    <many-to-one column="owner_id" lazy="no-proxy" name="owner"/>
+    <union-subclass name="com.pkrete.locationservice.endpoint.modifier.NotFoundRedirect" table="NOT_FOUND_REDIRECT"/>
+    <union-subclass name="com.pkrete.locationservice.endpoint.modifier.PreprocessingRedirect" table="PREPROCESSING_REDIRECT"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class lazy="false" name="com.pkrete.locationservice.admin.model.user.UserInfo" table="USER_INFO">
+        <id column="user_info_id" name="id" type="int">
+            <generator class="increment"/>
+        </id>
+        <many-to-one column="login" fetch="join" lazy="false" name="user" not-null="true" unique="true"/>
+        <property column="group_name" name="group" index="group_name_idx" not-null="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.pkrete.locationservice.admin.model.user.UserGroup</param>
+                <param name="type">12</param>
+            </type>
+        </property>
+    </class>
+</hibernate-mapping>

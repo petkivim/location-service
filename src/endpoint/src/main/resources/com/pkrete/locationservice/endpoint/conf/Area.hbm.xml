@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.pkrete.locationservice.endpoint.model.location.Area" table="AREA">
+    <id column="area_id" name="areaId" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="x1" name="x1" type="integer"/>
+    <property column="y1" name="y1" type="integer"/>
+    <property column="x2" name="x2" type="integer"/>
+    <property column="y2" name="y2" type="integer"/>
+    <property column="angle" name="angle" type="integer"/>
+  </class>
+</hibernate-mapping>

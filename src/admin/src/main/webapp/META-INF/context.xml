@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/LocationServiceAdmin">
+    <Resource name="jdbc/mysql" 
+        auth="Container" 
+        type="javax.sql.DataSource" 
+        maxActive="20" 
+        maxIdle="10" 
+        maxWait="10000"
+        driverClassName="com.mysql.jdbc.Driver" 
+        url="jdbc:mysql://localhost/[dbname]"  
+        username="[username]"
+        password="[password]"
+    />
+    
+    <!-- Use the LockOutRealm to prevent attempts to guess user passwords
+    via a brute-force attack -->
+    <Realm className="org.apache.catalina.realm.LockOutRealm" failureCount="5" lockOutTime="300">			 
+        <Realm className="org.apache.catalina.realm.DataSourceRealm"
+            dataSourceName="jdbc/mysql" 
+            digest="SHA"
+            userTable="MY_USER"
+            userNameCol="login" 
+            userCredCol="pass"
+            userRoleTable="USER_INFO"
+            roleNameCol="group_name" 
+            localDataSource="true"
+        />
+    </Realm>
+</Context>

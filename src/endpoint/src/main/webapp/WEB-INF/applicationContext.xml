@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:solr="http://www.springframework.org/schema/data/solr"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+       http://www.springframework.org/schema/data/solr http://www.springframework.org/schema/data/solr/spring-solr-1.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+    
+    <!-- Bean to load messages properties file -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!-- Email content -->
+                <value>mail-messages</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!--Bean to load properties file -->
+    <bean id="placeholderConfig" class="com.pkrete.locationservice.endpoint.util.PropertiesUtil">
+        <property name="locations">
+            <list>
+                <value>WEB-INF/classes/config.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Data source object -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${db.driverClass}"></property>
+        <property name="jdbcUrl" value="${db.jdbcUrl}"/>
+        <property name="user" value="${db.user}"/>
+        <property name="password" value="${db.password}"/>
+        <!-- Production: 5 -->
+        <property name="initialPoolSize" value="1" />
+        <!-- Production: 5 -->
+        <property name="minPoolSize" value="1" />
+        <!-- Production: 25 -->
+        <property name="maxPoolSize" value="1"/>
+        <property name="numHelperThreads" value="6"/>
+        <!-- Determines how many connections at a time -->
+        <!-- c3p0 will try to acquire when the pool is exhausted. -->
+        <property name="acquireIncrement" value="1"/>
+        <!-- attempts to acquire a new db connection before giving up -->
+        <property name="acquireRetryAttempts" value="6" />
+        <!-- ms to wait for a connection when the pool is exhausted -->
+        <property name="checkoutTimeout" value="1000"/>
+        <property name="maxStatements" value="100" />
+        <property name="preferredTestQuery" value="select 1" />
+        <!-- Test connections every 5 minutes -->
+        <!-- MySQL closes unused connections after 8 hours -->
+        <property name="idleConnectionTestPeriod" value="300" />
+        <property name="testConnectionOnCheckin" value="false" />
+        <property name="testConnectionOnCheckout" value="false" />
+        <!-- Seconds a Connection can remain pooled -->
+        <!-- but unused before being discarded. -->
+        <property name="maxIdleTime" value="7200" />
+        <!-- Number of seconds that Connections in excess of -->
+        <!-- minPoolSize should be permitted to remain idle -->
+        <!-- in the pool before being culled. -->
+        <property name="maxIdleTimeExcessConnections" value="600" />
+    </bean>
+
+    <!-- Session factory object -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mappingResources">
+            <list>
+                <value>com/pkrete/locationservice/endpoint/conf/Location.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/Area.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/Illustration.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/SubjectMatter.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/Language.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/Owner.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/Description.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/Note.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/CallnoModification.hbm.xml</value> 
+                <value>com/pkrete/locationservice/endpoint/conf/SearchEvent.hbm.xml</value>
+                <value>com/pkrete/locationservice/endpoint/conf/SearchIndex.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${db.dialect}</prop>
+                <prop key="hibernate.show_sql">${db.showSql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${db.auto}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Transaction manager object -->
+    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- DbService object must implement Service interface  -->
+    <bean id="dbService" class="com.pkrete.locationservice.endpoint.service.locations.LocationsService" >
+        <property name="dao" ref="dao" />
+        <property name="converterService" ref="converter" />
+    </bean>
+    
+    <!-- SolrService object must implement Service interface  -->
+    <bean id="solrService" class="com.pkrete.locationservice.endpoint.service.locations.LocationsServiceWithExtIndexSupportImpl" >
+        <property name="dao" ref="dao" />
+        <property name="converterService" ref="converter" />
+        <property name="locationIndexService" ref="locationIndexService" />
+        <property name="ownerIndexService" ref="ownerIndexService" />      
+    </bean>
+
+   <!-- DAO Data Access Object must implement Dao interface -->
+    <bean id="dao" class="com.pkrete.locationservice.endpoint.dao.locations.LocationsDao" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!-- Transactional advice (i.e. what 'happens'; see the <aop:advisor/> bean below) -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <!-- all methods starting with 'get', 'search' and 'find' are read-only -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="search*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <!-- other methods use the default transaction settings (see below) -->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- Ensure that the above transactional advice runs for any execution -->
+    <!-- of an operation defined by the DbService class -->
+    <aop:config>
+        <aop:pointcut id="dbServiceOperation" expression="
+            execution(* com.pkrete.locationservice.endpoint.service.*.*(..)) and
+            !execution(* com.pkrete.locationservice.endpoint.service.locations.LocationsServiceWithExtIndexSupportImpl.get*(..))
+            "/>
+        <aop:advisor pointcut-ref="dbServiceOperation" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <!-- Execution of timer based tasks -->
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+            <list>
+                <ref bean="scheduledTask" />
+            </list>
+        </property>
+        <property name="daemon" value="true" />
+    </bean>
+
+    <!-- Task is executed once at startup, but it'll actually keep on running -->
+    <!-- all the time, as it's based on blocking method calls -->
+    <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+        <!-- wait 10 seconds before starting repeated execution -->
+        <property name="delay" value="10000" />
+        <!-- Value 0 means that the task runs only once -->
+        <property name="period" value="0" />
+        <property name="timerTask" ref="statisticsProcessor" />
+    </bean>
+
+     <!-- Saves all the search events in the SearchEventStatisticsQueue in the db.  -->
+    <bean id="statisticsProcessor" class="com.pkrete.locationservice.endpoint.statistics.StatisticsQueueProcessor">
+        <property name="dbService" ref="dbService" />
+        <property name="mailService" ref="mailService" />
+    </bean>
+    
+    <!-- This bean offers access to applicationContext anywhere from the source code -->
+    <bean id="applicationContextUtils" class="com.pkrete.locationservice.endpoint.util.ApplicationContextUtils" />
+        
+    <!-- Resolver must extend abstract LocationResolver class -->
+    <bean id="resolver" class="com.pkrete.locationservice.endpoint.resolver.BasicResolver" >
+        <property name="generators" ref="generators" />
+        <property name="serviceFactory" ref="serviceFactory" />
+        <property name="modifier" ref="callnoModifier" />
+        <property name="callNoParserFactory" ref="callNoParserFactory" />
+        <property name="intervalRegex" ref="intervalRegex" />
+        <property name="language" ref="language"  />
+        <property name="country" ref="country"  />        
+    </bean>
+    
+    <!-- ServiceFactory must implement ServiceFactory interface -->
+    <bean id="serviceFactory" class="com.pkrete.locationservice.endpoint.util.ServiceFactoryImpl" >
+        <constructor-arg>
+            <ref bean="dbService" /> 
+        </constructor-arg>
+        <property name="services" ref="services"  />
+    </bean>
+    
+    <!-- HashMap containing supported generators and their codes -->
+    <bean id="generators" class="java.util.HashMap">
+        <constructor-arg>
+            <!-- Generators must implement Generator interface -->
+            <map key-type="com.pkrete.locationservice.endpoint.resolver.OutputFormat" value-type="com.pkrete.locationservice.endpoint.generator.Generator">
+                <!-- Generates html output -->
+                <entry key="HTML" value-ref="htmlGenerator" />
+                <!-- Generates XML output -->
+                <entry key="XML" value-ref="xmlGenerator" />
+                <!-- Generates JSON output -->
+                <entry key="JSON" value-ref="jsonGenerator" />
+            </map>
+        </constructor-arg>
+    </bean>
+    
+     <!-- HashMap containing LocatingStrategy - LocationsService -pairs -->
+    <bean id="services" class="java.util.HashMap">
+        <constructor-arg>
+            <!-- Services must implement Service interface -->
+            <map key-type="com.pkrete.locationservice.endpoint.callnoparser.LocatingStrategy" value-type="com.pkrete.locationservice.endpoint.service.locations.LocationsService">
+                <entry key="INDEX_INTERVAL" value-ref="dbService" />
+                <entry key="INDEX_EXTERNAL" value-ref="solrService" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- Generates JSON output. Must implement Generator interface. -->
+    <bean id="jsonGenerator" class="com.pkrete.locationservice.endpoint.generator.json.JSONGenerator" />
+    
+    <!-- Generates XML output. Must implement Generator interface. -->
+    <bean id="xmlGenerator" class="com.pkrete.locationservice.endpoint.generator.xml.XMLGenerator" />
+    
+    <!-- xmlBatchGenerator is used by Exporter servlet. -->
+    <!-- Generates XML output returned by Exporter servlet. Must implement Generator interface. -->
+    <bean id="xmlBatchGenerator" class="com.pkrete.locationservice.endpoint.generator.xml.XmlBatchGenerator" />
+    
+    <!-- Generates html output. Must implement Generator interface. -->
+    <bean id="htmlGenerator" class="com.pkrete.locationservice.endpoint.generator.html.HTMLGenerator" >
+        <property name="loader" ref="loader" />
+    </bean>
+    
+    <!-- callnoModifier must implement Modifier interface. -->
+    <bean id="callnoModifier" class="com.pkrete.locationservice.endpoint.modifier.CallnoModifier" />
+    
+    <!-- loader must implement Loader interface. -->
+    <bean id="loader" class="com.pkrete.locationservice.endpoint.loader.BasicLoader" >
+        <property name="parser" ref="templateParser" />
+    </bean>
+    
+    <!-- templateParser must implement TemplateParser interface. -->
+    <bean id="templateParser" class="com.pkrete.locationservice.endpoint.templateparser.OptimizedTagParser" />
+    
+    <!-- exporterSearch is used by Exporter servlet - "version=1". -->
+    <!-- exporterSearch must extend abstract Search class -->
+    <bean id="exporterSearch" class="com.pkrete.locationservice.endpoint.search.BruteForceSearch" >
+        <property name="dbService" ref="dbService" />
+    </bean>
+    
+    <!-- exporterSearchSolr is used by Exporter servlet - "version=2". -->
+    <!-- exporterSearchSolr must extend abstract Search class -->
+    <bean id="exporterSearchSolr" class="com.pkrete.locationservice.endpoint.search.SolrBruteForceSearch" >
+        <property name="dbService" ref="dbService" />
+        <property name="locationIndexService" ref="locationIndexService" />
+    </bean>
+    
+    <!-- mapDrawer is used by ImageCreator servlet. -->
+    <!-- mapDrawer must implement Drawer interface. -->
+    <bean id="mapDrawer" class="com.pkrete.locationservice.endpoint.drawer.MapDrawer">
+        <property name="converterService" ref="converter" />
+    </bean>
+    
+    <!-- converter must implement Converter interface. -->
+    <bean id="converter" class="com.pkrete.locationservice.endpoint.converter.impl.ConverterServiceImpl" />
+    
+    <!-- BASIC CallnoParser -->
+    <bean id="basicCallnoParser" class="com.pkrete.locationservice.endpoint.callnoparser.stepparser.StepParserLevel1">
+        <property name="dbService" ref="dbService" />
+        <property name="modifier" ref="callnoModifier" />
+    </bean>
+    
+    <!-- SIMPLE CallnoParser -->
+    <bean id="simpleCallnoParser" class="com.pkrete.locationservice.endpoint.callnoparser.simpleparser.SimpleCallNoParser">
+        <property name="dbService" ref="dbService" />
+        <property name="modifier" ref="callnoModifier" />
+    </bean>
+    
+    <!-- INDEX CallnoParser -->
+    <bean id="indexCallnoParser" class="com.pkrete.locationservice.endpoint.callnoparser.indexparser.IndexCallNoParser">
+        <property name="dbService" ref="dbService" />
+        <property name="modifier" ref="callnoModifier" />
+    </bean>
+    
+    <!-- INDEX_INTERVAL CallnoParser -->
+    <bean id="indexIntervalCallnoParser" class="com.pkrete.locationservice.endpoint.callnoparser.indexparser.IndexIntervalCallNoParser">
+        <property name="dbService" ref="dbService" />
+        <property name="modifier" ref="callnoModifier" />
+        <!-- Regex for defining intervals in location code field -->
+        <!-- Default value is used if "intervalRegex" is null -->
+        <property name="regex" ref="intervalRegex" />
+        <!-- Language for the locale used in interval matching -->
+        <property name="language" ref="language"  />
+        <!-- Country for the locale used in interval matching -->
+        <property name="country" ref="country"  />
+    </bean>
+    
+    <!-- INDEX_EXTERNAL CallnoParser -->
+    <bean id="indexExternalCallnoParser" class="com.pkrete.locationservice.endpoint.callnoparser.indexparser.IndexIntervalCallNoParser">
+        <property name="dbService" ref="solrService" />
+        <property name="modifier" ref="callnoModifier" />
+        <!-- Regex for defining intervals in location code field -->
+        <!-- Default value is used if "intervalRegex" is null -->
+        <property name="regex" ref="intervalRegex" />
+        <!-- Language for the locale used in interval matching -->
+        <property name="language" ref="language"  />
+        <!-- Country for the locale used in interval matching -->
+        <property name="country" ref="country"  />
+    </bean>
+    
+    <!-- Call number parser factory bean, must implement CallNoParserFactory interface -->
+    <bean id="callNoParserFactory" class="com.pkrete.locationservice.endpoint.callnoparser.CallNoParserFactoryImpl">
+        <constructor-arg>
+            <!-- Parsers must implement CallNoParser interface -->
+            <map key-type="com.pkrete.locationservice.endpoint.callnoparser.LocatingStrategy" value-type="com.pkrete.locationservice.endpoint.callnoparser.CallNoParser">
+                <entry key="BASIC" value-ref="basicCallnoParser" />
+                <entry key="SIMPLE" value-ref="simpleCallnoParser" />
+                <entry key="INDEX" value-ref="indexCallnoParser" />
+                <entry key="INDEX_INTERVAL" value-ref="indexIntervalCallnoParser" />
+                <entry key="INDEX_EXTERNAL" value-ref="indexExternalCallnoParser" />
+            </map>
+        </constructor-arg>
+    </bean>
+    
+    <!-- Regex for defining intervals in location code field -->
+    <bean id="intervalRegex" class="java.lang.String">
+        <constructor-arg value="\[(.+)\]-\[(.+)\]"/>
+    </bean>
+    
+    <!-- Language for the locale used in interval matching -->
+    <bean id="language" class="java.lang.String">
+        <constructor-arg value="fi"/>
+    </bean>
+        
+    <!-- Country for the locale used in interval matching -->
+    <bean id="country" class="java.lang.String">
+        <constructor-arg value="FI"/>
+    </bean>
+    
+    <!-- EmailMessageFactoryService for generating email messages -->
+    <bean id="emailMessageFactoryService" class="com.pkrete.locationservice.endpoint.mailer.impl.EmailMessageFactoryServiceImpl">
+        <property name="messageSource" ref="messageSource"  />
+    </bean>
+        
+    <!-- EmailService for sending email messages -->
+    <bean id="mailService" class="com.pkrete.locationservice.endpoint.mailer.impl.EmailServiceImpl">
+        <property name="converterService" ref="converter"  />
+        <property name="emailMessageFactoryService" ref="emailMessageFactoryService"  />
+    </bean>
+    
+    <!-- Solr configuration - START -->
+    <solr:repositories base-package="com.pkrete.locationservice.endpoint.solr.repository" />
+    
+    <!-- Configures Solr server -->
+    <solr:solr-server id="solrServer" url="${solr.host}" />
+    
+    <!-- Configures Solr template -->
+    <bean id="solrTemplate" class="org.springframework.data.solr.core.SolrTemplate">
+        <constructor-arg index="0" ref="solrServer"/>
+    </bean>
+    
+    
+    <bean id="locationIndexService" class="com.pkrete.locationservice.endpoint.solr.service.impl.LocationIndexServiceImpl">
+        <property name="repository" ref="locationDocumentRepository"/>
+    </bean>
+    
+    <bean id="ownerIndexService" class="com.pkrete.locationservice.endpoint.solr.service.impl.OwnerIndexServiceImpl">
+        <property name="repository" ref="ownerDocumentRepository"/>
+    </bean>
+    <!-- Solr configuration - END -->
+</beans>

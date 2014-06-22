@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="true" name="com.pkrete.locationservice.admin.model.statistics.SearchEvent" table="SEARCH_EVENT">
+    <id column="id" name="id" type="int">
+      <generator class="increment"/>
+    </id>
+    <property column="call_number" length="300" name="callno" type="string"/>
+    <property column="collection_code" length="100" name="collection" type="string"/>
+    <property column="language_code" length="100" name="lang" type="string"/>
+    <property column="status" length="100" name="status" type="string"/>
+    <property column="search_type" length="100" name="searchType" type="string"/>
+    <property column="position" length="100" name="position" type="string"/>
+    <property column="is_authorized" name="authorized" type="boolean"/>
+    <property column="ip_address" length="100" name="ipAddress" type="string"/>
+    <property column="event_type" name="eventType" not-null="true">
+      <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">com.pkrete.locationservice.admin.model.statistics.SearchEventType</param>
+        <param name="type">12</param>
+      </type>
+    </property>
+    <property column="processing_time" name="processingTime" type="long"/>
+    <property column="owner_code" index="search_event_owner_code_idx" length="10" name="owner" type="string"/>
+    <property column="event_date" name="date" type="timestamp"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+    <!-- Controllers and URLs are mapped by controllers' name attribute -->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+    
+    <!--
+    Most controllers will use the BeanNameUrlHandlerMapping above, but
+    for the index controller we are using ParameterizableViewController, so we must
+    define an explicit mapping for it.
+    -->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="index.htm">indexController</prop>
+                <prop key="statistics.htm">statisticsController</prop>
+                <prop key="getstatistics.htm">statisticsController</prop>
+                <prop key="400.htm">badRequestController</prop>
+                <prop key="403.htm">forbiddenController</prop>
+                <prop key="404.htm">notFoundController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Maps exception class names to view names -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="error" />
+        <property name="warnLogCategory" value="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" />
+        <property name="exceptionMappings">
+            <props>
+                <prop key="com.pkrete.locationservice.admin.exception.ObjectNotFoundException">error_edit</prop>
+                <prop key="com.pkrete.locationservice.admin.exception.OperationFailedException">error_edit</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!-- Interceptors configuration -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/logout.htm" />
+            <mvc:exclude-mapping path="/login.htm" />
+            <bean class="com.pkrete.locationservice.admin.interceptor.UserSessionInterceptor">
+                <property name="usersService" ref="usersService" />
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+		
+    <!-- View resolver -->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/"
+          p:suffix=".jsp" />
+    
+    <!-- The index controller. -->
+    <bean name="indexController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="index" />
+  
+    <!-- 400 error -->      
+    <bean name="badRequestController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="error_400" />
+          
+    <!-- 403 error -->      
+    <bean name="forbiddenController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="error_403" />
+
+    <!-- 404 error -->
+    <bean name="notFoundController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+          p:viewName="error_404" />
+          
+    <!-- Use the Commons-based implementation of the MultipartResolver interface -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+    <!-- Locations page -->
+    <bean name="/locations.htm" class="com.pkrete.locationservice.admin.controller.LocationController">
+        <property name="locationsService" ref="locationsService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- Add library controller -->
+    <bean name="/addlibrary.htm" class="com.pkrete.locationservice.admin.controller.AddLibraryController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="library"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.location.Library"/>
+        <property name="validator" ref="libraryValidatorMVC" />
+        <property name="formView" value="add_library"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="locationsService" ref="locationsService"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Add collection controller -->
+    <bean name="/addcollection.htm" class="com.pkrete.locationservice.admin.controller.AddCollectionController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="collection"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.location.LibraryCollection"/>
+        <property name="validator" ref="collectionValidatorMVC" />
+        <property name="formView" value="add_collection"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="locationsService" ref="locationsService"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Add shelf controller -->
+    <bean name="/addshelf.htm" class="com.pkrete.locationservice.admin.controller.AddShelfController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="shelf"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.location.Shelf"/>
+        <property name="validator" ref="shelfValidatorMVC" />
+        <property name="formView" value="add_shelf"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="locationsService" ref="locationsService"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Edit library controller -->
+    <bean name="/editlibrary.htm" class="com.pkrete.locationservice.admin.controller.EditLibraryController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="library"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.location.Library"/>
+        <property name="validator" ref="libraryValidatorMVC" />
+        <property name="formView" value="edit_library"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="locationsService" ref="locationsService"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Edit collection controller -->
+    <bean name="/editcollection.htm" class="com.pkrete.locationservice.admin.controller.EditCollectionController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="collection"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.location.LibraryCollection"/>
+        <property name="validator" ref="collectionValidatorMVC" />
+        <property name="formView" value="edit_collection"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="locationsService" ref="locationsService"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+        <property name="libraryEditor" ref="libraryEditor"/>
+    </bean>
+
+    <!-- Edit shelf controller -->
+    <bean name="/editshelf.htm" class="com.pkrete.locationservice.admin.controller.EditShelfController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="shelf"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.location.Shelf"/>
+        <property name="validator" ref="shelfValidatorMVC" />
+        <property name="formView" value="edit_shelf"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="locationsService" ref="locationsService"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+        <property name="collectionEditor" ref="collectionEditor"/>
+    </bean>
+
+    <!-- Images & maps page -->
+    <bean name="/illustrations.htm" class="com.pkrete.locationservice.admin.controller.IllustrationController">
+        <property name="imagesService" ref="imagesService"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <!-- Add image controller -->
+    <bean name="/addimage.htm" class="com.pkrete.locationservice.admin.controller.AddImageController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="image"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.illustration.Image"/>
+        <property name="validator" ref="imageValidator" />
+        <property name="formView" value="add_image"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Edit image controller -->
+    <bean name="/editimage.htm" class="com.pkrete.locationservice.admin.controller.EditImageController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="image"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.illustration.Image"/>
+        <property name="validator" ref="imageValidator" />
+        <property name="formView" value="edit_image"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="imagesService" ref="imagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Add map controller -->
+    <bean name="/addmap.htm" class="com.pkrete.locationservice.admin.controller.AddMapController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="map"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.illustration.Map"/>
+        <property name="validator" ref="mapValidator" />
+        <property name="formView" value="add_map"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Edit map controller -->
+    <bean name="/editmap.htm" class="com.pkrete.locationservice.admin.controller.EditMapController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="map"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.illustration.Map"/>
+        <property name="validator" ref="mapValidator" />
+        <property name="formView" value="edit_map"/>
+        <property name="successView" value="locations.htm"/>
+        <property name="mapsService" ref="mapsService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Languages page -->
+    <bean name="/languages.htm" class="com.pkrete.locationservice.admin.controller.LanguageController">
+        <property name="languagesService" ref="languagesService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <!-- Subejct matters page -->
+    <bean name="/subjectmatters.htm" class="com.pkrete.locationservice.admin.controller.SubjectMatterController">
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <!-- Edit CSS page -->
+    <bean name="/editcss.htm" class="com.pkrete.locationservice.admin.controller.EditCssController">
+        <property name="usersService" ref="usersService"/>
+        <property name="cssService" ref="cssService"/>
+    </bean>
+
+    <!-- Edit JS page -->
+    <bean name="/editjs.htm" class="com.pkrete.locationservice.admin.controller.EditJsController">
+        <property name="usersService" ref="usersService"/>
+        <property name="jsService" ref="jsService"/>
+    </bean>
+
+    <!-- Templates page -->
+    <bean name="/templates.htm" class="com.pkrete.locationservice.admin.controller.TemplateController">
+        <property name="locationsService" ref="locationsService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="templatesService" ref="templatesService"/>
+        <property name="cssService" ref="cssService"/>
+        <property name="jsService" ref="jsService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <!-- Edit Templates page -->
+    <bean name="/edittemplate.htm" class="com.pkrete.locationservice.admin.controller.EditTemplateController">
+        <property name="usersService" ref="usersService"/>
+        <property name="templatesService" ref="templatesService"/>
+        <property name="cssService" ref="cssService"/>
+        <property name="jsService" ref="jsService"/>
+        <property name="libraryTags" ref="libraryTags" />
+        <property name="collectionTags" ref="collectionTags" />
+        <property name="shelfTags" ref="shelfTags" />
+        <property name="notFoundNotAvailableTags" ref="notFoundNotAvailableTags" />
+    </bean>
+
+    <!-- User info page -->
+    <bean name="/userinfo.htm" class="com.pkrete.locationservice.admin.controller.UserInfoController">
+        <property name="usersService" ref="usersService"/>
+        <property name="encryptionService" ref="encryptionService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <!-- Add subject matter controller -->
+    <bean name="/addsubjectmatter.htm" class="com.pkrete.locationservice.admin.controller.AddSubjectMatterController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="subject"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.subjectmatter.SubjectMatter"/>
+        <property name="validator" ref="subjectMatterValidator"/>
+        <property name="formView" value="add_subjectmatter"/>
+        <property name="successView" value="subjectmatters.htm"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Edit subject matter controller -->
+    <bean name="/editsubjectmatter.htm" class="com.pkrete.locationservice.admin.controller.EditSubjectMatterController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="subject"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.subjectmatter.SubjectMatter"/>
+        <property name="validator">
+            <bean class="com.pkrete.locationservice.admin.validator.SubjectMatterValidator"/>
+        </property>
+        <property name="formView" value="edit_subjectmatter"/>
+        <property name="successView" value="subjectmatters.htm"/>
+        <property name="subjectMattersService" ref="subjectMattersService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Add language controller -->
+    <bean name="/addlanguage.htm" class="com.pkrete.locationservice.admin.controller.AddLanguageController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="language"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.language.Language"/>
+        <property name="validator" ref="languageValidator" />
+        <property name="formView" value="add_language"/>
+        <property name="successView" value="languages.htm"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="templatesService" ref="templatesService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Edit language controller -->
+    <bean name="/editlanguage.htm" class="com.pkrete.locationservice.admin.controller.EditLanguageController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="language"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.language.Language"/>
+        <property name="validator">
+            <bean class="com.pkrete.locationservice.admin.validator.LanguageValidator">
+                <property name="languagesService" ref="languagesService"/>
+            </bean>
+        </property>
+        <property name="formView" value="edit_language"/>
+        <property name="successView" value="languages.htm"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="languagesService" ref="languagesService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="imageEditor" ref="imageEditor"/>
+        <property name="mapEditor" ref="mapEditor"/>
+        <property name="languageEditor" ref="languageEditor"/>
+        <property name="subjectMatterEditor" ref="subjectMatterEditor"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+    </bean>
+
+    <!-- Add owner controller -->
+    <bean name="/addowner.htm" class="com.pkrete.locationservice.admin.controller.AddOwnerController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="owner"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.owner.Owner"/>
+        <property name="validator" ref="ownerValidator" />
+        <property name="formView" value="add_owner"/>
+        <property name="successView" value="userowner.htm"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="ownersService" ref="ownersService"/>
+    </bean>
+
+    <!-- Edit owner controller -->
+    <bean name="/editowner.htm" class="com.pkrete.locationservice.admin.controller.EditOwnerController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="owner"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.owner.Owner"/>
+        <property name="validator" ref="ownerValidator" />
+        <property name="formView" value="edit_owner"/>
+        <property name="successView" value="userowner.htm"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="ownersService" ref="ownersService"/>
+        <property name="converterService" ref="converterService"/>
+    </bean>
+
+    <!-- Add user controller -->
+    <bean name="/adduser.htm" class="com.pkrete.locationservice.admin.controller.AddUserController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="user"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.user.UserInfo"/>
+        <property name="validator" ref="userInfoValidator" />
+        <property name="formView" value="add_user"/>
+        <property name="successView" value="userowner.htm"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+        <property name="userGroupEditor" ref="userGroupEditor"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="ownersService" ref="ownersService"/>
+    </bean>
+
+    <!-- Edit user controller -->
+    <bean name="/edituser.htm" class="com.pkrete.locationservice.admin.controller.EditUserController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="user"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.user.UserInfo"/>
+        <property name="validator" ref="userInfoValidator" />
+        <property name="formView" value="edit_user"/>
+        <property name="successView" value="userowner.htm"/>
+        <property name="ownerEditor" ref="ownerEditor"/>
+        <property name="userGroupEditor" ref="userGroupEditor"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="ownersService" ref="ownersService"/>
+    </bean>
+
+    <!-- Add user controller for local admins -->
+    <bean name="/ladmadduser.htm" class="com.pkrete.locationservice.admin.controller.LocalAdminAddUserController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="user"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.user.UserInfo"/>
+        <property name="validator" ref="userInfoValidator" />
+        <property name="formView" value="add_user_ladm"/>
+        <property name="successView" value="ladmuser.htm"/>
+        <property name="usersService" ref="usersService"/>
+    </bean>
+    
+   <!-- Edit user controller for local admins -->
+    <bean name="/ladmedituser.htm" class="com.pkrete.locationservice.admin.controller.LocalAdminEditUserController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="user"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.user.UserInfo"/>
+        <property name="validator" ref="userInfoValidator" />
+        <property name="formView" value="edit_user_ladm"/>
+        <property name="successView" value="ladmuser.htm"/>
+        <property name="usersService" ref="usersService"/>
+    </bean>
+    
+    <!-- Edit settings controller -->
+    <bean name="/editsettings.htm" class="com.pkrete.locationservice.admin.controller.EditSettingsController">
+        <property name="sessionForm" value="false"/>
+        <property name="commandName" value="owner"/>
+        <property name="commandClass" value="com.pkrete.locationservice.admin.model.owner.Owner"/>
+        <property name="validator">
+            <bean class="com.pkrete.locationservice.admin.validator.OwnerValidator">
+                <property name="ownersService" ref="ownersService"/>
+                <property name="converterService" ref="converterService"/>
+            </bean>
+        </property>
+        <property name="formView" value="edit_settings"/>
+        <property name="successView" value="userinfo.htm"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="ownersService" ref="ownersService"/>
+    </bean>
+
+    <!-- Users and owners page -->
+    <bean name="/userowner.htm" class="com.pkrete.locationservice.admin.controller.UserOwnerController">
+        <property name="usersService" ref="usersService"/>
+        <property name="ownersService" ref="ownersService"/>
+        <property name="converterService" ref="converterService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+    
+    <!-- Users page for local admins -->
+    <bean name="/ladmuser.htm" class="com.pkrete.locationservice.admin.controller.LocalAdminUserController">
+        <property name="usersService" ref="usersService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+    
+    <!-- Statistics controller -->
+    <bean id="statisticsController" class="com.pkrete.locationservice.admin.controller.StatisticsController">
+        <property name="statisticsService" ref="statisticsService"/>
+        <property name="usersService" ref="usersService"/>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+    
+    <!-- Login page -->
+    <bean name="/login.htm" class="com.pkrete.locationservice.admin.controller.LoginController" />
+
+    <!-- Logout controller -->
+    <bean name="/logout.htm" class="com.pkrete.locationservice.admin.controller.LogoutController" />
+
+</beans>
