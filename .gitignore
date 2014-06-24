@@ -50,3 +50,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# Location service target dirs
+src/admin/target/
+src/endpoint/target/

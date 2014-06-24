@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="owners/ADMIN/style.css" type="text/css" media="screen" />
+    <title></title>
+  </head>
+  <body>
+    <div class="header"></div>
+    <div id="results">
+      <h1></h1>
+    </div>
+    <div class="footer">©</div>
+  </body>
+</html>
