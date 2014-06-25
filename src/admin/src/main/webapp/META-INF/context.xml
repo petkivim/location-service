@@ -7,7 +7,7 @@
         maxIdle="10" 
         maxWait="10000"
         driverClassName="com.mysql.jdbc.Driver" 
-        url="jdbc:mysql://localhost/[dbname]"  
+        url="jdbc:mysql://localhost/location_service"  
         username="[username]"
         password="[password]"
     />
