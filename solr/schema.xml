@@ -122,10 +122,10 @@
    -->   
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
    <field name="document_id" type="int" indexed="true" stored="true" />     
-   <field name="name" type="string" indexed="true" stored="true"/>
+   <field name="name" type="custom_text_field" indexed="true" stored="true"/>
    <field name="location_type" type="string" indexed="true" stored="true"/>
-   <field name="call_number" type="string" indexed="true" stored="true"/>
-   <field name="location_code" type="string" indexed="true" stored="true"/>
+   <field name="call_number" type="custom_text_field" indexed="true" stored="true"/>
+   <field name="location_code" type="custom_text_field" indexed="true" stored="true"/>
    <field name="collection_code" type="string" indexed="true" stored="true"/>
    <field name="owner_id" type="int" indexed="true" stored="true" />
    <field name="is_substring" type="boolean" indexed="true" stored="true"/>
@@ -235,7 +235,6 @@
 
    <!-- copy name to alphaNameSort, a field designed for sorting by name -->
    <!-- <copyField source="name" dest="alphaNameSort"/> -->
- 
   <types>
     <!-- field type definitions. The "name" attribute is
        just a label to be used by field definitions.  The "class"
@@ -377,7 +376,17 @@
       <analyzer class="org.apache.lucene.analysis.el.GreekAnalyzer"/>
     </fieldType>
     -->
-	
+	<!-- define a field type for Finnish collation -->
+	<fieldType name="custom_text_field" class="solr.TextField" sortMissingLast="true">
+	  <analyzer>
+		<tokenizer class="solr.KeywordTokenizerFactory"/>
+		<filter class="solr.CollationKeyFilterFactory"
+			language="fi"
+			country="FI"
+			strength="primary"
+		/>
+	  </analyzer>
+	</fieldType>
  </types>
   
   <!-- Similarity is the scoring routine for each document vs. a query.
