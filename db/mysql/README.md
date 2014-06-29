@@ -1,6 +1,6 @@
 #### MySQL Database
 
-init_db.sql file that generates the 'location_service' database and creates admin user. 
+init_db.sql file generates the 'location_service' database and creates admin user. 
 
 How to import the SQL file in the database.
 
