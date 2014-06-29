@@ -21,22 +21,22 @@ Install Solr, Location Service Endpoint and Location Service Admin on single Tom
 
 #### Solr
 
-1. Download solr-data.zip that contains Solr 4.7.0 index for the Location Service.
+* Download solr-data.zip that contains Solr 4.7.0 index for the Location Service.
 
-2. Extract solr-data.zip into its own directory, e.g. /usr/local/solr-data
+* Extract solr-data.zip into its own directory, e.g. /usr/local/solr-data
 
-3. Give the following rights to the tomcat user in solr-data directory.
+* Give the following rights to the tomcat user in solr-data directory.
 
 ```
 chgrp -R tomcat solr-data/
 chmod -R 770 solr-data/
 ```
 
-3. Download solr-webapp.zip file that contains solr.war file.
+* Download solr-webapp.zip file that contains solr.war file.
 
-4. Create a new "solr" directory under Tomcat's webapps directory (goes under the tomcat.home/webapps) and extract solr-webapp.zip there. After exctracting solr-webapp.zip there should be tomcat.home/webapps/solr/solr.war file.
+* Create a new "solr" directory under Tomcat's webapps directory (goes under the tomcat.home/webapps) and extract solr-webapp.zip there. After exctracting solr-webapp.zip there should be tomcat.home/webapps/solr/solr.war file.
 
-5. Extract solr.war under tomcat.home/webapps/solr directory, and remove solr.war file.
+* Extract solr.war under tomcat.home/webapps/solr directory, and remove solr.war file.
 
 ```
 cd tomcat.home/webapps/solr
@@ -44,17 +44,17 @@ jar xvf solr.war
 rm solr.war
 ```
 
-6. Update the path of solr-data directory to the tomcat.home/webapps/solr/META-INF/context.xml file. The default path is /usr/local/solr-data.
+* Update the path of solr-data directory to the tomcat.home/webapps/solr/META-INF/context.xml file. The default path is /usr/local/solr-data.
 
-7. If you want to access Solr Admin UI from your workstation, you need to add your IP address to webapps/solr/META-INF/context.xml file. By default access is restricted to localhost.
+* If you want to access Solr Admin UI from your workstation, you need to add your IP address to webapps/solr/META-INF/context.xml file. By default access is restricted to localhost.
 
 #### Location Service Endpoint
 
-1. Download endpoint-3.0.0-RELEASE.war file.
+* Download endpoint-3.0.0-RELEASE.war file.
 
-2. Rename the file to endpoint.war.
+* Rename the file to endpoint.war.
 
-3. Create a new "endpoint" folder under Tomcat's webapps folder (goes under the tomcat.home/webapps) and extract endpoint.war there.
+* Create a new "endpoint" folder under Tomcat's webapps folder (goes under the tomcat.home/webapps) and extract endpoint.war there.
 
 ```
 mkdir tomcat.home/webapps/endpoint
@@ -64,28 +64,31 @@ jar xvf endpoint.war
 rm endpoint.war
 ```
 
-4. Update config.properties configuration file. The following properties must be updated: service.webPath, db.user, db.password, db.jdbcUrl, mail.host, mail.port, mail.user, mail.password.
+* Update config.properties configuration file. The following properties must be updated: service.webPath, db.user, db.password, db.jdbcUrl, mail.host, mail.port, mail.user, mail.password.
 
 ```
 webapps/endpoint/WEB-INF/classes/config.properties
+```
 
-By default tha application can be accessed at http://localhost:8080/endpoint. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
+* By default tha application can be accessed at http://localhost:8080/endpoint. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
 
-If you want to use your GMail account for sending email, please use the following configuration.
+* If you want to use your GMail account for sending email, please use the following configuration.
 
+```
 mail.host=smtp.gmail.com
 mail.port=587
-
-If Tomcat is not running in port 8080, update the value of the solr.host property.
 ```
+
+* If Tomcat is not running in port 8080, update the value of the solr.host property.
+
 
 #### Location Service Admin
 
-1. Download admin-3.0.0-RELEASE.war file.
+* Download admin-3.0.0-RELEASE.war file.
 
-2. Rename the file to admin.war.
+* Rename the file to admin.war.
 
-3. Create a new "admin" folder under Tomcat's webapps folder (goes under the tomcat.home/webapps) and extract admin.war there.
+* Create a new "admin" folder under Tomcat's webapps folder (goes under the tomcat.home/webapps) and extract admin.war there.
 
 ```
 mkdir tomcat.home/webapps/admin
@@ -93,26 +96,28 @@ cp admin.war tomcat.home/webapps/admin
 cd tomcat.home/webapps/admin
 jar xvf admin.war
 rm admin.war
-
 ```
-4. Update config.properties configuration file. The following properties must be updated: service.webPath, db.user, db.password, db.jdbcUrl, mail.host, mail.port, mail.user, mail.password.
+
+* Update config.properties configuration file. The following properties must be updated: service.webPath, db.user, db.password, db.jdbcUrl, mail.host, mail.port, mail.user, mail.password.
 
 ```
 webapps/admin/WEB-INF/classes/config.properties
-
-By default tha application can be accessed at http://localhost:8080/admin. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
-
-If you want to use your GMail account for sending email, please use the following configuration.
-
-mail.host=smtp.gmail.com
-mail.port=587
-
-If Tomcat is not running in port 8080, update the value of the solr.host property.
 ```
 
-5. Update webapps/admin/META-INF/context.xml configuration file. "jdbc/mysql" resource's "username", "password" and "url" attributes must be updated. They should contain username, password and connection url for the database connection.
+* By default tha application can be accessed at http://localhost:8080/admin. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
 
-6. Copy the database driver MySQL/PostgreSQL from webapps/admin/WEB-INF/lib to Tomcat's lib directory.
+* If you want to use your GMail account for sending email, please use the following configuration.
+
+```
+mail.host=smtp.gmail.com
+mail.port=587
+```
+
+* If Tomcat is not running in port 8080, update the value of the solr.host property.
+
+* Update webapps/admin/META-INF/context.xml configuration file. "jdbc/mysql" resource's "username", "password" and "url" attributes must be updated. They should contain username, password and connection url for the database connection.
+
+* Copy the database driver MySQL/PostgreSQL from webapps/admin/WEB-INF/lib to Tomcat's lib directory (tomcat.home/lib).
 
 ```
 mysql-connector-java-5.1.6.jar
@@ -123,6 +128,9 @@ postgresql-9.1-901.jdbc4.jar
 
 Run Tomcat. Below there are the default URLs of the applications. The default username for the Admin application is "admin" and password "ChangeMe". It's strongly recommended to change the password immediately.
 
-* Solr: http://localhost:8080/solr/
-* Location Service Endpoint: http://localhost:8080/endpoint
-* Location Service Admin: http://localhost:8080/admin
+* Solr
+  * [http://localhost:8080/solr/](http://localhost:8080/solr/)
+* Location Service Endpoint
+  * [http://localhost:8080/endpoint](http://localhost:8080/endpoint)
+* Location Service Admin
+  * [http://localhost:8080/admin](http://localhost:8080/admin)
