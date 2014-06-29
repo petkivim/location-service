@@ -17,7 +17,17 @@ The Location Service has two user interfaces: One for customers (endpoint) and o
 
 ### Installation
 
-Install Solr, Location Service Endpoint and Location Service Admin on single Tomcat instance.
+How to install Solr, Location Service Endpoint and Location Service Admin on single Tomcat instance. MySQL is used as database.
+
+#### Database
+
+* Download [init_db.sql](https://github.com/petkivim/location-service/blob/master/db/mysql/init_db.sql) file that generates the 'location_service' database and creates admin user.
+
+* Import the downloaded SQL file in the database.
+
+```
+mysql -u root -p < init_db.sql
+```
 
 #### Solr
 
@@ -34,7 +44,7 @@ chmod -R 770 solr-data/
 
 * Download solr-webapp.zip file that contains solr.war file.
 
-* Create a new "solr" directory under Tomcat's webapps directory (goes under the tomcat.home/webapps) and extract solr-webapp.zip there. After exctracting solr-webapp.zip there should be tomcat.home/webapps/solr/solr.war file.
+* Create a new "solr" directory under Tomcat's webapps directory (goes under the tomcat.home/webapps) and extract solr-webapp.zip there. After exctracting solr-webapp.zip solr.war file should be located at tomcat.home/webapps/solr/solr.war.
 
 * Extract solr.war under tomcat.home/webapps/solr directory, and remove solr.war file.
 
@@ -45,6 +55,19 @@ rm solr.war
 ```
 
 * Update the path of solr-data directory to the tomcat.home/webapps/solr/META-INF/context.xml file. The default path is /usr/local/solr-data.
+
+```
+<?xml version="1.0" encoding="UTF-8" ?>
+<Context path="/solr">
+	<Environment name="solr/home" type="java.lang.String" value="C:/Users/dinky/Documents/Tmp/solr-data/solr-data" override="true" />
+	<Environment name="user.language" type="java.lang.String" value="fi" override="true" />
+	<Environment name="user.country" type="java.lang.String" value="FI" override="true" />
+	<!-- If Tomcat is behind a proxy, e.g. Apache, the IP must be read from the X-Forwarded-For header -->
+	<Valve className="org.apache.catalina.valves.RemoteIpValve" remoteIpHeader="X-Forwarded-For" proxiesHeader="X-Forwarded-By" protocolHeader="X-Forwarded-Proto" />
+	<!-- Only connections from localhost are allowed -->
+	<Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1"/>
+</Context>
+```
 
 * If you want to access Solr Admin UI from your workstation, you need to add your IP address to webapps/solr/META-INF/context.xml file. By default access is restricted to localhost.
 
@@ -67,7 +90,7 @@ rm endpoint.war
 * Update config.properties configuration file. The following properties must be updated: service.webPath, db.user, db.password, db.jdbcUrl, mail.host, mail.port, mail.user, mail.password.
 
 ```
-webapps/endpoint/WEB-INF/classes/config.properties
+tomcat.home/webapps/endpoint/WEB-INF/classes/config.properties
 ```
 
 * By default tha application can be accessed at http://localhost:8080/endpoint. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
@@ -77,10 +100,18 @@ webapps/endpoint/WEB-INF/classes/config.properties
 ```
 mail.host=smtp.gmail.com
 mail.port=587
+mail.user=[username]
+mail.password=[password]
 ```
 
 * If Tomcat is not running in port 8080, update the value of the solr.host property.
 
+* Give the following rights to the tomcat user in tomcat.home/webapps/endpoint/owners directory.
+
+```
+chgrp -R tomcat tomcat.home/webapps/endpoint/owners/
+chmod -R 770 tomcat.home/webapps/endpoint/owners/
+```
 
 #### Location Service Admin
 
@@ -101,7 +132,7 @@ rm admin.war
 * Update config.properties configuration file. The following properties must be updated: service.webPath, db.user, db.password, db.jdbcUrl, mail.host, mail.port, mail.user, mail.password.
 
 ```
-webapps/admin/WEB-INF/classes/config.properties
+tomcat.home/webapps/admin/WEB-INF/classes/config.properties
 ```
 
 * By default tha application can be accessed at http://localhost:8080/admin. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
@@ -111,11 +142,34 @@ webapps/admin/WEB-INF/classes/config.properties
 ```
 mail.host=smtp.gmail.com
 mail.port=587
+mail.user=[username]
+mail.password=[password]
 ```
 
 * If Tomcat is not running in port 8080, update the value of the solr.host property.
 
 * Update webapps/admin/META-INF/context.xml configuration file. "jdbc/mysql" resource's "username", "password" and "url" attributes must be updated. They should contain username, password and connection url for the database connection.
+
+```
+<Resource name="jdbc/mysql" 
+  auth="Container" 
+  type="javax.sql.DataSource" 
+  maxActive="20" 
+  maxIdle="10" 
+  maxWait="10000"
+  driverClassName="com.mysql.jdbc.Driver" 
+  url="jdbc:mysql://localhost/location_service"  
+  username="[username]"
+  password="[password]"
+/>
+```
+
+* Give the following rights to the tomcat user in tomcat.home/webapps/admin/owners directory.
+
+```
+chgrp -R tomcat tomcat.home/webapps/admin/owners/
+chmod -R 770 tomcat.home/webapps/admin/owners/
+```
 
 * Copy the database driver MySQL/PostgreSQL from webapps/admin/WEB-INF/lib to Tomcat's lib directory (tomcat.home/lib).
 
@@ -134,3 +188,5 @@ Run Tomcat. Below there are the default URLs of the applications. The default us
   * [http://localhost:8080/endpoint](http://localhost:8080/endpoint)
 * Location Service Admin
   * [http://localhost:8080/admin](http://localhost:8080/admin)
+  
+Applications' log files are located in Tomcat's log folder (tomcat.home/logs) and they are named solr.log, location-service.log and location-service-admin.log.
