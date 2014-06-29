@@ -31,7 +31,7 @@ mysql -u root -p < init_db.sql
 
 #### Solr
 
-* Download [solr-data.zip](https://github.com/petkivim/location-service/blob/master/solr/solr-data.zip) that contains Solr 4.7.0 index for the Location Service.
+* Download [solr-data.zip](https://github.com/petkivim/location-service/raw/master/solr/solr-data.zip) that contains Solr 4.7.0 index for the Location Service.
 
 * Extract solr-data.zip into its own directory, e.g. /usr/local/solr-data
 
@@ -42,7 +42,7 @@ chgrp -R tomcat solr-data/
 chmod -R 770 solr-data/
 ```
 
-* Download [solr-webapp.zip](https://github.com/petkivim/location-service/blob/master/solr/solr-webapp).zip file that contains solr.war file.
+* Download [solr-webapp.zip](https://github.com/petkivim/location-service/raw/master/solr/solr-webapp.zip) file that contains solr.war file.
 
 * Create a new "solr" directory under Tomcat's webapps directory (goes under the tomcat.home/webapps) and extract solr-webapp.zip there. After exctracting solr-webapp.zip solr.war file should be located at tomcat.home/webapps/solr/solr.war.
 
