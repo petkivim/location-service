@@ -36,9 +36,10 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
 
     /**
      * Returns the value of a request parameter with the given name. If an
-     * optional parameter with the given name cannot be found or its value
-     * is empty, a default value instead of null or an emtpy string is returned.
-     * @param name a String specifying the name of the parameter 
+     * optional parameter with the given name cannot be found or its value is
+     * empty, a default value instead of null or an emtpy string is returned.
+     *
+     * @param name a String specifying the name of the parameter
      * @return a String representing the single value of the parameter
      */
     @Override
@@ -48,9 +49,10 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
     }
 
     /**
-     * Sets default values to optional parameters, if their value is null
-     * or empty. If the given name doesn't match to optional parameter names,
-     * the original value is returned.
+     * Sets default values to optional parameters, if their value is null or
+     * empty. If the given name doesn't match to optional parameter names, the
+     * original value is returned.
+     *
      * @param name parameter name
      * @param value parameter value
      * @return validated parameter value
@@ -65,18 +67,53 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
             }
             return value;
         }
+        // Validate "lang" parameter - REQUIRED
+        if (name.equals("lang") && value != null) {
+            // The maximum length of the lang parameter is 100. If the length
+            // of the value is longer, only first 100 characters count.
+            if (value.length() > 100) {
+                value = value.substring(0, 100);
+            }
+            return value;
+        }
+        // Validate "callno" parameter - REQUIRED
+        if (name.equals("callno") && value != null) {
+            // The maximum length of the callno parameter is 300. If the length
+            // of the value is longer, only first 300 characters count.
+            if (value.length() > 300) {
+                value = value.substring(0, 300);
+            }
+            return value;
+        }
         // Validate "status" parameter - OPTIONAL
-        if (name.equals("status") && value == null) {
-            // "status" is optional -> set default value
-            value = "0";
-            return value;
+        if (name.equals("status")) {
+            if (value == null) {
+                // "status" is optional -> set default value
+                value = "0";
+                return value;
+            } else {
+                if (value.length() > 1) {
+                    value = value.substring(0, 1);
+                }
+                return value;
+            }
         }
+
         // Validate "collection" parameter - OPTIONAL
-        if (name.equals("collection") && value == null) {
-            // "collection" is optional -> set default value
-            value = "";
-            return value;
+        if (name.equals("collection")) {
+            if (value == null) {
+                // "collection" is optional -> set default value
+                value = "";
+                return value;
+            } else {
+                // Max length is 100
+                if (value.length() > 100) {
+                    value = value.substring(0, 100);
+                }
+                return value;
+            }
         }
+
         // Validate "id" parameter - OPTIONAL
         // "id" parameter must be a number or null which is why its value
         // is checked only when it's not null. If the value is not valid,
