@@ -80,6 +80,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      */
     public List getLibrary(String callno, String owner) {
         callno = escapeSingleQuote(callno);
+		owner = escapeSingleQuote(owner);
         List list = getHibernateTemplate().find(
                 "from Library as library where library.owner.code = '" + owner
                 + "' and library.locationCode ='" + callno + "'");
@@ -92,6 +93,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return libraries that are related to the given owner
      */
     public List getLibraries(String owner) {
+		owner = escapeSingleQuote(owner);
         List list = getHibernateTemplate().find(
                 "from Library as library where library.owner.code = '" + owner + "'");
         return list;
@@ -104,6 +106,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return search index entries that are related to the given owner
      */
     public List<SearchIndex> getLibrariesFromIndex(String owner) {
+		owner = escapeSingleQuote(owner);
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationType = '"
                 + LocationType.LIBRARY + "' and si.owner.code = '"
@@ -183,6 +186,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      */
     public List getCollection(String callno, String owner) {
         callno = escapeSingleQuote(callno);
+		owner = escapeSingleQuote(owner);
         List list = getHibernateTemplate().find(
                 "from LibraryCollection as collection where "
                 + "collection.owner.code = '" + owner + "' and "
@@ -196,6 +200,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return the collections related to the given owner
      */
     public List getCollections(String owner) {
+		owner = escapeSingleQuote(owner);
         List list = getHibernateTemplate().find(
                 "from LibraryCollection as collection where "
                 + "collection.owner.code = '" + owner + "'");
@@ -209,6 +214,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return search index entries that are related to the given owner
      */
     public List<SearchIndex> getCollectionsFromIndex(String owner) {
+		owner = escapeSingleQuote(owner);
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationType = '"
                 + LocationType.COLLECTION + "' and si.owner.code = '"
@@ -224,6 +230,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return the collection with the desired locationId
      */
     public List<Location> getCollectionsByLibraryId(int id, String owner) {
+		owner = escapeSingleQuote(owner);
         List<Location> list = getHibernateTemplate().find(
                 "from LibraryCollection as collection where "
                 + "collection.owner.code = '" + owner + "' and "
@@ -303,6 +310,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      */
     public List getShelf(String callno, String owner) {
         callno = escapeSingleQuote(callno);
+		owner = escapeSingleQuote(owner);
         List list = getHibernateTemplate().find(
                 "from Shelf as shelf where shelf.owner.code = '" + owner + "' "
                 + "and shelf.locationCode ='" + callno + "'");
@@ -315,6 +323,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return shelves that are related to the given owner
      */
     public List getShelves(String owner) {
+		owner = escapeSingleQuote(owner);
         List list = getHibernateTemplate().find(
                 "from Shelf as shelf where shelf.owner.code = '" + owner + "'");
         return list;
@@ -327,6 +336,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return search index entries that are related to the given owner
      */
     public List<SearchIndex> getShelvesFromIndex(String owner) {
+		owner = escapeSingleQuote(owner);
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationType = '"
                 + LocationType.SHELF + "' and si.owner.code = '"
@@ -342,6 +352,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return the shelf with the desired locationId
      */
     public List<Location> getShelvesByCollectionId(int id, String owner) {
+		owner = escapeSingleQuote(owner);
         List<Location> list = getHibernateTemplate().find(
                 "from Shelf as shelf "
                 + "where shelf.owner.code = '" + owner + "' "
@@ -415,6 +426,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return the location with the desired id number
      */
     public Location getLocation(int locationId, String owner) {
+		owner = escapeSingleQuote(owner);
         List<Location> result = null;
         try {
             result = getHibernateTemplate().find("from Shelf as shelf join fetch shelf.map left join fetch shelf.areas where shelf.owner.code = '" + owner + "' and shelf.locationId =?", locationId);
@@ -440,6 +452,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return list of locations matching the condition
      */
     public List<Location> getSubstringLocations(String owner) {
+		owner = escapeSingleQuote(owner);
         List<Location> result = getHibernateTemplate().find("from LibraryCollection c "
                 + "where c.isSubstring = true and c.owner.code = '" + owner + "'");
         return result;
@@ -453,6 +466,8 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return list of locations matching the condition
      */
     public List<Location> getSubstringLocations(String owner, String collectionCode) {
+		owner = escapeSingleQuote(owner);
+		collectionCode = escapeSingleQuote(collectionCode);
         List<Location> result = getHibernateTemplate().find("from LibraryCollection c "
                 + "where c.isSubstring = true and c.owner.code = '" + owner + "' and "
                 + "c.collectionCode = '" + collectionCode + "'");
@@ -467,6 +482,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return list of shelves matching the condition
      */
     public List<Location> getShelvesByCollectionCode(String owner, String collectionCode) {
+		owner = escapeSingleQuote(owner);
         collectionCode = escapeSingleQuote(collectionCode);
         List<Location> result = getHibernateTemplate().find("from Shelf s "
                 + "where s.collection.collectionCode = '" + collectionCode + "' "
@@ -482,6 +498,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return collection mathing the given code or null
      */
     public LibraryCollection getCollectionByCollectionCode(String owner, String collectionCode) {
+		owner = escapeSingleQuote(owner);
         collectionCode = escapeSingleQuote(collectionCode);
         List<LibraryCollection> result = getHibernateTemplate().find("from LibraryCollection c "
                 + "left join fetch c.image "
@@ -511,6 +528,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return all the libraries in the database
      */
     public List<Library> getAllLocations(String owner) {
+		owner = escapeSingleQuote(owner);
         List<Library> result = getHibernateTemplate().find(
                 "select distinct lib from Library lib "
                 + "left join fetch lib.image "
@@ -546,6 +564,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return the owner with the given code
      */
     public Owner getOwnerByCode(String code) {
+		owner = escapeSingleQuote(owner);
         List<Owner> list = getHibernateTemplate().find(
                 "from Owner owner where owner.code = '" + code + "'");
         if (list.isEmpty()) {
@@ -562,6 +581,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * no strategy is found
      */
     public LocatingStrategy getLocatingStrategy(String owner) {
+		owner = escapeSingleQuote(owner);
         List<LocatingStrategy> strategies = getHibernateTemplate().find(
                 "select locatingStrategy from Owner where code = '" + owner + "'");
         if (strategies.isEmpty()) {
@@ -577,6 +597,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return list of not found redirects related to the given owner
      */
     public List<CallnoModification> getNotFoundRedirects(String owner) {
+		owner = escapeSingleQuote(owner);
         List<CallnoModification> list = getHibernateTemplate().find(
                 "from NotFoundRedirect redirect "
                 + "where redirect.owner.code = '" + owner + "' "
@@ -591,6 +612,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return list of preprocessing redirects related to the given owner
      */
     public List<CallnoModification> getPreprocessingRedirects(String owner) {
+		owner = escapeSingleQuote(owner);
         List<CallnoModification> list = getHibernateTemplate().find(
                 "from PreprocessingRedirect redirect "
                 + "where redirect.owner.code = '" + owner + "' "
@@ -617,6 +639,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return index entry or null
      */
     public SearchIndex getIndexEntry(int locationId, String owner) {
+		owner = escapeSingleQuote(owner);
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationId = " + locationId
                 + " and si.owner.code = '" + owner + "'");
