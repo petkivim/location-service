@@ -563,7 +563,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return the owner with the given code
      */
     public Owner getOwnerByCode(String code) {
-		owner = escapeSingleQuote(owner);
+	code = escapeSingleQuote(code);
         List<Owner> list = getHibernateTemplate().find(
                 "from Owner owner where owner.code = '" + code + "'");
         if (list.isEmpty()) {
