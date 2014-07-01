@@ -180,7 +180,13 @@ postgresql-9.1-901.jdbc4.jar
 
 ### Running the application
 
-Run Tomcat. Below there are the default URLs of the applications. The default username for the Admin application is "admin" and password "ChangeMe". It's strongly recommended to change the password immediately.
+Before starting Tomcat ensure the JAVA_OPTS has the following memory settings:
+
+```
+JAVA_OPTS="-Xms512m -Xmx768m -XX:PermSize=512m -XX:MaxPermSize=512m"
+```
+
+Start Tomcat. Below there are the default URLs of the applications. The default username for the Admin application is "admin" and password "ChangeMe". It's strongly recommended to change the password immediately.
 
 * Solr
   * [http://localhost:8080/solr/](http://localhost:8080/solr/)
