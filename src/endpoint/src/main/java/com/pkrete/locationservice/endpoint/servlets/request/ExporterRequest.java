@@ -36,9 +36,10 @@ public class ExporterRequest extends HttpServletRequestWrapper {
 
     /**
      * Returns the value of a request parameter with the given name. If an
-     * optional parameter with the given name cannot be found or its value
-     * is empty, a default value instead of null or an emtpy string is returned.
-     * @param name a String specifying the name of the parameter 
+     * optional parameter with the given name cannot be found or its value is
+     * empty, a default value instead of null or an emtpy string is returned.
+     *
+     * @param name a String specifying the name of the parameter
      * @return a String representing the single value of the parameter
      */
     @Override
@@ -48,9 +49,10 @@ public class ExporterRequest extends HttpServletRequestWrapper {
     }
 
     /**
-     * Sets default values to optional parameters, if their value is null
-     * or empty. If the given name doesn't match to optional parameter names,
-     * the original value is returned.
+     * Sets default values to optional parameters, if their value is null or
+     * empty. If the given name doesn't match to optional parameter names, the
+     * original value is returned.
+     *
      * @param name parameter name
      * @param value parameter value
      * @return validated parameter value
@@ -69,35 +71,47 @@ public class ExporterRequest extends HttpServletRequestWrapper {
         if (name.equals("type")) {
             if (value == null || value.isEmpty()) {
                 // "type" is required -> set default value
-                value = "callno";
+                return "callno";
+            } else {
+                if (value.length() > 100) {
+                    value = value.substring(0, 100);
+                }
+                return value;
             }
-            return value;
         }
         // Validate "position" parameter - REQUIRED
         if (name.equals("position")) {
             if (value == null || value.isEmpty()) {
                 // "position" is required -> set default value
-                value = "any";
-            }
-            return value;
+                return "any";
+            } else {
+                if (value.length() > 100) {
+                    value = value.substring(0, 100);
+                }
+                return value;
+            }         
         }
         // Validate "search" parameter - OPTIONAL
-        if (name.equals("search") && value == null) {
-            // "search" is optional -> set default value
-            value = "";
-            return value;
+        if (name.equals("search")) {
+            if (value == null) {
+                // "search" is optional -> set default value
+                return  "";
+            } else {
+                if (value.length() > 300) {
+                    value = value.substring(0, 300);
+                }
+                return value;
+            }
         }
         // Validate "children" parameter - OPTIONAL
         if (name.equals("children") && value == null) {
             // "children" is optional -> set default value
-            value = "no";
-            return value;
+            return "no";
         }
         // Validate "version" parameter - OPTIONAL
         if (name.equals("version") && value == null) {
             // "version" is optional -> set default value
-            value = "1";
-            return value;
+            return "1";
         }
         return value;
     }
