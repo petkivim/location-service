@@ -65,6 +65,7 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
             if (value.length() > 10) {
                 return value.substring(0, 10);
             }
+            return value;
         }
         // Validate "lang" parameter - REQUIRED
         if (name.equals("lang") && value != null) {
@@ -73,6 +74,7 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
             if (value.length() > 100) {
                 return value.substring(0, 100);
             }
+            return value;
         }
         // Validate "callno" parameter - REQUIRED
         if (name.equals("callno") && value != null) {
@@ -81,6 +83,7 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
             if (value.length() > 300) {
                 return value.substring(0, 300);
             }
+            return value;
         }
         // Validate "status" parameter - OPTIONAL
         if (name.equals("status")) {
@@ -91,6 +94,7 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
                 if (value.length() > 1) {
                     return value.substring(0, 1);
                 }
+                return value;
             }
         }
 
@@ -104,6 +108,7 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
                 if (value.length() > 100) {
                     return value.substring(0, 100);
                 }
+                return value;
             }
         }
 
