@@ -27,7 +27,6 @@ import com.pkrete.locationservice.endpoint.model.owner.Owner;
 import com.pkrete.locationservice.endpoint.statistics.SearchEvent;
 import com.pkrete.locationservice.endpoint.model.location.Shelf;
 import com.pkrete.locationservice.endpoint.model.search.LocationType;
-import com.pkrete.locationservice.endpoint.model.search.Position;
 import com.pkrete.locationservice.endpoint.model.search.SearchIndex;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -664,26 +663,6 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
             builder.append(id);
         }
         return builder.toString();
-    }
-
-    /**
-     * Builds the search string that is used for performing the search. The
-     * given search string is modified according to the given position
-     * parameter, and the position information is added to the search
-     * string.
-     * @param search search string
-     * @param position position of the search string in the target field
-     * @return modified search string
-     */
-    private String buildSearchStr(String search, Position position) {
-        if (position == Position.FIRST) {
-            return search + "%";
-        } else if (position == Position.LAST) {
-            return "%" + search;
-        } else if (position == Position.MATCH) {
-            return search;
-        }
-        return "%" + search + "%";
     }
 
     /**
