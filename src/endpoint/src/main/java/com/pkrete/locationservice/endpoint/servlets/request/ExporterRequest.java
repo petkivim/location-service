@@ -56,6 +56,15 @@ public class ExporterRequest extends HttpServletRequestWrapper {
      * @return validated parameter value
      */
     private String setDefault(String name, String value) {
+        // Validate "owner" parameter - REQUIRED
+        if (name.equals("owner") && value != null) {
+            // The maximum length of the owner parameter is 10. If the value
+            // of the parameter is longer, only first 10 characters count.
+            if (value.length() > 10) {
+                value = value.substring(0, 10);
+            }
+            return value;
+        }
         // Validate "type" parameter - REQUIRED
         if (name.equals("type")) {
             if (value == null || value.isEmpty()) {
