@@ -5,7 +5,7 @@ The Location Service is a wayfinding application for libraries. It provides addi
 
 The main purpose of the application is to help library users to locate publications in a library by showing their location on a map. In addition to the map-based guidance, the Location Service also provides other information about the location, which should help the user to navigate through stacks of books. Elaborate collection and classification codes often used in the call number are presented in a form which is understandable to any library user. Displaying subject matters or images related to the location are also possible, and the use of images is recommended as it creates a link between the virtual and real word.
 
-The Location Service has two user interfaces: One for customers (endpoint) and one for library staff (admin) for managing the information related to the locations of publications. The UI for customers is fully customizable by libraries, and the customization is done via template files by using the following techniques: HTML, CSS, and Javascript/jQuery. In addition to HTML also XML and JSON output formats are supported. The application supports multiple languages, and libraries have a full control of the languages which they want to support in their environment. All the information related to the locations can be managed via the administrator’s interface, which does not require any technical skills to use.
+The Location Service has two user interfaces: One for customers (endpoint) and one for library staff (admin) for managing the information related to the locations of publications. The UI for customers is fully customizable by libraries, and the customization is done via template files by using the following techniques: HTML, CSS, and Javascript/jQuery. In addition to HTML also XML and JSON output formats are supported. The application supports multiple languages, and libraries have a full control of the languages which they want to support in their environment. All the information related to the locations can be managed via the administratorï¿½s interface, which does not require any technical skills to use.
 
 ### Software Requirements
 
@@ -59,7 +59,7 @@ rm solr.war
 ```
 <?xml version="1.0" encoding="UTF-8" ?>
 <Context path="/solr">
-	<Environment name="solr/home" type="java.lang.String" value="C:/Users/dinky/Documents/Tmp/solr-data/solr-data" override="true" />
+	<Environment name="solr/home" type="java.lang.String" value="/usr/local/solr-data" override="true" />
 	<Environment name="user.language" type="java.lang.String" value="fi" override="true" />
 	<Environment name="user.country" type="java.lang.String" value="FI" override="true" />
 	<!-- If Tomcat is behind a proxy, e.g. Apache, the IP must be read from the X-Forwarded-For header -->
