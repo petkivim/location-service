@@ -63,39 +63,34 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
             // The maximum length of the owner parameter is 10. If the length
             // of the value is longer, only first 10 characters count.
             if (value.length() > 10) {
-                value = value.substring(0, 10);
+                return value.substring(0, 10);
             }
-            return value;
         }
         // Validate "lang" parameter - REQUIRED
         if (name.equals("lang") && value != null) {
             // The maximum length of the lang parameter is 100. If the length
             // of the value is longer, only first 100 characters count.
             if (value.length() > 100) {
-                value = value.substring(0, 100);
+                return value.substring(0, 100);
             }
-            return value;
         }
         // Validate "callno" parameter - REQUIRED
         if (name.equals("callno") && value != null) {
             // The maximum length of the callno parameter is 300. If the length
             // of the value is longer, only first 300 characters count.
             if (value.length() > 300) {
-                value = value.substring(0, 300);
+                return value.substring(0, 300);
             }
-            return value;
         }
         // Validate "status" parameter - OPTIONAL
         if (name.equals("status")) {
             if (value == null) {
                 // "status" is optional -> set default value
-                value = "0";
-                return value;
+                return "0";
             } else {
                 if (value.length() > 1) {
-                    value = value.substring(0, 1);
+                    return value.substring(0, 1);
                 }
-                return value;
             }
         }
 
@@ -103,14 +98,12 @@ public class LocationHandlerRequest extends HttpServletRequestWrapper {
         if (name.equals("collection")) {
             if (value == null) {
                 // "collection" is optional -> set default value
-                value = "";
-                return value;
+                return "";
             } else {
                 // Max length is 100
                 if (value.length() > 100) {
-                    value = value.substring(0, 100);
+                    return value.substring(0, 100);
                 }
-                return value;
             }
         }
 
