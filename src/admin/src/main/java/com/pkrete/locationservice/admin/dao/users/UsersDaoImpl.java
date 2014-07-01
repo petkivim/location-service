@@ -53,7 +53,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     public User getUser(String username) {
         List<User> list = getHibernateTemplate().find(
                 "from UserFull user join fetch user.owner owner left join fetch "
-                + "owner.languages where user.username= '" + username + "'");
+                + "owner.languages where user.username= ?", username);
         if (list.isEmpty()) {
             return null;
         }
@@ -81,8 +81,8 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
                 "from UserFull user "
                 + "where user.owner.id=? "
                 + "and user.username in "
-                + "(select info.user.username from UserInfo info where info.group  = '" + group.toString() + "') "
-                + "order by user.username ASC", owner.getId());
+                + "(select info.user.username from UserInfo info where info.group  = ?) "
+                + "order by user.username ASC", owner.getId(), group);
         return list;
     }
 
@@ -94,7 +94,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     public UserFull getFullUser(String username) {
         List<UserFull> list = getHibernateTemplate().find(
-                "from UserFull user where user.username= '" + username + "'");
+                "from UserFull user where user.username= ?", username);
         if (list.isEmpty()) {
             return null;
         }
@@ -184,9 +184,9 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
         List<UserInfo> list = getHibernateTemplate().find(
                 "from UserInfo info "
                 + "join fetch info.user "
-                + "where info.user.owner.id = " + owner.getId()
-                + " and info.group= '" + group.toString() + "' "
-                + "order by info.user.username ASC");
+                + "where info.user.owner.id = ? "
+                + "and info.group= ? "
+                + "order by info.user.username ASC", owner.getId(), group);
         return list;
     }
 
@@ -197,7 +197,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     public UserInfo getUserInfoByUsername(String username) {
         List<UserInfo> list = getHibernateTemplate().find(
-                "from UserInfo info where info.user.username = '" + username + "'");
+                "from UserInfo info where info.user.username = ?", username);
         if (list.isEmpty()) {
             return null;
         }
@@ -213,8 +213,8 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     public UserInfo getUserInfoByUsername(String username, Owner owner) {
         List<UserInfo> list = getHibernateTemplate().find(
                 "from UserInfo info "
-                + "where info.user.username = '" + username + "'"
-                + "and info.user.owner.id = " + owner.getId());
+                + "where info.user.username = ? "
+                + "and info.user.owner.id = ?", username, owner.getId());
         if (list.isEmpty()) {
             return null;
         }
@@ -279,7 +279,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     public UserGroup getUserGroup(String username) {
         List<UserGroup> list = getHibernateTemplate().find(
                 "select group from UserInfo info "
-                + "where info.user.username = '" + username + "'");
+                + "where info.user.username = ?", username);
         if (list.isEmpty()) {
             return null;
         }
