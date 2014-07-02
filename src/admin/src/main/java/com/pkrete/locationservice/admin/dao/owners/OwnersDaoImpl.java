@@ -21,7 +21,6 @@ import com.pkrete.locationservice.admin.dao.OwnersDao;
 import com.pkrete.locationservice.admin.model.owner.CallnoModification;
 import com.pkrete.locationservice.admin.model.location.Location;
 import com.pkrete.locationservice.admin.model.owner.Owner;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
@@ -50,6 +49,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      * Returns a list of all the owners in the database.
      * @return all the owners in the database
      */
+    @Override
     public List<Owner> getOwners() {
         List result = getHibernateTemplate().find("from Owner owner order by owner.name ASC");
         return result;
@@ -61,6 +61,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      * @param id the id that is used for searching
      * @return the owner with the given id or null
      */
+    @Override
     public Owner getOwner(int id) {
         List<Owner> list = getHibernateTemplate().find(
                 "from Owner owner left join fetch owner.languages "
@@ -77,6 +78,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      * @param id the id that is used for searching
      * @return the owner with the given id or null
      */
+    @Override
     public Owner getFullOwner(int id) {
         List<Owner> list = getHibernateTemplate().find(
                 "from Owner owner left join fetch owner.languages "
@@ -96,9 +98,10 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      * @param code the code that is used for searching
      * @return the owner with the given code or null
      */
+    @Override
     public Owner getOwnerByCode(String code) {
         List<Owner> list = getHibernateTemplate().find(
-                "from Owner owner where owner.code = '" + code + "'");
+                "from Owner owner where owner.code = ?", code);
         if (list.isEmpty()) {
             return null;
         }
@@ -110,6 +113,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      * @param owner owner object to be removed
      * @return true if the owner object can be removed; otherwise false
      */
+    @Override
     public boolean canBeDeleted(Owner owner) {
         List<Location> result = null;
 
@@ -149,9 +153,10 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     /**
      * Saves the given owner object to the database.
      * @param owner the owner to be created
-     * @return true if and only if the object was succesfully created;
+     * @return true if and only if the object was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(Owner owner) {
         try {
             getHibernateTemplate().save(owner);
@@ -165,9 +170,10 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     /**
      * Updates the given owner object to the database.
      * @param owner the owner to be updated
-     * @return true if and only if the object was succesfully updated;
+     * @return true if and only if the object was successfully updated;
      * otherwise false
      */
+    @Override
     public boolean update(Owner owner) {
         try {
             getHibernateTemplate().update(owner);
@@ -181,9 +187,10 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     /**
      * Deletes the given owner object from the database.
      * @param owner the owner to be deleted
-     * @return true if and only if the object was succesfully deleted;
+     * @return true if and only if the object was successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean delete(Owner owner) {
         try {
             Owner temp = this.getOwner(owner.getId());
@@ -199,9 +206,10 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     /**
      * Deletes the given call number modification object from the database.
      * @param mod the call number modification to be deleted
-     * @return true if and only if the object was succesfully deleted;
+     * @return true if and only if the object was successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean delete(CallnoModification mod) {
         try {
             getHibernateTemplate().delete(mod);
@@ -215,9 +223,10 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     /**
      * Deletes all the PreporcessingRedirects and NotFoundRedirects that
      * don't have an Owner.
-     * @return true if and only if all the orphans were succesfully deleted;
+     * @return true if and only if all the orphans were successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean deleteOrphanRedirects() {
         try {
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -236,9 +245,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      * @param ownerId owner id
      * @return list of PreprocessingRedirect ids related to the owner
      */
+    @Override
     public List<Integer> getPreprocessingRedirectIds(int ownerId) {
-        List<Integer> list = new ArrayList<Integer>();
-        list = getHibernateTemplate().find("select id from PreprocessingRedirect where owner.id = " + ownerId);
+        List<Integer> list = getHibernateTemplate().find("select id from PreprocessingRedirect where owner.id = " + ownerId);
         return list;
     }
 
@@ -248,9 +257,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      * @param ownerId owner id
      * @return list of NotFoundRedirect ids related to the owner
      */
+    @Override
     public List<Integer> getNotFoundRedirectIds(int ownerId) {
-        List<Integer> list = new ArrayList<Integer>();
-        list = getHibernateTemplate().find("select id from NotFoundRedirect where owner.id = " + ownerId);
+        List<Integer> list = getHibernateTemplate().find("select id from NotFoundRedirect where owner.id = " + ownerId);
         return list;
     }
 }

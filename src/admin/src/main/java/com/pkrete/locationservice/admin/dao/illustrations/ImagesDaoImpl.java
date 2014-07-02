@@ -46,6 +46,7 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      * @return the image with the given id; if no matching image is found,
      * null is returned
      */
+    @Override
     public Image get(int id) {
         List<Image> list = getHibernateTemplate().find(
                 "from Image image "
@@ -63,12 +64,13 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      * @return the image with the given id; if no matching image is found,
      * null is returned
      */
+    @Override
     public Image get(int id, Owner owner) {
         List<Image> list = getHibernateTemplate().find(
                 "from Image as image "
                 + "join fetch image.owner as owner "
-                + "where owner.code like '"
-                + owner.getCode() + "' and image.id=?", id);
+                + "where owner.code like ? "
+                + "and image.id=?", owner.getCode(), id);
         if (list.isEmpty()) {
             return null;
         }
@@ -80,6 +82,7 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      * @param image the image to be deleted
      * @return true if and only if the image was deleted; otherwise false
      */
+    @Override
     public boolean delete(Image image) {
         try {
             getHibernateTemplate().delete(image);
@@ -95,11 +98,12 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      * @param owner the owner of the objects
      * @return all the images in the database
      */
+    @Override
     public List<Image> get(Owner owner) {
         List result = getHibernateTemplate().find("from Image image "
                 + "join fetch image.owner as owner "
-                + "where owner.code like '"
-                + owner.getCode() + "' order by image.description ASC");
+                + "where owner.code like ? "
+                + "order by image.description ASC", owner.getCode());
         return result;
     }
 
@@ -108,6 +112,7 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      * @param image the image to be saved
      * @return true if and only if the image was created; otherwise false
      */
+    @Override
     public boolean create(Image image) {
         try {
             getHibernateTemplate().save(image);
@@ -122,6 +127,7 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      * @param image the image to be saved
      * @return true if and only if the image was update; otherwise false
      */
+    @Override
     public boolean update(Image image) {
         try {
             getHibernateTemplate().update(image);
@@ -137,6 +143,7 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      * @param imageId the id number of the image to be removed
      * @return true if the image object can be removed, otherwise returns false
      */
+    @Override
     public boolean canBeDeleted(int imageId) {
         List<Location> result = null;
 

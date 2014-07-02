@@ -44,6 +44,7 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * Returns a list of all the languages in the database.
      * @return all the languages in the database
      */
+    @Override
     public List<Language> getLanguages() {
         List result = getHibernateTemplate().find("from Language language "
                 + "join fetch language.owner");
@@ -56,11 +57,12 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * @param owner the owner of the objects
      * @return all the languages in the database
      */
+    @Override
     public List<Language> getLanguages(Owner owner) {
         List result = getHibernateTemplate().find("from Language language "
                 + "join fetch language.owner as owner where "
-                + "owner.code like '" + owner.getCode() + "' "
-                + "order by owner.name, language.name ASC");
+                + "owner.code like ? "
+                + "order by owner.name, language.name ASC", owner.getCode());
         return result;
     }
 
@@ -72,6 +74,7 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * @param id the id that is used for searching
      * @return the language with the given id or null
      */
+    @Override
     public Language getLanguageById(int id) {
         List<Language> list = getHibernateTemplate().find(
                 "from Language language "
@@ -90,11 +93,12 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * @param owner the owner of the object
      * @return language object with the given code or null
      */
+    @Override
     public Language getLanguage(String code, Owner owner) {
         List<Language> result = getHibernateTemplate().find("from Language language "
                 + "join fetch language.owner as owner "
-                + "where owner.code like '" + owner.getCode() + "' and "
-                + "language.code = '" + code + "'");
+                + "where owner.code like ? and "
+                + "language.code = ?", owner.getCode(), code);
         if (result.isEmpty()) {
             return null;
         }
@@ -108,12 +112,13 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * @param owner the owner of the object
      * @return the language with the given id or null
      */
+    @Override
     public Language getLanguageById(int id, Owner owner) {
         List<Language> list = getHibernateTemplate().find(
                 "from Language language "
                 + "join fetch language.owner as owner "
-                + "where owner.code like '" + owner.getCode() + "' "
-                + "and language.id=?", id);
+                + "where owner.code like ? "
+                + "and language.id=?", owner.getCode(), id);
         if (list.isEmpty()) {
             return null;
         }
@@ -124,6 +129,7 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * Adds the given language object to the database.
      * @param language the language to be added
      */
+    @Override
     public boolean create(Language language) {
         try {
             getHibernateTemplate().save(language);
@@ -137,6 +143,7 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * Updates the given language object to the database.
      * @param language the language to be added
      */
+    @Override
     public boolean update(Language language) {
         try {
             getHibernateTemplate().update(language);
@@ -150,6 +157,7 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      * Deletes the given language object from the database.
      * @param language the language to be deleted
      */
+    @Override
     public boolean delete(Language language) {
         try {
             getHibernateTemplate().delete(language);
@@ -160,11 +168,12 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
     }
 
     /**
-     * Checks from the database if the given language has any depencies.
-     * If the language doesn't have any depencies, it can be deleted.
+     * Checks from the database if the given language has any dependencies.
+     * If the language doesn't have any dependencies, it can be deleted.
      * @param lang language to be deleted
      * @return true if the language can be deleted, otherwise returns false
      */
+    @Override
     public boolean canBeDeleted(Language lang) {
         List<SubjectMatter> list = null;
         list = getHibernateTemplate().find("from SubjectMatter as subjectMatter where subjectMatter.language.id =?", lang.getId());

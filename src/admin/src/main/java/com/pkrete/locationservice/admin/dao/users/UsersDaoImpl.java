@@ -50,6 +50,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @param username the user name that is used for searching
      * @return the user with the given user name
      */
+    @Override
     public User getUser(String username) {
         List<User> list = getHibernateTemplate().find(
                 "from UserFull user join fetch user.owner owner left join fetch "
@@ -64,6 +65,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * Returns all the users in the database. Passwords are not included.
      * @return all the users in the database
      */
+    @Override
     public List<User> getUsers() {
         List<User> list = getHibernateTemplate().find(
                 "from UserFull user order by user.username ASC");
@@ -76,6 +78,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @return all the users belonging to the given user group related to the 
      * given owner
      */
+    @Override
     public List<User> getUsers(Owner owner, UserGroup group) {
         List<User> list = getHibernateTemplate().find(
                 "from UserFull user "
@@ -92,6 +95,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @param username the user name that is used for searching
      * @return the user with the given user name
      */
+    @Override
     public UserFull getFullUser(String username) {
         List<UserFull> list = getHibernateTemplate().find(
                 "from UserFull user where user.username= ?", username);
@@ -106,6 +110,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * are included.
      * @return all the users in the database
      */
+    @Override
     public List<UserFull> getFullUsers() {
         List<UserFull> list = getHibernateTemplate().find(
                 "from UserFull user order by user.username ASC");
@@ -115,9 +120,10 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     /**
      * Adds the given user object to the database. 
      * @param user the user to be added
-     * @return true if and only if the user was succesfully added; otherwise
+     * @return true if and only if the user was successfully added; otherwise
      * false
      */
+    @Override
     public boolean create(UserFull user) {
         try {
             getHibernateTemplate().save(user);
@@ -134,6 +140,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @return true if and only if the user was succesfully updated; otherwise
      * false
      */
+    @Override
     public boolean update(UserFull user) {
         try {
             getHibernateTemplate().update(user);
@@ -147,9 +154,10 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     /**
      * Deletes the given user object from the database.
      * @param user the user to be deleted
-     * @return true if and only if the user was succesfully deleted; otherwise
+     * @return true if and only if the user was successfully deleted; otherwise
      * false
      */
+    @Override
     public boolean delete(UserFull user) {
         try {
             getHibernateTemplate().delete(user);
@@ -164,6 +172,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * Returns a list of all the UserInfo objects.
      * @return list of all the UserInfo objects
      */
+    @Override
     public List<UserInfo> getUserInfos() {
         List<UserInfo> list = getHibernateTemplate().find(
                 "from UserInfo info "
@@ -180,6 +189,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @return list of UserInfo objects with the given user group that are
      * related to the given owner
      */
+    @Override
     public List<UserInfo> getUserInfos(Owner owner, UserGroup group) {
         List<UserInfo> list = getHibernateTemplate().find(
                 "from UserInfo info "
@@ -195,6 +205,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @param username the username that is used for searching
      * @return the user info with the given username
      */
+    @Override
     public UserInfo getUserInfoByUsername(String username) {
         List<UserInfo> list = getHibernateTemplate().find(
                 "from UserInfo info where info.user.username = ?", username);
@@ -210,6 +221,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @param owner owner to which the user is related
      * @return the user info with the given username
      */
+    @Override
     public UserInfo getUserInfoByUsername(String username, Owner owner) {
         List<UserInfo> list = getHibernateTemplate().find(
                 "from UserInfo info "
@@ -224,9 +236,10 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     /**
      * Adds the given user info object to the database. 
      * @param info the info to be created
-     * @return true if and only if the user info was succesfully created; 
+     * @return true if and only if the user info was successfully created; 
      * otherwise false
      */
+    @Override
     public boolean create(UserInfo info) {
         try {
             getHibernateTemplate().save(info);
@@ -240,9 +253,10 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     /**
      * Updates the given user info object to the database.
      * @param info the info to be updated
-     * @return true if and only if the user info was succesfully updated; 
+     * @return true if and only if the user info was successfully updated; 
      * otherwise false
      */
+    @Override
     public boolean update(UserInfo info) {
         try {
             getHibernateTemplate().update(info);
@@ -256,9 +270,10 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
     /**
      * Deletes the given user info object from the database.
      * @param info the user info to be deleted
-     * @return true if and only if the user info was succesfully deleted; 
+     * @return true if and only if the user info was successfully deleted; 
      * otherwise false
      */
+    @Override
     public boolean delete(UserInfo info) {
         try {
             getHibernateTemplate().delete(info);
@@ -276,6 +291,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      * @return UserGroup of the user or null if user with the given username
      * doesn't exist
      */
+    @Override
     public UserGroup getUserGroup(String username) {
         List<UserGroup> list = getHibernateTemplate().find(
                 "select group from UserInfo info "

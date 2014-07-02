@@ -45,11 +45,12 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * @param owner the owner of the objects
      * @return all the subject matters in the database
      */
+    @Override
     public List<SubjectMatter> getSubjectMatters(Owner owner) {
         List result = getHibernateTemplate().find("from SubjectMatter as subjectMatter "
                 + "join fetch subjectMatter.owner as owner "
-                + "where owner.code like '" + owner.getCode()
-                + "' order by subjectMatter.language.name, subjectMatter.indexTerm ASC");
+                + "where owner.code like ? "
+                + "order by subjectMatter.language.name, subjectMatter.indexTerm ASC", owner.getCode());
         return result;
     }
 
@@ -59,12 +60,13 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * @param owner the owner of the objects
      * @return all the subject matters in the database
      */
+    @Override
     public List<SubjectMatter> getSubjectMattersWithLanguage(Owner owner) {
         List result = getHibernateTemplate().find("from SubjectMatter subjectMatter "
                 + "join fetch subjectMatter.owner as owner "
                 + "inner join fetch subjectMatter.language "
-                + "where owner.code like '" + owner.getCode() + "' "
-                + "order by subjectMatter.language.name, subjectMatter.indexTerm ASC");
+                + "where owner.code like ? "
+                + "order by subjectMatter.language.name, subjectMatter.indexTerm ASC", owner.getCode());
         return result;
     }
 
@@ -73,6 +75,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * @param id the id that is used for searching
      * @return the subject matter with the given id
      */
+    @Override
     public SubjectMatter getSubjectMatter(int id) {
         List<SubjectMatter> list = getHibernateTemplate().find(
                 "from SubjectMatter as subjectMatter "
@@ -90,14 +93,15 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * @param owner the owner of the object
      * @return the subject matter with the given id
      */
+    @Override
     public SubjectMatter getSubjectMatter(int id, Owner owner) {
         List<SubjectMatter> list = getHibernateTemplate().find(
                 "from SubjectMatter as subjectMatter "
                 + "join fetch subjectMatter.owner as owner "
                 + "join fetch subjectMatter.language "
                 + "left join fetch subjectMatter.locations "
-                + "where owner.code like '"
-                + owner.getCode() + "' and subjectMatter.id =?", id);
+                + "where owner.code like ? "
+                + "and subjectMatter.id =?", owner.getCode(), id);
         if (list.isEmpty()) {
             return null;
         }
@@ -107,19 +111,20 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
     /**
      * Returns the subject matter which id matches with the given id number.
      * Initializes locations related to the given subject matter object, so
-     * it's easy to check wheter the object can be deleted or not. The object
+     * it's easy to check whether the object can be deleted or not. The object
      * can't be deleted if there are locations related to it.
      * @param id the id that is used for searching
      * @param owner the owner of the object
      * @return the subject matter with the given id
      */
+    @Override
     public SubjectMatter getSubjectMatterToBeDeleted(int id, Owner owner) {
         List<SubjectMatter> list = getHibernateTemplate().find(
                 "from SubjectMatter as subjectMatter "
                 + "join fetch subjectMatter.owner as owner "
                 + "left join fetch subjectMatter.locations "
-                + "where owner.code like '"
-                + owner.getCode() + "' and subjectMatter.id =?", id);
+                + "where owner.code like ? "
+                + "and subjectMatter.id =?", owner.getCode(), id);
         if (list.isEmpty()) {
             return null;
         }
@@ -131,6 +136,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * @param owner Owner object
      * @return list of SubjectMatter ids related to the given Owner
      */
+    @Override
     public List<Integer> getIds(Owner owner) {
         List<Integer> list = getHibernateTemplate().find(
                 "select id from SubjectMatter "
@@ -142,6 +148,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * Saves the given subject matter object to the database.
      * @param subjectMatter the subject matter to be saved
      */
+    @Override
     public boolean create(SubjectMatter subjectMatter) {
         try {
             getHibernateTemplate().save(subjectMatter);
@@ -155,6 +162,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * Updates the given subject matter object to the database.
      * @param subjectMatter the subject matter to be updated
      */
+    @Override
     public boolean update(SubjectMatter subjectMatter) {
         try {
             getHibernateTemplate().update(subjectMatter);
@@ -168,6 +176,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
      * Deletes the given subject matter object from the database.
      * @param subjectMatter the subject matter to be deleted
      */
+    @Override
     public boolean delete(SubjectMatter subjectMatter) {
         try {
             getHibernateTemplate().delete(subjectMatter);

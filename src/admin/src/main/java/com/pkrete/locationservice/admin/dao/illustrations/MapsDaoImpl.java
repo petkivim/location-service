@@ -46,6 +46,7 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      * @return the map with the given id; if no matching map is found,
      * null is returned
      */
+    @Override
     public Map get(int id) {
         List<Map> list = getHibernateTemplate().find(
                 "from Map map "
@@ -63,12 +64,13 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      * @return the map with the given id; if no matching map is found,
      * null is returned
      */
+    @Override
     public Map get(int id, Owner owner) {
         List<Map> list = getHibernateTemplate().find(
                 "from Map as map "
                 + "join fetch map.owner as owner "
-                + "where owner.code like '"
-                + owner.getCode() + "' and map.id=?", id);
+                + "where owner.code like ? "
+                + "and map.id=?", owner.getCode(), id);
         if (list.isEmpty()) {
             return null;
         }
@@ -80,6 +82,7 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      * @param map the map to be deleted
      * @return true if and only if the map was deleted; otherwise false
      */
+    @Override
     public boolean delete(Map map) {
         try {
             getHibernateTemplate().delete(map);
@@ -95,11 +98,12 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      * @param owner the owner of the objects
      * @return all the maps in the database
      */
+    @Override
     public List<Map> get(Owner owner) {
         List result = getHibernateTemplate().find("from Map map "
                 + "join fetch map.owner as owner "
-                + "where owner.code like '"
-                + owner.getCode() + "' order by map.description ASC");
+                + "where owner.code like ? "
+                + "order by map.description ASC", owner.getCode());
         return result;
     }
 
@@ -108,6 +112,7 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      * @param map the map to be saved
      * @return true if and only if the map was created; otherwise false
      */
+    @Override
     public boolean create(Map map) {
         try {
             getHibernateTemplate().save(map);
@@ -122,6 +127,7 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      * @param map the map to be saved
      * @return true if and only if the map was updated; otherwise false
      */
+    @Override
     public boolean update(Map map) {
         try {
             getHibernateTemplate().update(map);
@@ -137,6 +143,7 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      * @param mapId the id number of the map to be removed
      * @return true if the map object can be removed, otherwise returns false
      */
+    @Override
     public boolean canBeDeleted(int mapId) {
         List<Location> result = null;
 

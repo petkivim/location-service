@@ -45,13 +45,14 @@ public class StatisticsDaoImpl extends HibernateDaoSupport implements Statistics
      * @param group how the results are grouped: by day, by month or by year 
      * @return number of searches and unique ips grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group) {
         String groupHQL = this.groupToHQL(group);
         List<Object[]> list = getHibernateTemplate().find("select count(*), "
                 + "count(distinct ipAddress), " + groupHQL + " "
                 + "from SearchEvent "
-                + "where owner like '" + owner + "' "
-                + "group by col_2_0_");
+                + "where owner like ? "
+                + "group by col_2_0_", owner);
         return list;
     }
 
@@ -62,14 +63,15 @@ public class StatisticsDaoImpl extends HibernateDaoSupport implements Statistics
      * @param type type of the search events that are included: location handler or exporter
      * @return number of searches and unique ips grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group, SearchEventType type) {
         String groupHQL = this.groupToHQL(group);
         List<Object[]> list = getHibernateTemplate().find("select count(*), "
                 + "count(distinct ipAddress), " + groupHQL + " "
                 + "from SearchEvent "
-                + "where owner like '" + owner + "' "
-                + "and eventType = '" + type + "' "
-                + "group by col_2_0_");
+                + "where owner like ? "
+                + "and eventType = ? "
+                + "group by col_2_0_", owner, type);
         return list;
     }
 
@@ -81,15 +83,16 @@ public class StatisticsDaoImpl extends HibernateDaoSupport implements Statistics
      * @param to end date of the period
      * @return number of searches and unique ips grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group, String from, String to) {
         String date = parseDateLimit(from, to);
         String groupHQL = this.groupToHQL(group);
         List<Object[]> list = getHibernateTemplate().find("select count(*), "
                 + "count(distinct ipAddress), " + groupHQL + " "
                 + "from SearchEvent "
-                + "where owner like '" + owner + "' "
+                + "where owner like ? "
                 + date + " "
-                + "group by col_2_0_");
+                + "group by col_2_0_", owner);
         return list;
     }
 
@@ -102,16 +105,17 @@ public class StatisticsDaoImpl extends HibernateDaoSupport implements Statistics
      * @param to end date of the period
      * @return number of searches and unique ips grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group, SearchEventType type, String from, String to) {
         String date = parseDateLimit(from, to);
         String groupHQL = this.groupToHQL(group);
         List<Object[]> list = getHibernateTemplate().find("select count(*), "
                 + "count(distinct ipAddress), " + groupHQL + " "
                 + "from SearchEvent "
-                + "where owner like '" + owner + "' "
-                + "and eventType = '" + type + "' "
+                + "where owner like ? "
+                + "and eventType = ? "
                 + date + " "
-                + "group by col_2_0_");
+                + "group by col_2_0_", owner, type);
         return list;
     }
 
