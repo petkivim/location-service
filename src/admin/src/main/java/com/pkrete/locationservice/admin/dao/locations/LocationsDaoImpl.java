@@ -62,10 +62,11 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return library with the desired locationId or null if matching
      * library doesn't exist
      */
+    @Override
     public Library getLibrary(int libraryId) {
         List<Library> list = getHibernateTemplate().find("from Library library "
                 + "join fetch library.owner as owner "
-                + "where library.locationId = " + libraryId);
+                + "where library.locationId = ?", libraryId);
         if (list.isEmpty()) {
             return null;
         }
@@ -81,14 +82,15 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return library with the desired locationId or null if matching
      * library doesn't exist
      */
+    @Override
     public Library getLibrary(int libraryId, Owner owner) {
         List<Library> list = getHibernateTemplate().find("from Library library "
                 + "left join fetch library.image "
                 + "left join fetch library.map "
                 + "left join fetch library.areas "
                 + "join fetch library.owner as owner "
-                + "where owner.code like '" + owner.getCode() + "' "
-                + "and library.locationId = " + libraryId);
+                + "where owner.code like ? "
+                + "and library.locationId = ?", owner.getCode(), libraryId);
         if (list.isEmpty()) {
             return null;
         }
@@ -108,6 +110,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return library with the desired locationId or null if matching
      * library doesn't exist
      */
+    @Override
     public Library getLibraryToBeDeleted(int libraryId, Owner owner) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Library.class).add(Restrictions.eq("locationId", libraryId)).add(Restrictions.eq("owner", owner)).setFetchMode("areas", FetchMode.JOIN);
         List<Library> list = getHibernateTemplate().findByCriteria(criteria);
@@ -134,6 +137,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return the collection with the desired locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollection(int collectionId, Owner owner) {
         return getCollection(collectionId, 0, owner);
     }
@@ -149,6 +153,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return the collection with the desired locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollection(int collectionId, int libraryId, Owner owner) {
         String libCondition = "";
         if (libraryId != 0) {
@@ -181,10 +186,11 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return collection with the desired locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollection(int collectionId) {
         List<LibraryCollection> list = getHibernateTemplate().find("from LibraryCollection collection "
                 + "join fetch collection.owner as owner "
-                + "where collection.locationId = " + collectionId);
+                + "where collection.locationId = ?", collectionId);
         if (list.isEmpty()) {
             return null;
         }
@@ -201,6 +207,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return collection with the given locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollectionToBeDeleted(int collectionId, Owner owner) {
         return this.getCollectionToBeDeleted(collectionId, 0, owner);
     }
@@ -216,6 +223,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return collection with the given locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollectionToBeDeleted(int collectionId, int libraryId, Owner owner) {
         String libCondition = "";
         if (libraryId != 0) {
@@ -248,14 +256,15 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @return list of collections that belong to the library with the
      * given locationId
      */
+    @Override
     public List<LibraryCollection> getCollectionsByLibraryId(int libraryId, Owner owner) {
         List<LibraryCollection> list = getHibernateTemplate().find(
                 "from LibraryCollection as collection "
                 + "join fetch collection.library as library "
                 + "join fetch library.owner as owner "
-                + "where owner.code like '" + owner.getCode() + "' "
-                + "and library.locationId = " + libraryId + " "
-                + "order by collection.name ASC");
+                + "where owner.code like ? "
+                + "and library.locationId = ? "
+                + "order by collection.name ASC", owner.getCode(), libraryId);
         return list;
     }
 
@@ -264,11 +273,12 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param owner the owner of the collections
      * @return list of collections owned by the given owner
      */
+    @Override
     public List<LibraryCollection> getCollections(Owner owner) {
         List<LibraryCollection> list = getHibernateTemplate().find(
                 "from LibraryCollection as collection "
-                + "where collection.owner.code like '" + owner.getCode() + "' "
-                + "order by collection.name ASC");
+                + "where collection.owner.code like ? "
+                + "order by collection.name ASC", owner.getCode());
         return list;
     }
 
@@ -278,9 +288,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * the shelf, so that the shelf can be edited.
      * @param shelfId locationId that is used for searching
      * @param owner the owner of the object
-     * @return helf with the desired locationId or null if matching shelf
+     * @return shelf with the desired locationId or null if matching shelf
      * is not found
      */
+    @Override
     public Shelf getShelf(int shelfId, Owner owner) {
         return this.getShelf(shelfId, 0, 0, owner);
     }
@@ -291,7 +302,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * the shelf, so that the shelf can be edited.
      * @param shelfId locationId that is used for searching
      * @param collectionId locationId of the collection
-     * @param libraryId locationId of the lirary
+     * @param libraryId locationId of the library
      * @param owner the owner of the object
      * @return shelf with the desired locationId or null if matching shelf
      * is not found
@@ -332,15 +343,16 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param owner the owner of the object
      * @return list of shelves that belong to the given collection
      */
+    @Override
     public List<Shelf> getShelvesByCollectionId(int collectionId, Owner owner) {
         List<Shelf> list = getHibernateTemplate().find(
                 "from Shelf as shelf "
                 + "join fetch shelf.collection as collection "
                 + "join fetch collection.library as library "
                 + "join fetch library.owner as owner "
-                + "where owner.code like '" + owner.getCode() + "' "
-                + "and collection.locationId = " + collectionId + " "
-                + "order by shelf.name ASC");
+                + "where owner.code like ? "
+                + "and collection.locationId = ? "
+                + "order by shelf.name ASC", owner.getCode(), collectionId);
         return list;
     }
 
@@ -352,16 +364,17 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param owner the owner of the object
      * @return list of shelves that belong to the given collection
      */
+    @Override
     public List<Shelf> getShelvesByCollectionId(int libraryId, int collectionId, Owner owner) {
         List<Shelf> list = getHibernateTemplate().find(
                 "from Shelf as shelf "
                 + "join fetch shelf.collection as collection "
                 + "join fetch collection.library as library "
                 + "join fetch library.owner as owner "
-                + "where owner.code like '" + owner.getCode() + "' "
-                + "and collection.locationId = " + collectionId + " "
-                + "and library.locationId = " + libraryId + " "
-                + "order by shelf.name ASC");
+                + "where owner.code like ? "
+                + "and collection.locationId = ? "
+                + "and library.locationId = ? "
+                + "order by shelf.name ASC", owner.getCode(), collectionId, libraryId);
         return list;
     }
 
@@ -374,6 +387,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param owner the owner of the object
      * @return shelf with the desired locationId
      */
+    @Override
     public Shelf getShelfToBeDeleted(int shelfId, Owner owner) {
         return this.getShelf(shelfId, owner);
     }
@@ -385,10 +399,11 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * be deleted.
      * @param shelfId locationId that is used for searching
      * @param collectionId locationId of the collection
-     * @param libraryId locationId of the lirary
+     * @param libraryId locationId of the library
      * @param owner the owner of the object
      * @return shelf with the desired locationId
      */
+    @Override
     public Shelf getShelfToBeDeleted(int shelfId, int collectionId, int libraryId, Owner owner) {
         return this.getShelf(shelfId, collectionId, libraryId, owner);
     }
@@ -399,17 +414,18 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param owner the owner of the object
      * @return the location with the desired id number
      */
+    @Override
     public Location getLocation(int locationId, Owner owner) {
         List<Location> result = null;
         try {
-            result = getHibernateTemplate().find("from Shelf as shelf where shelf.owner.code like '"
-                    + owner.getCode() + "' and shelf.locationId =?", locationId);
+            result = getHibernateTemplate().find("from Shelf as shelf where shelf.owner.code like ? "
+                    + "and shelf.locationId =?", owner.getCode(), locationId);
             if (result.isEmpty()) {
-                result = getHibernateTemplate().find("from LibraryCollection as collection where collection.owner.code like '"
-                        + owner.getCode() + "' and collection.locationId =?", locationId);
+                result = getHibernateTemplate().find("from LibraryCollection as collection where collection.owner.code like ? "
+                        + "and collection.locationId =?", owner.getCode(), locationId);
                 if (result.isEmpty()) {
-                    result = getHibernateTemplate().find("from Library as library where library.owner.code like '"
-                            + owner.getCode() + "' and library.locationId =?", locationId);
+                    result = getHibernateTemplate().find("from Library as library where library.owner.code like ? "
+                            + "and library.locationId =?", owner.getCode(), locationId);
                 }
             }
         } catch (Exception e) {
@@ -427,10 +443,11 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param owner the owner of the objects
      * @return all the libraries in the database
      */
+    @Override
     public List<Library> getAllLocations(Owner owner) {
         List result = getHibernateTemplate().find("from Library library "
-                + "join fetch library.owner as owner where owner.code like '"
-                + owner.getCode() + "' order by library.name ASC");
+                + "join fetch library.owner as owner where owner.code like ? "
+                + "order by library.name ASC", owner.getCode());
         return result;
     }
 
@@ -440,6 +457,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param location id of the location that the areas are related to
      * @return all the areas related to the given location
      */
+    @Override
     public List<Area> getAreasByLocationId(int locationId) {
         List<Area> result = getHibernateTemplate().find("from Area area "
                 + "where area.location.locationId =?", locationId);
@@ -449,9 +467,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Adds the given library object to the database.
      * @param library the library to be created
-     * @return true if and only if the library was succesfully created;
+     * @return true if and only if the library was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(Library library) {
         try {
             getHibernateTemplate().save(library);
@@ -465,9 +484,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Updates the given library object to the database.
      * @param library the library to be updated
-     * @return true if and only if the library was succesfully updated;
+     * @return true if and only if the library was successfully updated;
      * otherwise false
      */
+    @Override
     public boolean update(Library library) {
         try {
             getHibernateTemplate().update(library);
@@ -481,9 +501,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Adds the given collection object to the database.
      * @param collection the collection to be created
-     * @return true if and only if the collection was succesfully created;
+     * @return true if and only if the collection was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(LibraryCollection collection) {
         try {
             getHibernateTemplate().save(collection);
@@ -497,9 +518,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Updates the given collection object to the database.
      * @param collection the collection to be updated
-     * @return true if and only if the collection was succesfully updated;
+     * @return true if and only if the collection was successfully updated;
      * otherwise false
      */
+    @Override
     public boolean update(LibraryCollection collection) {
         try {
             getHibernateTemplate().update(collection);
@@ -513,9 +535,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Adds the given shelf object to the database.
      * @param shelf the shelf to be created
-     * @return true if and only if the shelf was succesfully created;
+     * @return true if and only if the shelf was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(Shelf shelf) {
         try {
             getHibernateTemplate().save(shelf);
@@ -529,9 +552,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Updates the given shelf object to the database.
      * @param shelf the shelf to be updated
-     * @return true if and only if the shelf was succesfully updated;
+     * @return true if and only if the shelf was successfully updated;
      * otherwise false
      */
+    @Override
     public boolean update(Shelf shelf) {
         try {
             getHibernateTemplate().update(shelf);
@@ -546,9 +570,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * Deletes the given library object from the database. All the collections and shelves
      * attached to the library will be deleted as well.
      * @param library the library to be deleted
-     * @return true if and only if the object was succesfully deleted;
+     * @return true if and only if the object was successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean delete(Library library) {
         try {
             getHibernateTemplate().delete(library);
@@ -563,9 +588,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * Deletes the given location object from the database. All the shelves
      * attached to the collection will be deleted as well.
      * @param collection the collection to be deleted
-     * @return true if and only if the object was succesfully deleted;
+     * @return true if and only if the object was successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean delete(LibraryCollection collection) {
         try {
             getHibernateTemplate().delete(collection);
@@ -579,9 +605,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Deletes the given shelf object from the database.
      * @param shelf the shelf to be deleted
-     * @return true if and only if the object was succesfully deleted;
+     * @return true if and only if the object was successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean delete(Shelf shelf) {
         try {
             getHibernateTemplate().delete(shelf);
@@ -596,9 +623,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * Deletes all the Description objects which id is included in the given
      * list.
      * @param ids list of Description ids to be deleted
-     * @return returns true if and only if the ids were succesfully deleted;
+     * @return returns true if and only if the ids were successfully deleted;
      * otherwise returns false
      */
+    @Override
     public boolean deleteDescriptions(List<Integer> ids) {
         try {
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -614,9 +642,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * Deletes all the Note objects which id is included in the given
      * list.
      * @param ids list of Note ids to be deleted
-     * @return returns true if and only if the ids were succesfully deleted;
+     * @return returns true if and only if the ids were successfully deleted;
      * otherwise returns false
      */
+    @Override
     public boolean deleteNotes(List<Integer> ids) {
         try {
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -632,9 +661,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * Deletes all the Area objects which id is included in the given
      * list.
      * @param ids list of Area ids to be deleted
-     * @return returns true if and only if the ids were succesfully deleted;
+     * @return returns true if and only if the ids were successfully deleted;
      * otherwise returns false
      */
+    @Override
     public boolean deleteAreas(List<Integer> ids) {
         try {
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -650,9 +680,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * Saves the given SearchIndex object to the database. Can be used 
      * to add and update indexes.
      * @param index the SearchIndex to be saved
-     * @return true if and only if the operation was succesfully completed;
+     * @return true if and only if the operation was successfully completed;
      * otherwise false
      */
+    @Override
     public boolean save(SearchIndex index) {
         try {
             getHibernateTemplate().saveOrUpdate(index);
@@ -669,9 +700,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param locationId id of the location
      * @return list of search indexes
      */
+    @Override
     public List<SearchIndex> findSearchIndexes(int locationId) {
-        List<SearchIndex> list = null;
-        list = getHibernateTemplate().find("from SearchIndex si where si.locationId =?", locationId);
+        List<SearchIndex> list = getHibernateTemplate().find("from SearchIndex si where si.locationId =?", locationId);
         return list;
     }
 
@@ -682,6 +713,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param locationId id of the library
      * @return list of collections
      */
+    @Override
     public List<LibraryCollection> getCollectionsForIndexUpdate(int locationId) {
         List<LibraryCollection> list = getHibernateTemplate().find(
                 "from LibraryCollection as collection "
@@ -702,6 +734,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param locationId id of the collection
      * @return list of shelves
      */
+    @Override
     public List<Shelf> getShelvesForIndexUpdate(int locationId) {
         List<Shelf> list = getHibernateTemplate().find(
                 "from Shelf as shelf "
@@ -713,9 +746,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Deletes all the SearchIndex entries.
-     * @return true if and only the search index was succesfully cleared;
+     * @return true if and only the search index was successfully cleared;
      * otherwise false
      */
+    @Override
     public boolean clearSearchIndex() {
         try {
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -732,6 +766,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * and shelves are loaded as well.
      * @return list of all the libraries in the database
      */
+    @Override
     public List<Library> getAllLibraries() {
         List<Library> list = getHibernateTemplate().find(
                 "select distinct lib from Library lib "
@@ -746,11 +781,12 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param owner owner of the object
      * @return all the libraries in the database
      */
+    @Override
     public List<Location> getAllLocationsWithDependecies(Owner owner) {
         List<Location> list = new ArrayList<Location>();
         List<Library> result = getHibernateTemplate().find(
                 "select distinct lib from Library lib "
-                + "where lib.owner.code = '" + owner.getCode() + "'");
+                + "where lib.owner.code = ?", owner.getCode());
         for (Library lib : result) {
             list.add(lib);
             for (LibraryCollection col : lib.getCollections()) {
@@ -769,6 +805,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param collectionId id of the collection
      * @return id of the library or zero if no library is found
      */
+    @Override
     public int getLibraryId(int collectionId) {
         List<Integer> list = getHibernateTemplate().find(
                 "select col.library.locationId from LibraryCollection col "
@@ -785,6 +822,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param shelfId id of the shelf
      * @return id of the collection or zero if no library is found
      */
+    @Override
     public int getCollectionId(int shelfId) {
         List<Integer> list = getHibernateTemplate().find(
                 "select shelf.collection.locationId from Shelf shelf "
@@ -800,6 +838,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param location Location that owns the Areas
      * @return list of Area ids that belong to the given Location
      */
+    @Override
     public List<Integer> getAreaIds(Location location) {
         List<Integer> list = getHibernateTemplate().find(
                 "select areaId from Area "
@@ -812,6 +851,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param location Location that owns the Descriptions
      * @return list of Description ids that belong to the given Location
      */
+    @Override
     public List<Integer> getDescriptionIds(Location location) {
         String type = "Library";
         if (location instanceof LibraryCollection) {
@@ -830,6 +870,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * @param location Location that owns the Notes
      * @return list of Note ids that belong to the given Location
      */
+    @Override
     public List<Integer> getNoteIds(Location location) {
         String type = "Library";
         if (location instanceof LibraryCollection) {

@@ -55,11 +55,12 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
 
     /**
      * Saves the given search event to the database. Returns true if and
-     * only the the search event was succesfully added, otherwise false.
+     * only the the search event was successfully added, otherwise false.
      * @param event search event to be saved
-     * @return true if and only if the event was succesfully added;
+     * @return true if and only if the event was successfully added;
      * otherwise false
      */
+    @Override
     public boolean save(SearchEvent event) {
         try {
             getHibernateTemplate().save(event);
@@ -77,6 +78,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return the libraries with the desired call number
      */
+    @Override
     public List getLibrary(String callno, String owner) {
         List list = getHibernateTemplate().find(
                 "from Library as library where library.owner.code = ? "
@@ -89,6 +91,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return libraries that are related to the given owner
      */
+    @Override
     public List getLibraries(String owner) {
         List list = getHibernateTemplate().find(
                 "from Library as library where library.owner.code = ?", owner);
@@ -101,6 +104,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return search index entries that are related to the given owner
      */
+    @Override
     public List<SearchIndex> getLibrariesFromIndex(String owner) {
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationType = '"
@@ -115,6 +119,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param id location id to be searched
      * @return library matching the given location id
      */
+    @Override
     public Library getLibrary(int id) {
         List<Library> list = getHibernateTemplate().find(
                 "from Library as lib "
@@ -140,6 +145,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * the libraries are loaded
      * @return libraries matching the given ids
      */
+    @Override
     public List<Library> getLibraries(List<Integer> ids, boolean children) {
         List<Library> result = getHibernateTemplate().find(
                 "select distinct lib from Library as lib "
@@ -179,6 +185,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return the collections with the desired call number
      */
+    @Override
     public List getCollection(String callno, String owner) {
         List list = getHibernateTemplate().find(
                 "from LibraryCollection as collection where "
@@ -192,6 +199,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return the collections related to the given owner
      */
+    @Override
     public List getCollections(String owner) {
         List list = getHibernateTemplate().find(
                 "from LibraryCollection as collection where "
@@ -205,6 +213,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return search index entries that are related to the given owner
      */
+    @Override
     public List<SearchIndex> getCollectionsFromIndex(String owner) {
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationType = '"
@@ -220,6 +229,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner the owner of the object
      * @return the collection with the desired locationId
      */
+    @Override
     public List<Location> getCollectionsByLibraryId(int id, String owner) {
         List<Location> list = getHibernateTemplate().find(
                 "from LibraryCollection as collection where "
@@ -234,6 +244,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param id location id to be searched
      * @return collection matching the given location id
      */
+    @Override
     public LibraryCollection getCollection(int id) {
         List<LibraryCollection> list = getHibernateTemplate().find(
                 "from LibraryCollection as loc "
@@ -265,6 +276,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * are loaded
      * @return collections matching the given ids
      */
+    @Override
     public List<LibraryCollection> getCollections(List<Integer> ids, boolean children) {
         List<LibraryCollection> list = getHibernateTemplate().find(
                 "select distinct loc from LibraryCollection as loc "
@@ -298,6 +310,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return shelves with the desired call number
      */
+    @Override
     public List getShelf(String callno, String owner) {
         List list = getHibernateTemplate().find(
                 "from Shelf as shelf where shelf.owner.code = ? "
@@ -310,6 +323,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return shelves that are related to the given owner
      */
+    @Override
     public List getShelves(String owner) {
         List list = getHibernateTemplate().find(
                 "from Shelf as shelf where shelf.owner.code = ?", owner);
@@ -322,6 +336,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return search index entries that are related to the given owner
      */
+    @Override
     public List<SearchIndex> getShelvesFromIndex(String owner) {
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationType = '"
@@ -337,6 +352,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner the owner of the object
      * @return the shelf with the desired locationId
      */
+    @Override
     public List<Location> getShelvesByCollectionId(int id, String owner) {
         List<Location> list = getHibernateTemplate().find(
                 "from Shelf as shelf "
@@ -347,11 +363,12 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns the shelf which location id mathes the given id. All
+     * Returns the shelf which location id matches the given id. All
      * the lazy relationships are loaded.
      * @param id location id to be searched
      * @return shelf matching the given location id
      */
+    @Override
     public Shelf getShelf(int id) {
         List<Shelf> list = getHibernateTemplate().find(
                 "from Shelf as loc "
@@ -386,6 +403,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param ids list of ids
      * @return shelves matching the given ids
      */
+    @Override
     public List<Shelf> getShelves(List<Integer> ids) {
         List<Shelf> list = getHibernateTemplate().find(
                 "select distinct loc from Shelf as loc "
@@ -410,6 +428,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the object
      * @return the location with the desired id number
      */
+    @Override
     public Location getLocation(int locationId, String owner) {
         List<Location> result = null;
         try {
@@ -430,11 +449,12 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of collections which shelves' location code is a substring placed
+     * Returns a list of collections which shelves location code is a substring placed
      * in the beginning of a string.
      * @param owner owner of the location
      * @return list of locations matching the condition
      */
+    @Override
     public List<Location> getSubstringLocations(String owner) {
         List<Location> result = getHibernateTemplate().find("from LibraryCollection c "
                 + "where c.isSubstring = true and c.owner.code = ?", owner);
@@ -442,12 +462,13 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of collections which shelves' location code is a substring placed
+     * Returns a list of collections which shelves location code is a substring placed
      * in the beginning of a string.
      * @param owner owner of the location
      * @param collectionCode collection code of the location
      * @return list of locations matching the condition
      */
+    @Override
     public List<Location> getSubstringLocations(String owner, String collectionCode) {
         List<Location> result = getHibernateTemplate().find("from LibraryCollection c "
                 + "where c.isSubstring = true and c.owner.code = ? and "
@@ -462,6 +483,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param collectionCode collection code of the collection in which the shelf belongs
      * @return list of shelves matching the condition
      */
+    @Override
     public List<Location> getShelvesByCollectionCode(String owner, String collectionCode) {
         List<Location> result = getHibernateTemplate().find("from Shelf s "
                 + "where s.collection.collectionCode = ? "
@@ -474,8 +496,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * with the given code doesn't exist, null is returned.
      * @param owner owner of the location
      * @param collectionCode collection code of the collection to be searched
-     * @return collection mathing the given code or null
+     * @return collection matching the given code or null
      */
+    @Override
     public LibraryCollection getCollectionByCollectionCode(String owner, String collectionCode) {
         List<LibraryCollection> result = getHibernateTemplate().find("from LibraryCollection c "
                 + "left join fetch c.image "
@@ -500,10 +523,11 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
 
     /**
      * Returns a list of all the libraries in the database that are related to
-     * the given owner. All the lazy realtionships are loaded.
+     * the given owner. All the lazy relationships are loaded.
      * @param owner owner of the object
      * @return all the libraries in the database
      */
+    @Override
     public List<Library> getAllLocations(String owner) {
         List<Library> result = getHibernateTemplate().find(
                 "select distinct lib from Library lib "
@@ -539,6 +563,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param code the code that is used for searching
      * @return the owner with the given code
      */
+    @Override
     public Owner getOwnerByCode(String code) {
         List<Owner> list = getHibernateTemplate().find(
                 "from Owner owner where owner.code = ?", code);
@@ -555,6 +580,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @return locating strategy defined for the given owner or null, if
      * no strategy is found
      */
+    @Override
     public LocatingStrategy getLocatingStrategy(String owner) {
         List<LocatingStrategy> strategies = getHibernateTemplate().find(
                 "select locatingStrategy from Owner where code = ?", owner);
@@ -570,6 +596,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the not found redirects
      * @return list of not found redirects related to the given owner
      */
+    @Override
     public List<CallnoModification> getNotFoundRedirects(String owner) {
         List<CallnoModification> list = getHibernateTemplate().find(
                 "from NotFoundRedirect redirect "
@@ -584,6 +611,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the preprocessing redirects
      * @return list of preprocessing redirects related to the given owner
      */
+    @Override
     public List<CallnoModification> getPreprocessingRedirects(String owner) {
         List<CallnoModification> list = getHibernateTemplate().find(
                 "from PreprocessingRedirect redirect "
@@ -610,6 +638,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * @param owner owner of the Location object
      * @return index entry or null
      */
+    @Override
     public SearchIndex getIndexEntry(int locationId, String owner) {
         List<SearchIndex> list = getHibernateTemplate().find(
                 "from SearchIndex si where si.locationId = ?"
@@ -642,6 +671,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      * query succeeds the connection is OK, otherwise there's a problem.
      * @return true if and only if the connection works; otherwise false
      */
+    @Override
     public boolean testDbConnection() {
         try {
             getHibernateTemplate().find("select count(*) from Library");
