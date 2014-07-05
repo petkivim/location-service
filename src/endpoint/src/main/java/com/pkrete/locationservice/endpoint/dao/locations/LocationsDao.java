@@ -147,12 +147,12 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      */
     @Override
     public List<Library> getLibraries(List<Integer> ids, boolean children) {
-        List<Library> result = getHibernateTemplate().find(
+        List<Library> result = getHibernateTemplate().findByNamedParam(
                 "select distinct lib from Library as lib "
                 + "left join fetch lib.image "
                 + "left join fetch lib.map "
                 + "left join fetch lib.areas "
-                + "where lib.locationId in (" + intListToString(ids) + ")");
+                + "where lib.locationId in (:ids) ", "ids", ids);
         for (Library lib : result) {
             Hibernate.initialize(lib.getNotes());
             Hibernate.initialize(lib.getDescriptions());
@@ -278,12 +278,12 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      */
     @Override
     public List<LibraryCollection> getCollections(List<Integer> ids, boolean children) {
-        List<LibraryCollection> list = getHibernateTemplate().find(
+        List<LibraryCollection> list = getHibernateTemplate().findByNamedParam(
                 "select distinct loc from LibraryCollection as loc "
                 + "left join fetch loc.image "
                 + "left join fetch loc.map "
                 + "left join fetch loc.areas "
-                + "where loc.locationId in (" + intListToString(ids) + ")");
+                + "where loc.locationId in (:ids) ", "ids", ids);
         for (LibraryCollection col : list) {
             Hibernate.initialize(col.getNotes());
             Hibernate.initialize(col.getDescriptions());
@@ -405,12 +405,12 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
      */
     @Override
     public List<Shelf> getShelves(List<Integer> ids) {
-        List<Shelf> list = getHibernateTemplate().find(
+        List<Shelf> list = getHibernateTemplate().findByNamedParam(
                 "select distinct loc from Shelf as loc "
                 + "left join fetch loc.image "
                 + "left join fetch loc.map "
                 + "left join fetch loc.areas "
-                + "where loc.locationId in (" + intListToString(ids) + ")");
+                + "where loc.locationId in (:ids)", "ids", ids);
         for (Shelf shelf : list) {
             Hibernate.initialize(shelf.getNotes());
             Hibernate.initialize(shelf.getDescriptions());
@@ -621,17 +621,6 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Escapes all the single-quotes found from the given string.
-     * String literals are enclosed in single-quotes. To escape a 
-     * single-quote within a string literal, use double single-quotes.
-     * @param value string to be checked
-     * @return string with all the single quotes escaped
-     */
-    private String escapeSingleQuote(String value) {
-        return value.replaceAll("'", "''");
-    }
-
-    /**
      * Returns the index entry matching the given location id and owner code. If
      * no matching entry or more than one entries are found, null is returned.
      * @param locationId location id of the Location object
@@ -647,23 +636,6 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
             return null;
         }
         return list.get(0);
-    }
-
-    /**
-     * Converts the given integer list to a comma separated string containing
-     * all the numbers in the list.
-     * @param list list of integers
-     * @return comma separated string containing all the integers
-     */
-    private String intListToString(List<Integer> list) {
-        StringBuilder builder = new StringBuilder();
-        for (Integer id : list) {
-            if (builder.length() > 0) {
-                builder.append(",");
-            }
-            builder.append(id);
-        }
-        return builder.toString();
     }
 
     /**
