@@ -73,7 +73,7 @@ rm solr.war
 
 #### Location Service Endpoint
 
-* Download endpoint-3.0.0-RELEASE.war file.
+* Download the latest endpoint-x.x.x-RELEASE.war file.
 
 * Rename the file to endpoint.war.
 
@@ -115,7 +115,7 @@ chmod -R 770 tomcat.home/webapps/endpoint/owners/
 
 #### Location Service Admin
 
-* Download admin-3.0.0-RELEASE.war file.
+* Download the latest admin-x.x.x-RELEASE.war file.
 
 * Rename the file to admin.war.
 
