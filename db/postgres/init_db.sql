@@ -13,20 +13,20 @@ SET escape_string_warning = off;
 -- Name: location_service; Type: DATABASE; Schema: -; Owner: -
 --
 
-REVOKE ALL PRIVILEGES ON DATABASE location_service FROM location_service_login;
-REVOKE ALL PRIVILEGES ON SCHEMA public FROM location_service_login;
+REVOKE ALL PRIVILEGES ON DATABASE location_service FROM loc_ser_login;
+REVOKE ALL PRIVILEGES ON SCHEMA public FROM loc_ser_login;
 
-REVOKE ALL PRIVILEGES ON DATABASE location_service FROM location_service_admin;
-REVOKE ALL PRIVILEGES ON SCHEMA public FROM location_service_admin;
+REVOKE ALL PRIVILEGES ON DATABASE location_service FROM loc_ser_admin;
+REVOKE ALL PRIVILEGES ON SCHEMA public FROM loc_ser_admin;
 
-REVOKE ALL PRIVILEGES ON DATABASE location_service FROM location_service;
-REVOKE ALL PRIVILEGES ON SCHEMA public FROM location_service;
+REVOKE ALL PRIVILEGES ON DATABASE location_service FROM loc_ser;
+REVOKE ALL PRIVILEGES ON SCHEMA public FROM loc_ser;
 
 DROP DATABASE IF EXISTS location_service;
 
-DROP role IF EXISTS location_service_login;
-DROP role IF EXISTS location_service_admin;
-DROP role IF EXISTS location_service;
+DROP role IF EXISTS loc_ser_login;
+DROP role IF EXISTS loc_ser_admin;
+DROP role IF EXISTS loc_ser;
 
 CREATE DATABASE location_service WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'fi_FI.utf8' LC_CTYPE = 'fi_FI.utf8';
 
@@ -1036,17 +1036,17 @@ ALTER TABLE ONLY search_index
 -- PostgreSQL database dump complete
 --
 
-CREATE USER location_service_login WITH password 'location_service_login';
-CREATE USER location_service_admin WITH password 'location_service_admin';
-CREATE USER location_service WITH password 'location_service';
+CREATE USER loc_ser_login WITH password 'location_service_login';
+CREATE USER loc_ser_admin WITH password 'location_service_admin';
+CREATE USER loc_ser WITH password 'location_service';
 
-GRANT ALL PRIVILEGES ON DATABASE location_service to location_service_admin;
+GRANT ALL PRIVILEGES ON DATABASE location_service to loc_ser_admin;
 
-GRANT CONNECT ON DATABASE location_service to location_service;
-GRANT USAGE ON SCHEMA public TO location_service;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO location_service;
-GRANT INSERT ON search_event TO location_service;
+GRANT CONNECT ON DATABASE location_service to loc_ser;
+GRANT USAGE ON SCHEMA public TO loc_ser;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO loc_ser;
+GRANT INSERT ON search_event TO loc_ser;
 
-GRANT CONNECT ON DATABASE location_service to location_service_login;
-GRANT USAGE ON SCHEMA public TO location_service_login;
-GRANT SELECT ON my_user, user_info TO location_service_login;
+GRANT CONNECT ON DATABASE location_service to loc_ser_login;
+GRANT USAGE ON SCHEMA public TO loc_ser_login;
+GRANT SELECT ON my_user, user_info TO loc_ser_login;

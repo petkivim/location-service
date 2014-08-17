@@ -1,12 +1,12 @@
 #### PostgreSQL Database
 
-init_db.sql file generates the 'location_service' database, database users (location_service_login, location_service_admin, location_service) and creates admin user for the Loacation Service Admin application. 
+init_db.sql file generates the 'location_service' database, database users (loc_ser_login, loc_ser_admin, loc_ser) and creates admin user for the Location Service Admin application. 
 
 Default passwords for the database users are listed below.
 
-* username: _location_service_login_, password: _location_service_login_
-* username: _location_service_admin_, password: _location_service_admin_
-* username: _location_service_, password: _location_service_
+* username: _loc_ser_login_, password: _location_service_login_
+* username: _loc_ser_admin_, password: _location_service_admin_
+* username: _loc_ser_, password: _location_service_
 
 ##### Before database creation
 
