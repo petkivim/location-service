@@ -15,20 +15,20 @@ SET escape_string_warning = off;
 
 REVOKE ALL PRIVILEGES ON DATABASE location_service FROM location_service_login;
 REVOKE ALL PRIVILEGES ON SCHEMA public FROM location_service_login;
-DROP role IF EXISTS location_service_login;
 
 REVOKE ALL PRIVILEGES ON DATABASE location_service FROM location_service_admin;
 REVOKE ALL PRIVILEGES ON SCHEMA public FROM location_service_admin;
-DROP role IF EXISTS location_service_admin;
 
 REVOKE ALL PRIVILEGES ON DATABASE location_service FROM location_service;
 REVOKE ALL PRIVILEGES ON SCHEMA public FROM location_service;
-DROP role IF EXISTS location_service;
 
 DROP DATABASE IF EXISTS location_service;
 
-CREATE DATABASE location_service WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'fi_FI.utf8' LC_CTYPE = 'fi_FI.utf8';
+DROP role IF EXISTS location_service_login;
+DROP role IF EXISTS location_service_admin;
+DROP role IF EXISTS location_service;
 
+CREATE DATABASE location_service WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'fi_FI.utf8' LC_CTYPE = 'fi_FI.utf8';
 
 \connect location_service
 
@@ -1045,6 +1045,7 @@ GRANT ALL PRIVILEGES ON DATABASE location_service to location_service_admin;
 GRANT CONNECT ON DATABASE location_service to location_service;
 GRANT USAGE ON SCHEMA public TO location_service;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO location_service;
+GRANT INSERT ON search_event TO location_service;
 
 GRANT CONNECT ON DATABASE location_service to location_service_login;
 GRANT USAGE ON SCHEMA public TO location_service_login;
