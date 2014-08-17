@@ -23,10 +23,16 @@ How to install Solr, Location Service Endpoint and Location Service Admin on sin
 
 * Download [init_db.sql](https://github.com/petkivim/location-service/raw/master/db/mysql/init_db.sql) file that generates the 'location_service' database and creates admin user.
 
-* Import the downloaded SQL file in the database.
+* Import the downloaded SQL file in the database. ([MySQL](https://github.com/petkivim/location-service/tree/master/db/mysql), [Postgres](https://github.com/petkivim/location-service/tree/master/db/postgres))
 
 ```
 mysql -u root -p < init_db.sql
+```
+
+* Create the default database users, or alternatively create your own users and set their privileges. ([MySQL](https://github.com/petkivim/location-service/tree/master/db/mysql), [Postgres](https://github.com/petkivim/location-service/tree/master/db/postgres))
+
+```
+mysql -u root -p < create_db_users.sql
 ```
 
 #### Solr
