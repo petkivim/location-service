@@ -8,8 +8,8 @@
         maxWait="10000"
         driverClassName="com.mysql.jdbc.Driver" 
         url="jdbc:mysql://localhost/location_service"  
-        username="[username]"
-        password="[password]"
+        username="loc_ser_login"
+        password="location_service_login"
     />
     
     <!-- Use the LockOutRealm to prevent attempts to guess user passwords
