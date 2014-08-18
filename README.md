@@ -99,7 +99,7 @@ rm endpoint.war
 ```
 
 * Update config.properties configuration file. The following properties must be updated: ```service.webPath```, ```db.user```, ```db.password```, ```db.jdbcUrl```, ```mail.host```, ```mail.port```, ```mail.user```, ```mail.password```.
-  * *NB!* If you're using the default database users (loc_ser_login, loc_ser_admin, loc_ser) created by the ```create_db_users.sql```script, there's no need to update ```db.user``` and ```db.password``` properties.
+  * **NB!** If you're using the default database users (loc_ser_login, loc_ser_admin, loc_ser) created by the ```create_db_users.sql```script, there's no need to update ```db.user``` and ```db.password``` properties.
 
 ```
 tomcat.home/webapps/endpoint/WEB-INF/classes/config.properties
@@ -142,7 +142,7 @@ rm admin.war
 ```
 
 * Update config.properties configuration file. The following properties must be updated: ```service.webPath```, ```db.user```, ```db.password```, ```db.jdbcUrl```, ```mail.host```, ```mail.port```, ```mail.user```, ```mail.password```.
-  * *NB!* If you're using the default database users (loc_ser_login, loc_ser_admin, loc_ser) created by the ```create_db_users.sql```script, there's no need to update ```db.user``` and ```db.password``` properties.
+  * **NB!** If you're using the default database users (loc_ser_login, loc_ser_admin, loc_ser) created by the ```create_db_users.sql```script, there's no need to update ```db.user``` and ```db.password``` properties.
 
 ```
 tomcat.home/webapps/admin/WEB-INF/classes/config.properties
