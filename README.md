@@ -108,6 +108,7 @@ tomcat.home/webapps/endpoint/WEB-INF/classes/config.properties
 * By default tha application can be accessed at http://localhost:8080/endpoint. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
 
 * If you want to use your GMail account for sending email, please use the following configuration.
+  * **NB!** Configuring email account is not mandatory, you can run the application without it. 
 
 ```
 mail.host=smtp.gmail.com
@@ -151,6 +152,7 @@ tomcat.home/webapps/admin/WEB-INF/classes/config.properties
 * By default tha application can be accessed at http://localhost:8080/admin. For a server install the URL (service.webPath property) needs to be updated from http://localhost:8080/ to an address that will be accessible publicly.
 
 * If you want to use your GMail account for sending email, please use the following configuration.
+  * **NB!** Configuring email account is not mandatory, you can run the application without it. 
 
 ```
 mail.host=smtp.gmail.com
