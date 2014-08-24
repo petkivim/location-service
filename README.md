@@ -102,6 +102,8 @@ rm endpoint.war
 
   * **NB!** If you're using the default database users (loc_ser_login, loc_ser_admin, loc_ser) created by the ```create_db_users.sql```script, there's no need to update ```db.user``` and ```db.password``` properties.
 
+  * **NB!** If you're using Postgres database, ```db.driverClass``` property must be set to ```org.postgresql.Driver```,  ```db.jdbcUrl``` property to ```jdbc:postgresql://localhost/location_service``` and ```db.dialect``` property to ```org.hibernate.dialect.PostgreSQLDialect```.
+
 ```
 tomcat.home/webapps/endpoint/WEB-INF/classes/config.properties
 ```
@@ -147,6 +149,8 @@ rm admin.war
 
   * **NB!** If you're using the default database users (loc_ser_login, loc_ser_admin, loc_ser) created by the ```create_db_users.sql```script, there's no need to update ```db.user``` and ```db.password``` properties.
 
+  * **NB!** If you're using Postgres database, ```db.driverClass``` property must be set to ```org.postgresql.Driver```,  ```db.jdbcUrl``` property to ```jdbc:postgresql://localhost/location_service``` and ```db.dialect``` property to ```org.hibernate.dialect.PostgreSQLDialect```.
+
 ```
 tomcat.home/webapps/admin/WEB-INF/classes/config.properties
 ```
@@ -167,6 +171,8 @@ mail.password=[password]
 
 * Update webapps/admin/META-INF/context.xml configuration file. "jdbc/mysql" resource's "username", "password" and "url" attributes must be updated. They should contain username, password and connection url for the database connection.
 
+  * **NB!** If you're using Postgres database, ```driverClassName``` attribute must be set to ```org.postgresql.Driver``` and ```url``` attribute to ```jdbc:postgresql://localhost/location_service```.
+  
 ```
 <Resource name="jdbc/mysql" 
   auth="Container" 
