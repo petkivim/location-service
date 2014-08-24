@@ -2,9 +2,9 @@ CREATE USER loc_ser_login WITH password 'location_service_login';
 CREATE USER loc_ser_admin WITH password 'location_service_admin';
 CREATE USER loc_ser WITH password 'location_service';
 
-GRANT ALL PRIVILEGES ON DATABASE location_service to loc_ser_admin;
-
 \connect location_service
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to loc_ser_admin;
 
 GRANT CONNECT ON DATABASE location_service to loc_ser;
 GRANT USAGE ON SCHEMA public TO loc_ser;
