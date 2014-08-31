@@ -68,7 +68,7 @@
     </bean>
 
     <!-- Session factory object -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="mappingResources">
             <list>
@@ -95,7 +95,7 @@
     </bean>
 
     <!-- Transaction manager object -->
-    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
@@ -144,23 +144,23 @@
     </aop:config>
 
     <!-- Execution of timer based tasks -->
-    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
-        <property name="scheduledTimerTasks">
+    <bean id="timerFactory" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">
+        <property name="scheduledExecutorTasks">
             <list>
                 <ref bean="scheduledTask" />
             </list>
         </property>
-        <property name="daemon" value="true" />
+        <!--<property name="daemon" value="true" />-->
     </bean>
 
     <!-- Task is executed once at startup, but it'll actually keep on running -->
     <!-- all the time, as it's based on blocking method calls -->
-    <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    <bean id="scheduledTask" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
         <!-- wait 10 seconds before starting repeated execution -->
         <property name="delay" value="10000" />
-        <!-- Value 0 means that the task runs only once -->
-        <property name="period" value="0" />
-        <property name="timerTask" ref="statisticsProcessor" />
+        <!-- Value -1 means that the task runs only once -->
+        <property name="period" value="-1" />
+        <property name="runnable" ref="statisticsProcessor" />
     </bean>
 
      <!-- Saves all the search events in the SearchEventStatisticsQueue in the db.  -->

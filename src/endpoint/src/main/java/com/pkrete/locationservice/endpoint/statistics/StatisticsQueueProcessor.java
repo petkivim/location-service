@@ -22,7 +22,6 @@ import com.pkrete.locationservice.endpoint.mailer.EmailService;
 import com.pkrete.locationservice.endpoint.service.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
 import org.apache.log4j.Logger;
 
 /**
@@ -38,7 +37,7 @@ import org.apache.log4j.Logger;
  * 
  * @author Petteri Kivimäki
  */
-public class StatisticsQueueProcessor extends TimerTask {
+public class StatisticsQueueProcessor implements Runnable {
 
     private final static Logger logger = Logger.getLogger(StatisticsQueueProcessor.class.getName());
     private SearchEventStatisticsQueue queue;
@@ -94,6 +93,7 @@ public class StatisticsQueueProcessor extends TimerTask {
      * Monitors the search event statistics queue and saves event to the db
      * when one becomes available.
      */
+    @Override
     public void run() {
         logger.info("StatisticsQueueProcessor started. Failed attempts max limit set to " + this.failedAttemptsMaxLimit + ".");
         SearchEvent event;
@@ -134,7 +134,7 @@ public class StatisticsQueueProcessor extends TimerTask {
                     // Replace the old queue with the new one
                     this.recoveryQueue = newQueue;
                     logger.info("Handling recovery queue done. Current recovery queue size : " + this.recoveryQueue.size());
-                    
+
                     // If failedAttemptsMaxLimit has been reached, admin has been notified about the problem.
                     // Notify admin about the recovery.
                     if (this.failedAttemptsCount >= this.failedAttemptsMaxLimit) {
