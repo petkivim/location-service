@@ -39,7 +39,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  * @author Petteri Kivimäki
  */
 public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
-    
+
     /**
      * Returns the image with given id.
      * @param id the id that is used for searching
@@ -48,9 +48,9 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      */
     @Override
     public Image get(int id) {
-        List<Image> list = getHibernateTemplate().find(
+        List<Image> list = (List<Image>) getHibernateTemplate().findByNamedParam(
                 "from Image image "
-                + "where image.id=?", id);
+                + "where image.id= :id", "id", id);
         if (list.isEmpty()) {
             return null;
         }
@@ -66,11 +66,11 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      */
     @Override
     public Image get(int id, Owner owner) {
-        List<Image> list = getHibernateTemplate().find(
+        List<Image> list = (List<Image>) getHibernateTemplate().findByNamedParam(
                 "from Image as image "
                 + "join fetch image.owner as owner "
-                + "where owner.code like ? "
-                + "and image.id=?", owner.getCode(), id);
+                + "where owner.code like :owner "
+                + "and image.id= :id", new String[]{"owner", "id"}, new Object[]{owner.getCode(), id});
         if (list.isEmpty()) {
             return null;
         }
@@ -100,10 +100,10 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      */
     @Override
     public List<Image> get(Owner owner) {
-        List result = getHibernateTemplate().find("from Image image "
+        List result = getHibernateTemplate().findByNamedParam("from Image image "
                 + "join fetch image.owner as owner "
-                + "where owner.code like ? "
-                + "order by image.description ASC", owner.getCode());
+                + "where owner.code like :owner "
+                + "order by image.description ASC", "owner", owner.getCode());
         return result;
     }
 
@@ -145,18 +145,18 @@ public class ImagesDaoImpl extends HibernateDaoSupport implements ImagesDao {
      */
     @Override
     public boolean canBeDeleted(int imageId) {
-        List<Location> result = null;
+        List result = null;
 
-        result = getHibernateTemplate().find("from Shelf as shelf where shelf.image.id =?", imageId);
+        result = getHibernateTemplate().findByNamedParam("from Shelf as shelf where shelf.image.id = :id", "id", imageId);
         if (!result.isEmpty()) {
             return false;
         }
 
-        result = getHibernateTemplate().find("from LibraryCollection as collection where collection.image.id =?", imageId);
+        result = getHibernateTemplate().findByNamedParam("from LibraryCollection as collection where collection.image.id = :id", "id", imageId);
         if (!result.isEmpty()) {
             return false;
         }
-        result = getHibernateTemplate().find("from Library as library where library.image.id =?", imageId);
+        result = getHibernateTemplate().findByNamedParam("from Library as library where library.image.id = :id", "id", imageId);
         if (!result.isEmpty()) {
             return false;
         }

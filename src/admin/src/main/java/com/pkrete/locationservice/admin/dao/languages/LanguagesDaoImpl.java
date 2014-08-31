@@ -59,10 +59,10 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      */
     @Override
     public List<Language> getLanguages(Owner owner) {
-        List result = getHibernateTemplate().find("from Language language "
+        List result = getHibernateTemplate().findByNamedParam("from Language language "
                 + "join fetch language.owner as owner where "
-                + "owner.code like ? "
-                + "order by owner.name, language.name ASC", owner.getCode());
+                + "owner.code like :owner "
+                + "order by owner.name, language.name ASC", "owner", owner.getCode());
         return result;
     }
 
@@ -76,10 +76,10 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      */
     @Override
     public Language getLanguageById(int id) {
-        List<Language> list = getHibernateTemplate().find(
+        List<Language> list = (List<Language>) getHibernateTemplate().findByNamedParam(
                 "from Language language "
                 + "join fetch language.owner "
-                + "where language.id=?", id);
+                + "where language.id=:id", "id", id);
         if (list.isEmpty()) {
             return null;
         }
@@ -95,10 +95,10 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      */
     @Override
     public Language getLanguage(String code, Owner owner) {
-        List<Language> result = getHibernateTemplate().find("from Language language "
+        List<Language> result = (List<Language>) getHibernateTemplate().findByNamedParam("from Language language "
                 + "join fetch language.owner as owner "
-                + "where owner.code like ? and "
-                + "language.code = ?", owner.getCode(), code);
+                + "where owner.code like :owner and "
+                + "language.code = :code", new String[]{"owner", "code"}, new Object[]{owner.getCode(), code});
         if (result.isEmpty()) {
             return null;
         }
@@ -114,11 +114,11 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
      */
     @Override
     public Language getLanguageById(int id, Owner owner) {
-        List<Language> list = getHibernateTemplate().find(
+        List<Language> list = (List<Language>) getHibernateTemplate().findByNamedParam(
                 "from Language language "
                 + "join fetch language.owner as owner "
-                + "where owner.code like ? "
-                + "and language.id=?", owner.getCode(), id);
+                + "where owner.code like :owner "
+                + "and language.id=:id", new String[]{"owner", "id"}, new Object[]{owner.getCode(), id});
         if (list.isEmpty()) {
             return null;
         }
@@ -176,11 +176,11 @@ public class LanguagesDaoImpl extends HibernateDaoSupport implements LanguagesDa
     @Override
     public boolean canBeDeleted(Language lang) {
         List<SubjectMatter> list = null;
-        list = getHibernateTemplate().find("from SubjectMatter as subjectMatter where subjectMatter.language.id =?", lang.getId());
+        list = (List<SubjectMatter>) getHibernateTemplate().findByNamedParam("from SubjectMatter as subjectMatter where subjectMatter.language.id = :id", "id", lang.getId());
         if (!list.isEmpty()) {
             return false;
         }
-        list = getHibernateTemplate().find("from Description as description where description.language.id =?", lang.getId());
+        list = (List<SubjectMatter>) getHibernateTemplate().findByNamedParam("from Description as description where description.language.id =:id", "id", lang.getId());
         if (!list.isEmpty()) {
             return false;
         }

@@ -52,9 +52,9 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public User getUser(String username) {
-        List<User> list = getHibernateTemplate().find(
+        List<User> list = (List<User>) getHibernateTemplate().findByNamedParam(
                 "from UserFull user join fetch user.owner owner left join fetch "
-                + "owner.languages where user.username= ?", username);
+                + "owner.languages where user.username = :username", "username", username);
         if (list.isEmpty()) {
             return null;
         }
@@ -67,7 +67,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public List<User> getUsers() {
-        List<User> list = getHibernateTemplate().find(
+        List<User> list = (List<User>) getHibernateTemplate().find(
                 "from UserFull user order by user.username ASC");
         return list;
     }
@@ -80,12 +80,12 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public List<User> getUsers(Owner owner, UserGroup group) {
-        List<User> list = getHibernateTemplate().find(
+        List<User> list = (List<User>) getHibernateTemplate().findByNamedParam(
                 "from UserFull user "
-                + "where user.owner.id=? "
+                + "where user.owner.id=:id "
                 + "and user.username in "
-                + "(select info.user.username from UserInfo info where info.group  = ?) "
-                + "order by user.username ASC", owner.getId(), group);
+                + "(select info.user.username from UserInfo info where info.group  = :group) "
+                + "order by user.username ASC", new String[]{"id", "group"}, new Object[]{owner.getId(), group});
         return list;
     }
 
@@ -97,8 +97,8 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public UserFull getFullUser(String username) {
-        List<UserFull> list = getHibernateTemplate().find(
-                "from UserFull user where user.username= ?", username);
+        List<UserFull> list = (List<UserFull>) getHibernateTemplate().findByNamedParam(
+                "from UserFull user where user.username = :username", "username", username);
         if (list.isEmpty()) {
             return null;
         }
@@ -112,7 +112,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public List<UserFull> getFullUsers() {
-        List<UserFull> list = getHibernateTemplate().find(
+        List<UserFull> list = (List<UserFull>) getHibernateTemplate().find(
                 "from UserFull user order by user.username ASC");
         return list;
     }
@@ -174,7 +174,7 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public List<UserInfo> getUserInfos() {
-        List<UserInfo> list = getHibernateTemplate().find(
+        List<UserInfo> list = (List<UserInfo>) getHibernateTemplate().find(
                 "from UserInfo info "
                 + "join fetch info.user "
                 + "order by info.user.username ASC");
@@ -191,12 +191,12 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public List<UserInfo> getUserInfos(Owner owner, UserGroup group) {
-        List<UserInfo> list = getHibernateTemplate().find(
+        List<UserInfo> list = (List<UserInfo>) getHibernateTemplate().findByNamedParam(
                 "from UserInfo info "
                 + "join fetch info.user "
-                + "where info.user.owner.id = ? "
-                + "and info.group= ? "
-                + "order by info.user.username ASC", owner.getId(), group);
+                + "where info.user.owner.id = :id "
+                + "and info.group= :group "
+                + "order by info.user.username ASC", new String[]{"id", "group"}, new Object[]{owner.getId(), group});
         return list;
     }
 
@@ -207,8 +207,8 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public UserInfo getUserInfoByUsername(String username) {
-        List<UserInfo> list = getHibernateTemplate().find(
-                "from UserInfo info where info.user.username = ?", username);
+        List<UserInfo> list = (List<UserInfo>) getHibernateTemplate().findByNamedParam(
+                "from UserInfo info where info.user.username = :username", "username", username);
         if (list.isEmpty()) {
             return null;
         }
@@ -223,10 +223,11 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public UserInfo getUserInfoByUsername(String username, Owner owner) {
-        List<UserInfo> list = getHibernateTemplate().find(
+        List<UserInfo> list = (List<UserInfo>) getHibernateTemplate().findByNamedParam(
                 "from UserInfo info "
-                + "where info.user.username = ? "
-                + "and info.user.owner.id = ?", username, owner.getId());
+                + "where info.user.username = :username "
+                + "and info.user.owner.id = :id",
+                new String[]{"username", "id"}, new Object[]{username, owner.getId()});
         if (list.isEmpty()) {
             return null;
         }
@@ -293,9 +294,9 @@ public class UsersDaoImpl extends HibernateDaoSupport implements UsersDao {
      */
     @Override
     public UserGroup getUserGroup(String username) {
-        List<UserGroup> list = getHibernateTemplate().find(
+        List<UserGroup> list = (List<UserGroup>) getHibernateTemplate().findByNamedParam(
                 "select group from UserInfo info "
-                + "where info.user.username = ?", username);
+                + "where info.user.username = :username", "username", username);
         if (list.isEmpty()) {
             return null;
         }

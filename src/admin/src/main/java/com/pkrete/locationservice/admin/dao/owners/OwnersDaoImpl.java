@@ -19,7 +19,6 @@ package com.pkrete.locationservice.admin.dao.owners;
 
 import com.pkrete.locationservice.admin.dao.OwnersDao;
 import com.pkrete.locationservice.admin.model.owner.CallnoModification;
-import com.pkrete.locationservice.admin.model.location.Location;
 import com.pkrete.locationservice.admin.model.owner.Owner;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -63,9 +62,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      */
     @Override
     public Owner getOwner(int id) {
-        List<Owner> list = getHibernateTemplate().find(
+        List<Owner> list = (List<Owner>) getHibernateTemplate().findByNamedParam(
                 "from Owner owner left join fetch owner.languages "
-                + "where owner.id=?", id);
+                + "where owner.id=:id", "id", id);
         if (list.isEmpty()) {
             return null;
         }
@@ -80,9 +79,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      */
     @Override
     public Owner getFullOwner(int id) {
-        List<Owner> list = getHibernateTemplate().find(
+        List<Owner> list = (List<Owner>) getHibernateTemplate().findByNamedParam(
                 "from Owner owner left join fetch owner.languages "
-                + "where owner.id=?", id);
+                + "where owner.id=:id", "id", id);
         if (list.isEmpty()) {
             return null;
         }
@@ -100,8 +99,8 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      */
     @Override
     public Owner getOwnerByCode(String code) {
-        List<Owner> list = getHibernateTemplate().find(
-                "from Owner owner where owner.code = ?", code);
+        List<Owner> list = (List<Owner>) getHibernateTemplate().findByNamedParam(
+                "from Owner owner where owner.code = :owner", "owner", code);
         if (list.isEmpty()) {
             return null;
         }
@@ -115,34 +114,34 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      */
     @Override
     public boolean canBeDeleted(Owner owner) {
-        List<Location> result = null;
+        List result = null;
 
-        result = getHibernateTemplate().find("from Library as library where library.owner.id =?", owner.getId());
+        result = getHibernateTemplate().findByNamedParam("from Library as library where library.owner.id = :id", "id", owner.getId());
         if (!result.isEmpty()) {
             return false;
         }
 
-        result = getHibernateTemplate().find("from Image as image where image.owner.id =?", owner.getId());
+        result = getHibernateTemplate().findByNamedParam("from Image as image where image.owner.id = :id", "id", owner.getId());
         if (!result.isEmpty()) {
             return false;
         }
 
-        result = getHibernateTemplate().find("from Map as map where map.owner.id =?", owner.getId());
+        result = getHibernateTemplate().findByNamedParam("from Map as map where map.owner.id = :id", "id", owner.getId());
         if (!result.isEmpty()) {
             return false;
         }
 
-        result = getHibernateTemplate().find("from SubjectMatter as subject where subject.owner.id =?", owner.getId());
+        result = getHibernateTemplate().findByNamedParam("from SubjectMatter as subject where subject.owner.id = :id", "id", owner.getId());
         if (!result.isEmpty()) {
             return false;
         }
 
-        result = getHibernateTemplate().find("from UserFull as user where user.owner.id =?", owner.getId());
+        result = getHibernateTemplate().findByNamedParam("from UserFull as user where user.owner.id = :id", "id", owner.getId());
         if (!result.isEmpty()) {
             return false;
         }
 
-        result = getHibernateTemplate().find("from Language as lang where lang.owner.id =?", owner.getId());
+        result = getHibernateTemplate().findByNamedParam("from Language as lang where lang.owner.id = :id", "id", owner.getId());
         if (!result.isEmpty()) {
             return false;
         }
@@ -247,7 +246,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      */
     @Override
     public List<Integer> getPreprocessingRedirectIds(int ownerId) {
-        List<Integer> list = getHibernateTemplate().find("select id from PreprocessingRedirect where owner.id = " + ownerId);
+        List<Integer> list = (List<Integer>) getHibernateTemplate().findByNamedParam("select id from PreprocessingRedirect where owner.id = :id", "id", ownerId);
         return list;
     }
 
@@ -259,7 +258,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
      */
     @Override
     public List<Integer> getNotFoundRedirectIds(int ownerId) {
-        List<Integer> list = getHibernateTemplate().find("select id from NotFoundRedirect where owner.id = " + ownerId);
+        List<Integer> list = (List<Integer>) getHibernateTemplate().findByNamedParam("select id from NotFoundRedirect where owner.id = :id", "id", ownerId);
         return list;
     }
 }

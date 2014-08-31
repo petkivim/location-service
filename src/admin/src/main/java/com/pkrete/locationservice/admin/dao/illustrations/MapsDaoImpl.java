@@ -48,9 +48,9 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      */
     @Override
     public Map get(int id) {
-        List<Map> list = getHibernateTemplate().find(
+        List<Map> list = (List<Map>) getHibernateTemplate().findByNamedParam(
                 "from Map map "
-                + "where map.id=?", id);
+                + "where map.id= :id", "id", id);
         if (list.isEmpty()) {
             return null;
         }
@@ -66,11 +66,11 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      */
     @Override
     public Map get(int id, Owner owner) {
-        List<Map> list = getHibernateTemplate().find(
+        List<Map> list = (List<Map>) getHibernateTemplate().findByNamedParam(
                 "from Map as map "
                 + "join fetch map.owner as owner "
-                + "where owner.code like ? "
-                + "and map.id=?", owner.getCode(), id);
+                + "where owner.code like :owner "
+                + "and map.id=:id", new String[]{"owner", "id"}, new Object[]{owner.getCode(), id});
         if (list.isEmpty()) {
             return null;
         }
@@ -100,10 +100,10 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      */
     @Override
     public List<Map> get(Owner owner) {
-        List result = getHibernateTemplate().find("from Map map "
+        List result = getHibernateTemplate().findByNamedParam("from Map map "
                 + "join fetch map.owner as owner "
-                + "where owner.code like ? "
-                + "order by map.description ASC", owner.getCode());
+                + "where owner.code like :owner "
+                + "order by map.description ASC", "owner", owner.getCode());
         return result;
     }
 
@@ -145,18 +145,18 @@ public class MapsDaoImpl extends HibernateDaoSupport implements MapsDao {
      */
     @Override
     public boolean canBeDeleted(int mapId) {
-        List<Location> result = null;
+        List result = null;
 
-        result = getHibernateTemplate().find("from Shelf as shelf where shelf.map.id =?", mapId);
+        result = getHibernateTemplate().findByNamedParam("from Shelf as shelf where shelf.map.id = :id", "id", mapId);
         if (!result.isEmpty()) {
             return false;
         }
 
-        result = getHibernateTemplate().find("from LibraryCollection as collection where collection.map.id =?", mapId);
+        result = getHibernateTemplate().findByNamedParam("from LibraryCollection as collection where collection.map.id = :id", "id", mapId);
         if (!result.isEmpty()) {
             return false;
         }
-        result = getHibernateTemplate().find("from Library as library where library.map.id =?", mapId);
+        result = getHibernateTemplate().findByNamedParam("from Library as library where library.map.id = :id", "id", mapId);
         if (!result.isEmpty()) {
             return false;
         }
