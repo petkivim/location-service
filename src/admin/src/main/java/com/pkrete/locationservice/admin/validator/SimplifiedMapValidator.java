@@ -123,9 +123,11 @@ public class SimplifiedMapValidator implements Validator {
         // If id is 0 the map is new, and it must have files or url
         if (map.getId() == 0 && count == 0) {
             errors.rejectValue("path", "error.map.one_required");
-        }
-        // Map can not have more than one file or url
-        if (count > 1) {
+        } else if (count == 0 && map.getIsExternal()) {
+            // External map must have a URL
+            errors.rejectValue("url", "error.map.url.required");
+        } else if (count > 1) {
+            // Map can not have more than one file or url
             errors.rejectValue("path", "error.map.only_one");
         } else if (count == 1) {
             if (!filePathNullOrEmpty) {

@@ -83,9 +83,11 @@ public class SimplifiedImageValidator implements Validator {
         // If id is 0 the image is new, and it must have file or url
         if (image.getId() == 0 && count == 0) {
             errors.rejectValue("path", "error.image.one_required");
-        }
-        // Image can not have more than one file or url
-        if (count > 1) {
+        } else if (count == 0 && image.getIsExternal()) {
+            // External image must have a URL
+            errors.rejectValue("url", "error.image.url.required");
+        } else if (count > 1) {
+            // Image can not have more than one file or url
             errors.rejectValue("path", "error.image.only_one");
         } else if (count == 1) {
             if (!filePathNullOrEmpty) {
