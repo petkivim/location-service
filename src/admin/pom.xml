@@ -118,19 +118,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.6.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>4.3.6.Final</version>
-        </dependency>
-        
-        <!-- c3p0:JDBC DataSources/Resource Pools -->
-        <dependency>
-            <groupId>c3p0</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.1.2</version>
+            <version>${hibernate.version}</version>
         </dependency>
         
        	<!-- Apache http -->
