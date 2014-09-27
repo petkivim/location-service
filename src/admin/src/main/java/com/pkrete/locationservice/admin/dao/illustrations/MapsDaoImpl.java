@@ -17,11 +17,10 @@
  */
 package com.pkrete.locationservice.admin.dao.illustrations;
 
-import com.pkrete.locationservice.admin.model.location.Location;
 import com.pkrete.locationservice.admin.model.illustration.Map;
 import com.pkrete.locationservice.admin.model.owner.Owner;
 import java.util.List;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import com.pkrete.locationservice.admin.dao.MapsDao;
 
 /**

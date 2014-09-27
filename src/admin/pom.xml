@@ -14,7 +14,6 @@
     <name>Location Service :: Admin</name>
 
     <properties>
-		<spring.version>3.2.8.RELEASE</spring.version>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
     </properties>
 
@@ -119,12 +118,19 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>3.6.10.Final</version>
+            <version>4.3.6.Final</version>
         </dependency>
         <dependency>
-            <groupId>javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.12.1.GA</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>4.3.6.Final</version>
+        </dependency>
+        
+        <!-- c3p0:JDBC DataSources/Resource Pools -->
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
         </dependency>
         
        	<!-- Apache http -->
@@ -154,13 +160,6 @@
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>2.2</version>
-        </dependency>
-
-        <!-- c3p0:JDBC DataSources/Resource Pools -->
-        <dependency>
-            <groupId>c3p0</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.1.2</version>
         </dependency>
 
         <!-- AOP alliance -->

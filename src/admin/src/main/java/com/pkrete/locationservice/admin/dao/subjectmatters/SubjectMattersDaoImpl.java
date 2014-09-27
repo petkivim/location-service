@@ -21,7 +21,7 @@ import com.pkrete.locationservice.admin.dao.SubjectMattersDao;
 import com.pkrete.locationservice.admin.model.owner.Owner;
 import com.pkrete.locationservice.admin.model.subjectmatter.SubjectMatter;
 import java.util.List;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  * This class implements {@link SubjectMattersDao SubjectMattersDao} interface

@@ -23,7 +23,7 @@ import com.pkrete.locationservice.admin.model.owner.Owner;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.hibernate.Session;
 
 /**

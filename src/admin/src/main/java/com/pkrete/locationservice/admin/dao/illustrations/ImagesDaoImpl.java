@@ -19,10 +19,9 @@ package com.pkrete.locationservice.admin.dao.illustrations;
 
 import com.pkrete.locationservice.admin.dao.ImagesDao;
 import com.pkrete.locationservice.admin.model.illustration.Image;
-import com.pkrete.locationservice.admin.model.location.Location;
 import com.pkrete.locationservice.admin.model.owner.Owner;
 import java.util.List;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  * This interface defines data access layer for Image objects.

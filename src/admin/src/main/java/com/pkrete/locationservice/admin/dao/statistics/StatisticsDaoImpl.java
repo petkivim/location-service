@@ -21,7 +21,7 @@ import com.pkrete.locationservice.admin.model.statistics.SearchEventType;
 import com.pkrete.locationservice.admin.dao.StatisticsDao;
 import com.pkrete.locationservice.admin.model.statistics.StatisticsGroup;
 import java.util.List;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  * This class implements {@link StatisticsDao StatisticsDao} interface that
