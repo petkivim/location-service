@@ -153,7 +153,7 @@
                     <div id="map_div"></div>
                 </div>
                 <div id="area_container">
-                    <c:forEach items="${areas}" var="area">
+                    <c:forEach items="${shelf.areas}" var="area">
                         <script type="text/javascript">draw(${area.areaId}, ${area.x1}, ${area.y1}, ${area.x2}, ${area.y2}, ${area.angle});</script>
                     </c:forEach>
                 </div>

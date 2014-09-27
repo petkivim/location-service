@@ -14,7 +14,7 @@
         <jsp:include page="main_menu.jsp" />
         <div id="page_title"><fmt:message key="title.users.add" /></div>
         <div id="main">
-            <form:form acceptCharset="UTF-8" method="POST" commandName="user">
+            <form:form acceptCharset="UTF-8" method="POST" commandName="userInfo">
                 <table id="add_user_table">
                     <tr>
                         <td class="add_user_table_col1"><fmt:message key="label.users.addedit.owner" /></td>

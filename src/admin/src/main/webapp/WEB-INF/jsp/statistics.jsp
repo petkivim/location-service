@@ -15,7 +15,7 @@
         <jsp:include page="main_menu.jsp" />
         <div id="page_title"><fmt:message key="menu.statistics" /></div>
         <div id="main">
-            <form action="getstatistics.htm"  accept-charset="UTF-8" method="POST">
+            <form action="statistics.htm"  accept-charset="UTF-8" method="POST">
                 <table>
                     <tr>
                         <td><fmt:message key="label.statistics.type" /></td>

@@ -15,10 +15,10 @@
         <div id="page_title"><fmt:message key="title.users.edit" /></div>
         <div id="main">
             <div class="history">
-                <fmt:message key="title.created" /> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${user.user.created}" /> (${user.user.creator}) |
-                <fmt:message key="title.updated" /> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${user.user.updated}" /> (${user.user.updater})
+                <fmt:message key="title.created" /> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${userInfo.user.created}" /> (${userInfo.user.creator}) |
+                <fmt:message key="title.updated" /> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${userInfo.user.updated}" /> (${userInfo.user.updater})
             </div>
-            <form:form acceptCharset="UTF-8" method="POST" commandName="user">
+            <form:form acceptCharset="UTF-8" method="POST" commandName="userInfo">
                 <table id="add_user_table">
                     <tr>
                         <td class="add_user_table_col1"><fmt:message key="label.users.addedit.owner" /></td>
