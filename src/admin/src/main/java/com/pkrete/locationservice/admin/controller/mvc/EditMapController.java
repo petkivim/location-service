@@ -20,6 +20,7 @@ package com.pkrete.locationservice.admin.controller.mvc;
 import com.pkrete.locationservice.admin.converter.ConverterService;
 import com.pkrete.locationservice.admin.exception.ObjectNotFoundException;
 import com.pkrete.locationservice.admin.model.illustration.Map;
+import com.pkrete.locationservice.admin.model.language.Language;
 import com.pkrete.locationservice.admin.model.owner.Owner;
 import com.pkrete.locationservice.admin.service.MapsService;
 import com.pkrete.locationservice.admin.util.Settings;
@@ -63,11 +64,12 @@ public class EditMapController extends BaseController {
     public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response,
             @ModelAttribute("map") Map map,
             BindingResult result) throws Exception {
-
+        
         validator.validate(map, result);
 
         if (result.hasErrors()) {
             ModelMap model = new ModelMap();
+            model.put("languages", Language.toMap(getOwner(request).getLanguages()));
             model.put("external", map.getIsExternal());
             model.put("mapsPath", map.getIsExternal() ? "" : Settings.getInstance().getMapsWebPath(getOwner(request).getCode()));
             return new ModelAndView("edit_map", model);
@@ -100,6 +102,7 @@ public class EditMapController extends BaseController {
         map.setOwner(owner);
         model.put("map", map);
         // Other reference data
+        model.put("languages", Language.toMap(owner.getLanguages()));
         model.put("external", map.getIsExternal());
         model.put("mapsPath", map.getIsExternal() ? "" : Settings.getInstance().getMapsWebPath(owner.getCode()));
         return "edit_map";
