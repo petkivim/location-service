@@ -22,7 +22,7 @@
         <level value="WARN" />
         <appender-ref ref="file" />
     </logger>
-    <category name="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <category name="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <priority value="WARN" />
     </category>
     <category name="org.springframework.transaction">
