@@ -36,7 +36,7 @@ $(document).ready( function() {
 
 function check_url() {
     if( $('[id^="show_"]').attr('href') != undefined) {
-        if( $('[id^="show_"]').attr('href').match(/^http(s|):\/\/maps\.google\.com.+$/) ) {
+        if( $('[id^="show_"]').attr('href').match(/^http(s|):\/\/(www|maps|mapsengine)\.google\.com.+$/) ) {
             $('[id^="show_"]').hide();
         } else {
             $('[id^="show_"]').show();
