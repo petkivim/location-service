@@ -1,36 +1,36 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.model.illustration;
 
 /**
- * The <code>Map</code> class extends the {@link Illustration Illustration} class.
+ * The <code>Map</code> class extends the {@link Illustration Illustration}
+ * class.
  *
  * A map represents a map that is used for showing a position of a location. Map
- * can be a map of a library or a geographical map. Map can be located on the same server
- * as the Location Service or on some external server or service.
+ * can be a map of a library or a geographical map. Map can be located on the
+ * same server as the Location Service or on some external server or service.
  *
  * @author Petteri Kivimäki
  */
 public class Map extends Illustration {
 
     /**
-     * Drawing color that is used for drawing
-     * the locations on the map.
+     * Drawing color that is used for drawing the locations on the map.
      */
     private String color;
     /**
@@ -39,7 +39,8 @@ public class Map extends Illustration {
     private String opacity;
 
     /**
-     * Constructs and initializes a map with no path and sets isExternal to false.
+     * Constructs and initializes a map with no path and sets isExternal to
+     * false.
      */
     public Map() {
         color = "";
@@ -47,7 +48,9 @@ public class Map extends Illustration {
     }
 
     /**
-     * Constructs and initializes a map with the given path and sets isExternal to false.
+     * Constructs and initializes a map with the given path and sets isExternal
+     * to false.
+     *
      * @param path the location of the map
      */
     public Map(String path) {
@@ -57,9 +60,12 @@ public class Map extends Illustration {
     }
 
     /**
-     * Constructs and initializes a map with the given path and isExternal value.
+     * Constructs and initializes a map with the given path and isExternal
+     * value.
+     *
      * @param path the location of the map
-     * @param isExternal the value that tells if the map is located on the same server as the Location Service
+     * @param isExternal the value that tells if the map is located on the same
+     * server as the Location Service
      */
     public Map(String path, boolean isExternal) {
         super(path, isExternal);
@@ -69,6 +75,7 @@ public class Map extends Illustration {
 
     /**
      * Return the drawing color for this map.
+     *
      * @return default drawing color
      */
     public String getColor() {
@@ -77,6 +84,7 @@ public class Map extends Illustration {
 
     /**
      * Changes the drawing color.
+     *
      * @param color new drawing color
      */
     public void setColor(String color) {
@@ -85,6 +93,7 @@ public class Map extends Illustration {
 
     /**
      * Returns the opacity of the drawing color.
+     *
      * @return opacity of the drawing color
      */
     public String getOpacity() {
@@ -93,6 +102,7 @@ public class Map extends Illustration {
 
     /**
      * Changes the opacity of the drawing color.
+     *
      * @param opacity new opacity
      */
     public void setOpacity(String opacity) {
@@ -100,9 +110,9 @@ public class Map extends Illustration {
     }
 
     /**
-     * Tells if this map belongs to the Google Map service. It's important
-     * to know, because Google maps are not supposed to be handled by
-     * ImageHandler.
+     * Tells if this map belongs to the Google Map service. It's important to
+     * know, because Google maps are not supposed to be handled by ImageHandler.
+     *
      * @return returns true if this is a link to Google Maps, otherwise false
      */
     public boolean isGoogleMap() {
@@ -119,10 +129,11 @@ public class Map extends Illustration {
     }
 
     /**
-     * If the map is a Google map, returns an url that makes it possible
-     * to embed the map on the website. If the map isn't a Google map,
-     * an empty string is returned.
-     * @return url of the map or an empty string
+     * If the map is a Google map, returns an URL that makes it possible to
+     * embed the map on the website. If the map isn't a Google map, an empty
+     * string is returned.
+     *
+     * @return URL of the map or an empty string
      */
     public String getGoogleMapEmbedUrl() {
         if (!isGoogleMap()) {
@@ -137,9 +148,10 @@ public class Map extends Illustration {
     }
 
     /**
-     * If the map is a Google map, returns a link to the Google maps page.
-     * If the map isn't a Google map, an empty string is returned.
-     * @return url of the map or an empty string
+     * If the map is a Google map, returns a link to the Google maps page. If
+     * the map isn't a Google map, an empty string is returned.
+     *
+     * @return URL of the map or an empty string
      */
     public String getGoogleMapLinkUrl() {
         if (!isGoogleMap()) {

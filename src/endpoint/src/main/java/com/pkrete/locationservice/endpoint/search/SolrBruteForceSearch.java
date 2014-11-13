@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.search;
 
@@ -27,24 +27,26 @@ import com.pkrete.locationservice.endpoint.solr.service.LocationIndexService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class extends the abstract {@link Search Search} class and implements
- * the abstract search method. This class implements the search by 
- * systematically enumerating all the possible locations and checking
- * if they match the given conditions. The search is done against Solr and
- * only the locations matching the conditions are fully loaded from the db.
- * 
+ * the abstract search method. This class implements the search by
+ * systematically enumerating all the possible locations and checking if they
+ * match the given conditions. The search is done against Solr and only the
+ * locations matching the conditions are fully loaded from the db.
+ *
  * @author Petteri Kivimäki
  */
 public class SolrBruteForceSearch extends Search {
 
-    private final static Logger logger = Logger.getLogger(SolrBruteForceSearch.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SolrBruteForceSearch.class.getName());
     private LocationIndexService locationIndexService;
 
     /**
      * Sets the location index service variable value.
+     *
      * @param locationIndexService new value
      */
     public void setLocationIndexService(LocationIndexService locationIndexService) {
@@ -52,9 +54,10 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Searches locations mathing the given conditions. The search is
-     * implemented by systematically enumerating all the possible locations 
-     * and checking if they match the given conditions.
+     * Searches locations matching the given conditions. The search is
+     * implemented by systematically enumerating all the possible locations and
+     * checking if they match the given conditions.
+     *
      * @param search search string
      * @param position position of the search string in the target field
      * indicated by the type
@@ -63,6 +66,7 @@ public class SolrBruteForceSearch extends Search {
      * @param children children if true, all the sub locations are included
      * @return list of matching locations
      */
+    @Override
     public List<Location> search(String search, Position position, SearchType type, Owner owner, boolean children) {
         if (logger.isDebugEnabled()) {
             StringBuilder builder = new StringBuilder("Exporter search - search string : \"");
@@ -80,9 +84,7 @@ public class SolrBruteForceSearch extends Search {
         // Just return all the locations related to the owner
         if (type == SearchType.ALL) {
             results = (List) this.dbService.getAllLocations(owner.getCode());
-            if (logger.isDebugEnabled()) {
-                logger.debug("Found " + results.size() + " locations matching the conditions.");
-            }
+            logger.debug("Found {} locations matching the conditions.", results.size());
             return results;
         }
 
@@ -90,9 +92,7 @@ public class SolrBruteForceSearch extends Search {
         Pattern pattern = Pattern.compile("([\\\\*+\\[\\](){}\\$.?\\^|])");
         search = escapeRegex(search, pattern);
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Search string after escaping regex special characters: \"" + search + "\"");
-        }
+        logger.debug("Search string after escaping regex special characters: \"{}\"", search);
 
         //
         // Get all the location documents related to the given owner.
@@ -100,9 +100,7 @@ public class SolrBruteForceSearch extends Search {
         // List for temp results
         List tempResults = new ArrayList<LocationDocument>();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Fetched " + locations.size() + " LocationDocuments from Solr. Start searching.");
-        }
+        logger.debug("Fetched {} LocationDocuments from Solr. Start searching.", locations.size());
 
         // Do search according to the search type
         if (type == SearchType.CALLNO) {
@@ -127,30 +125,30 @@ public class SolrBruteForceSearch extends Search {
             tempResults = getResultsByShelfNumber(locations, buildSearchStr(search, position));
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Search completed. Found " + tempResults.size() + " LocationDocuments matching the conditions.");
-            logger.debug("Fetch full Location objects from the database.");
-        }
+        logger.debug("Search completed. Found {} LocationDocuments matching the conditions.", tempResults.size());
+        logger.debug("Fetch full Location objects from the database.");
+
         // Get library, collection and shelf ids
         List<Integer> libraryIds = this.getIds(tempResults, LocationType.LIBRARY);
         List<Integer> collectionIds = this.getIds(tempResults, LocationType.COLLECTION);
         List<Integer> schelfIds = this.getIds(tempResults, LocationType.SHELF);
         // Get full Location objects from the db
         results = this.dbService.getLocations(libraryIds, collectionIds, schelfIds, children);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Fetched " + results.size() + " full Location objects from the database.");
-        }
+
+        logger.debug("Fetched {} full Location objects from the database.", results.size());
+
         return results;
     }
 
     /**
      * Performs a search by call number. Goes through the given list of location
-     * documents and returns a list containing all the LocationDocument objects 
+     * documents and returns a list containing all the LocationDocument objects
      * which call number matches the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which call number matches the 
-     * search string
+     * @return list of LocationDocuments which call number matches the search
+     * string
      */
     private List getResultsByCallNo(List<LocationDocument> locations, String searchStr) {
         List results = new ArrayList<LocationDocument>();
@@ -163,12 +161,13 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by location code. Goes through the given list of location
-     * documents and returns a list containing all the LocationDocument objects 
-     * which location code matches the given search string.
+     * Performs a search by location code. Goes through the given list of
+     * location documents and returns a list containing all the LocationDocument
+     * objects which location code matches the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which location code matches the search 
+     * @return list of LocationDocuments which location code matches the search
      * string
      */
     private List getResultsByLocationCode(List<LocationDocument> locations, String searchStr) {
@@ -183,11 +182,12 @@ public class SolrBruteForceSearch extends Search {
 
     /**
      * Performs a search by description. Goes through the given list of location
-     * documents and returns a list containing all the LocationDocument objects 
+     * documents and returns a list containing all the LocationDocument objects
      * which descriptions match the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which descriptions match the search 
+     * @return list of LocationDocuments which descriptions match the search
      * string
      */
     private List getResultsByDesc(List<LocationDocument> locations, String searchStr) {
@@ -206,8 +206,9 @@ public class SolrBruteForceSearch extends Search {
 
     /**
      * Performs a search by note. Goes through the given list of location
-     * documents and returns a list containing all the LocationDocument objects 
+     * documents and returns a list containing all the LocationDocument objects
      * which notes match the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
      * @return list of LocationDocuments which notes match the search string
@@ -227,13 +228,14 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by subject matters. Goes through the given list of location
-     * documents and returns a list containing all the LocationDocument objects 
-     * which subject matters match the given search string.
+     * Performs a search by subject matters. Goes through the given list of
+     * location documents and returns a list containing all the LocationDocument
+     * objects which subject matters match the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which subject matters match the 
-     * search string
+     * @return list of LocationDocuments which subject matters match the search
+     * string
      */
     private List getResultsBySubjectMatter(List<LocationDocument> locations, String searchStr) {
         List results = new ArrayList<LocationDocument>();
@@ -250,12 +252,13 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by primary staff note. Goes through the given list of 
-     * location documents and returns a list containing all the LocationDocument 
+     * Performs a search by primary staff note. Goes through the given list of
+     * location documents and returns a list containing all the LocationDocument
      * objects which primary staff note matches the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which primary staff note matches the 
+     * @return list of LocationDocuments which primary staff note matches the
      * search string
      */
     private List getResultsByStaffNotePri(List<LocationDocument> locations, String searchStr) {
@@ -269,12 +272,13 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by secondary staff note. Goes through the given list of 
-     * location documents and returns a list containing all the LocationDocument 
+     * Performs a search by secondary staff note. Goes through the given list of
+     * location documents and returns a list containing all the LocationDocument
      * objects which secondary staff note matches the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which secondary staff note matches the 
+     * @return list of LocationDocuments which secondary staff note matches the
      * search string
      */
     private List getResultsByStaffNoteSec(List<LocationDocument> locations, String searchStr) {
@@ -288,12 +292,13 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by location id. Goes through the given list of 
-     * location documents and returns a list containing all the LocationDocument 
-     * objects which location id matches the given search string.
+     * Performs a search by location id. Goes through the given list of location
+     * documents and returns a list containing all the LocationDocument objects
+     * which location id matches the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which location id matches the search 
+     * @return list of LocationDocuments which location id matches the search
      * string
      */
     private List getResultsByLocationId(List<LocationDocument> locations, String searchStr) {
@@ -315,9 +320,10 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by floor. Goes through the given list of 
-     * location documents and returns a list containing all the LocationDocument 
-     * objects which floor matches the given search string.
+     * Performs a search by floor. Goes through the given list of location
+     * documents and returns a list containing all the LocationDocument objects
+     * which floor matches the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
      * @return list of LocationDocuments which floor attribute matches the
@@ -334,12 +340,13 @@ public class SolrBruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by shelf number. Goes through the given list of 
-     * location documents and returns a list containing all the LocationDocument 
+     * Performs a search by shelf number. Goes through the given list of
+     * location documents and returns a list containing all the LocationDocument
      * objects which shelf number matches the given search string.
+     *
      * @param locations list of locations to be searched
      * @param searchStr search string
-     * @return list of LocationDocuments which shelf number matches the search 
+     * @return list of LocationDocuments which shelf number matches the search
      * string
      */
     private List getResultsByShelfNumber(List<LocationDocument> locations, String searchStr) {
@@ -356,6 +363,7 @@ public class SolrBruteForceSearch extends Search {
      * Returns a list of ids of locations representing the given location type.
      * Goes through the given list of LocationDocuments and picks the location
      * ids representing the given type.
+     *
      * @param documents list of LocationDocuments to be checked
      * @param type LocationType to be searched
      * @return list of ids

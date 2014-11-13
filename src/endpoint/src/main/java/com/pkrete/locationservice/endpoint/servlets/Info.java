@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.servlets;
 
@@ -30,17 +30,19 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * This servlet is purely for maintenance purposes. It provides information
- * about the state of the system and it can by used for controlling that
- * the system is up and running.
- * 
+ * about the state of the system and it can by used for controlling that the
+ * system is up and running.
+ *
  * @author Petteri Kivimäki
  */
 public class Info extends HttpServlet {
 
     private static final String version = PropertiesUtil.getProperty("service.version");
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -109,8 +111,9 @@ public class Info extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -122,8 +125,9 @@ public class Info extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -135,8 +139,9 @@ public class Info extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.callnoparser.stepparser;
 
@@ -24,21 +24,27 @@ import com.pkrete.locationservice.endpoint.util.LocationHelper;
 import java.util.List;
 
 /**
- * The <code>StepParserLevel8</code> class extends the {@link StepParser StepParser} class.
+ * The <code>StepParserLevel8</code> class extends the
+ * {@link StepParser StepParser} class.
  *
- * The StepParserLevel8 class defines the functionality for parsing the location information
- * from the given string and it has no limitations regarding to the size of the string. However, only the first eight
- * words of the string are being parsed.
+ * The StepParserLevel8 class defines the functionality for parsing the location
+ * information from the given string and it has no limitations regarding to the
+ * size of the string. However, only the first eight words of the string are
+ * being parsed.
  *
  * @author Petteri Kivimäki
  */
 public class StepParserLevel8 extends StepParser {
 
     /**
-     * Contructs and initializes a StepParserLevel8 object with the given generator
-     * @param generator the generator object that generates the html page returned to the user
+     * Constructs and initializes a StepParserLevel8 object with the given
+     * generator
+     *
+     * @param generator the generator object that generates the HTML page
+     * returned to the user
      * @param dbService the dbService is object provides access to the database
-     * @param previous CallNoParser object before this object in processiong queue
+     * @param previous CallNoParser object before this object in processing
+     * queue
      */
     public StepParserLevel8(Generator generator, Service dbService, StepParser previous) {
         super(generator, 8, previous);
@@ -48,11 +54,13 @@ public class StepParserLevel8 extends StepParser {
 
     /**
      * Searches the given call number from the database.
+     *
      * @param callno the call number to be handled
      * @param lang the language of the UI
      * @param owner owner of the location
-     * @return the html page returned to the user
+     * @return the HTML page returned to the user
      */
+    @Override
     public String parse(String callno, String lang, String owner) {
         String callnoArr[] = callno.split(" ");
 

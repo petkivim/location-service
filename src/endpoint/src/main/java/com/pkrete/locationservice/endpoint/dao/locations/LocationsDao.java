@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.dao.locations;
 
@@ -29,51 +29,54 @@ import com.pkrete.locationservice.endpoint.model.location.Shelf;
 import com.pkrete.locationservice.endpoint.model.search.LocationType;
 import com.pkrete.locationservice.endpoint.model.search.SearchIndex;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Hibernate;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  * LocationDao class implements the Dao interface implementing all the methods
- * defined in the interface. LocationDao implements database operations
- * by using the Hibernate and Spring frameworks. Classes implementing
- * the Service interface can use LocationDao for database operations.
- * 
- * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class 
- * that is a wrapper over {@link HibernateTemplate HibernateTemplate} class. 
- * HibernateTemplate is a convenience class for Hibernate based database access. 
- * HibernateDaoSupport creates the HibernateTemplate and subclasses can use 
- * the getHibernateTemplate() method to obtain the hibernateTemplate and 
- * then perform operations on it. HibernateTemplate takes care of obtaining or 
- * releasing sessions and managing exceptions. 
- * 
+ * defined in the interface. LocationDao implements database operations by using
+ * the Hibernate and Spring frameworks. Classes implementing the Service
+ * interface can use LocationDao for database operations.
+ *
+ * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class that
+ * is a wrapper over {@link HibernateTemplate HibernateTemplate} class.
+ * HibernateTemplate is a convenience class for Hibernate based database access.
+ * HibernateDaoSupport creates the HibernateTemplate and subclasses can use the
+ * getHibernateTemplate() method to obtain the hibernateTemplate and then
+ * perform operations on it. HibernateTemplate takes care of obtaining or
+ * releasing sessions and managing exceptions.
+ *
  * @author Petteri Kivimäki
  */
 public class LocationsDao extends HibernateDaoSupport implements Dao {
 
-    private final static Logger localLogger = Logger.getLogger(LocationsDao.class.getName());
+    private static final Logger localLogger = LoggerFactory.getLogger(LocationsDao.class.getName());
 
     /**
-     * Saves the given search event to the database. Returns true if and
-     * only the the search event was successfully added, otherwise false.
+     * Saves the given search event to the database. Returns true if and only
+     * the the search event was successfully added, otherwise false.
+     *
      * @param event search event to be saved
-     * @return true if and only if the event was successfully added;
-     * otherwise false
+     * @return true if and only if the event was successfully added; otherwise
+     * false
      */
     @Override
     public boolean save(SearchEvent event) {
         try {
             getHibernateTemplate().save(event);
         } catch (Exception e) {
-            logger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
     }
 
     /**
-     * Returns a list of libraries which call numbers match with the given
-     * call number and that are related to the given owner.
+     * Returns a list of libraries which call numbers match with the given call
+     * number and that are related to the given owner.
+     *
      * @param callno the call number that is used for searching
      * @param owner owner of the object
      * @return the libraries with the desired call number
@@ -88,6 +91,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
 
     /**
      * Returns a list of libraries that are related to the given owner.
+     *
      * @param owner owner of the object
      * @return libraries that are related to the given owner
      */
@@ -99,8 +103,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of search index entries related to libraries that 
-     * belong to the given owner.
+     * Returns a list of search index entries related to libraries that belong
+     * to the given owner.
+     *
      * @param owner owner of the object
      * @return search index entries that are related to the given owner
      */
@@ -114,8 +119,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns the library which location id mathes the given id. All
-     * the lazy relationships are loaded.
+     * Returns the library which location id matches the given id. All the lazy
+     * relationships are loaded.
+     *
      * @param id location id to be searched
      * @return library matching the given location id
      */
@@ -137,12 +143,13 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns all the libraries which id is in the given list. All
-     * the lazy relationships are loaded. If children is true, all the 
-     * collections and shelves belonging to the libraries are loaded too.
+     * Returns all the libraries which id is in the given list. All the lazy
+     * relationships are loaded. If children is true, all the collections and
+     * shelves belonging to the libraries are loaded too.
+     *
      * @param ids list of ids
-     * @param children if true, all the collections and shelves belonging to 
-     * the libraries are loaded
+     * @param children if true, all the collections and shelves belonging to the
+     * libraries are loaded
      * @return libraries matching the given ids
      */
     @Override
@@ -179,8 +186,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of collection which call numbers match with the given
-     * call number and that are related to the given owner.
+     * Returns a list of collection which call numbers match with the given call
+     * number and that are related to the given owner.
+     *
      * @param callno the call number that is used for searching
      * @param owner owner of the object
      * @return the collections with the desired call number
@@ -196,6 +204,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
 
     /**
      * Returns a list of collections that are related to the given owner.
+     *
      * @param owner owner of the object
      * @return the collections related to the given owner
      */
@@ -208,8 +217,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of search index entries related to collections that 
-     * belong to the given owner.
+     * Returns a list of search index entries related to collections that belong
+     * to the given owner.
+     *
      * @param owner owner of the object
      * @return search index entries that are related to the given owner
      */
@@ -225,6 +235,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     /**
      * Returns all the collections that are related to the library which
      * locationId matches with the given id number.
+     *
      * @param id the locationId that is used for searching
      * @param owner the owner of the object
      * @return the collection with the desired locationId
@@ -239,8 +250,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns the collection which location id mathes the given id. All
-     * the lazy relationships are loaded.
+     * Returns the collection which location id matches the given id. All the
+     * lazy relationships are loaded.
+     *
      * @param id location id to be searched
      * @return collection matching the given location id
      */
@@ -268,12 +280,13 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns all the collections which id is in the given list. All
-     * the lazy relationships are loaded. If chindren is true, all the shelves 
-     * belonging to the collections are loaded too.
+     * Returns all the collections which id is in the given list. All the lazy
+     * relationships are loaded. If children is true, all the shelves belonging
+     * to the collections are loaded too.
+     *
      * @param ids list of ids
-     * @param children if true, all the shelves belonging to the collections
-     * are loaded
+     * @param children if true, all the shelves belonging to the collections are
+     * loaded
      * @return collections matching the given ids
      */
     @Override
@@ -304,8 +317,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of shelves which call numbers match with the given call number
-     * and that are related to the given owner.
+     * Returns a list of shelves which call numbers match with the given call
+     * number and that are related to the given owner.
+     *
      * @param callno the call number that is used for searching
      * @param owner owner of the object
      * @return shelves with the desired call number
@@ -320,6 +334,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
 
     /**
      * Returns a list of shelves that are related to the given owner.
+     *
      * @param owner owner of the object
      * @return shelves that are related to the given owner
      */
@@ -331,8 +346,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of search index entries related to shelves that 
-     * belong to the given owner.
+     * Returns a list of search index entries related to shelves that belong to
+     * the given owner.
+     *
      * @param owner owner of the object
      * @return search index entries that are related to the given owner
      */
@@ -348,6 +364,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     /**
      * Returns all the shelves that are related to the collection which
      * locationId matches with the given id number.
+     *
      * @param id the locationId that is used for searching
      * @param owner the owner of the object
      * @return the shelf with the desired locationId
@@ -363,8 +380,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns the shelf which location id matches the given id. All
-     * the lazy relationships are loaded.
+     * Returns the shelf which location id matches the given id. All the lazy
+     * relationships are loaded.
+     *
      * @param id location id to be searched
      * @return shelf matching the given location id
      */
@@ -398,8 +416,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns all the shelves which id is in the given list. All
-     * the lazy relationships are loaded.
+     * Returns all the shelves which id is in the given list. All the lazy
+     * relationships are loaded.
+     *
      * @param ids list of ids
      * @return shelves matching the given ids
      */
@@ -422,8 +441,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns the location which id number matches with given id number
-     * and given owner.
+     * Returns the location which id number matches with given id number and
+     * given owner.
+     *
      * @param locationId the id number that is used for searching
      * @param owner owner of the object
      * @return the location with the desired id number
@@ -440,7 +460,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
                 }
             }
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
         }
         if (result == null || result.isEmpty()) {
             return null;
@@ -449,8 +469,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of collections which shelves location code is a substring placed
-     * in the beginning of a string.
+     * Returns a list of collections which shelves location code is a substring
+     * placed in the beginning of a string.
+     *
      * @param owner owner of the location
      * @return list of locations matching the condition
      */
@@ -462,8 +483,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of collections which shelves location code is a substring placed
-     * in the beginning of a string.
+     * Returns a list of collections which shelves location code is a substring
+     * placed in the beginning of a string.
+     *
      * @param owner owner of the location
      * @param collectionCode collection code of the location
      * @return list of locations matching the condition
@@ -479,8 +501,10 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     /**
      * Returns a list of shelves that belong to the collection with the given
      * collection code.
+     *
      * @param owner owner of the location
-     * @param collectionCode collection code of the collection in which the shelf belongs
+     * @param collectionCode collection code of the collection in which the
+     * shelf belongs
      * @return list of shelves matching the condition
      */
     @Override
@@ -494,6 +518,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     /**
      * Returns the collection with the given collection code. If the collection
      * with the given code doesn't exist, null is returned.
+     *
      * @param owner owner of the location
      * @param collectionCode collection code of the collection to be searched
      * @return collection matching the given code or null
@@ -524,6 +549,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     /**
      * Returns a list of all the libraries in the database that are related to
      * the given owner. All the lazy relationships are loaded.
+     *
      * @param owner owner of the object
      * @return all the libraries in the database
      */
@@ -560,6 +586,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
 
     /**
      * Returns the owner with the given code.
+     *
      * @param code the code that is used for searching
      * @return the owner with the given code
      */
@@ -574,11 +601,12 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns the locating strategy defined for the given owner. If no
-     * strategy is found, null is returned.
+     * Returns the locating strategy defined for the given owner. If no strategy
+     * is found, null is returned.
+     *
      * @param owner owner of the object
-     * @return locating strategy defined for the given owner or null, if
-     * no strategy is found
+     * @return locating strategy defined for the given owner or null, if no
+     * strategy is found
      */
     @Override
     public LocatingStrategy getLocatingStrategy(String owner) {
@@ -591,8 +619,8 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of not found redirect objects related to
-     * the given owner.
+     * Returns a list of not found redirect objects related to the given owner.
+     *
      * @param owner owner of the not found redirects
      * @return list of not found redirects related to the given owner
      */
@@ -606,8 +634,9 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     }
 
     /**
-     * Returns a list of preprocessing redirect objects related to
-     * the given owner.
+     * Returns a list of preprocessing redirect objects related to the given
+     * owner.
+     *
      * @param owner owner of the preprocessing redirects
      * @return list of preprocessing redirects related to the given owner
      */
@@ -623,6 +652,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     /**
      * Returns the index entry matching the given location id and owner code. If
      * no matching entry or more than one entries are found, null is returned.
+     *
      * @param locationId location id of the Location object
      * @param owner owner of the Location object
      * @return index entry or null
@@ -641,6 +671,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
     /**
      * Tests the DB connection by executing a simple test query. If the test
      * query succeeds the connection is OK, otherwise there's a problem.
+     *
      * @return true if and only if the connection works; otherwise false
      */
     @Override
@@ -649,7 +680,7 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
             getHibernateTemplate().find("select count(*) from Library");
         } catch (Exception e) {
             localLogger.error("Testing the DB connection failed!");
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;

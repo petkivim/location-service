@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.solr.model.builder;
 
@@ -25,20 +25,22 @@ import com.pkrete.locationservice.endpoint.solr.model.OwnerDocument;
 import com.pkrete.locationservice.endpoint.solr.repository.RepositoryConstants;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * This is a helper class that generates OwnerDocument objects representing
- * the given Owners.
- * 
+ * This is a helper class that generates OwnerDocument objects representing the
+ * given Owners.
+ *
  * @author Petteri Kivimäki
  */
 public class OwnerDocumentBuilder {
 
-    private final static Logger logger = Logger.getLogger(OwnerDocumentBuilder.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(OwnerDocumentBuilder.class.getName());
 
     /**
      * Creates a new OwnerDocument that represents the given Owner.
+     *
      * @param owner Owner object
      * @return OwnerDocument that represents the given Owner
      */
@@ -56,8 +58,9 @@ public class OwnerDocumentBuilder {
 
     /**
      * Creates a new Owner that represents the given OwnerDocument.
+     *
      * @param document OwnerDocument object
-     * @return Ownerthat represents the given OwnerDocument
+     * @return Owner that represents the given OwnerDocument
      */
     public static Owner build(OwnerDocument document) {
         // Create a new Owner object
@@ -73,7 +76,8 @@ public class OwnerDocumentBuilder {
     }
 
     /**
-     * Converts the given int id to a string by adding 'own-' prefix to the id. 
+     * Converts the given int id to a string by adding 'own-' prefix to the id.
+     *
      * @param id ownerId of the Owner
      * @return 'own-' prefix + ownerId
      */
@@ -82,8 +86,9 @@ public class OwnerDocumentBuilder {
     }
 
     /**
-     * Converts the given string id to an int by removing 'own-' prefix from
-     * the id.
+     * Converts the given string id to an int by removing 'own-' prefix from the
+     * id.
+     *
      * @param id id of the OwnerDocument
      * @return id without 'own-' prefix, which is the ownerId
      */
@@ -93,8 +98,9 @@ public class OwnerDocumentBuilder {
     }
 
     /**
-     * Converts the given CallnoModification list into a list of Strings.
-     * Each CallnoModification is searialized as a String.
+     * Converts the given CallnoModification list into a list of Strings. Each
+     * CallnoModification is serialized as a String.
+     *
      * @param list CallnoModifications list
      * @return list of Strings
      */
@@ -114,9 +120,11 @@ public class OwnerDocumentBuilder {
 
     /**
      * Converts the given list of Strings into a list of CallnoModifications.
+     *
      * @param list list to be converted
      * @param isPreprocessingRedirect if true the strings are converted into
-     * PreprocessingRedirects, otherwise they're converted into NotFoundRedirects
+     * PreprocessingRedirects, otherwise they're converted into
+     * NotFoundRedirects
      * @return list of CallnoModifications
      */
     public static List<CallnoModification> build(List<String> list, boolean isPreprocessingRedirect) {

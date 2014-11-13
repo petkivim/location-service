@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.mailer.impl;
 
@@ -25,9 +25,9 @@ import java.util.List;
 import org.springframework.context.MessageSource;
 
 /**
- * This class is responsible of generating EmailMessage objects of diffenret
+ * This class is responsible of generating EmailMessage objects of different
  * types.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class EmailMessageFactoryServiceImpl implements EmailMessageFactoryService {
@@ -40,9 +40,11 @@ public class EmailMessageFactoryServiceImpl implements EmailMessageFactoryServic
 
     /**
      * Generates a new EmailMessage of the given type.
+     *
      * @param messageType type of the EmailMessage to be generated
      * @return EmailMessage object of the given type
      */
+    @Override
     public EmailMessage generate(EmailMessageType messageType) {
         // Get values that are shared between different message types
         String from = this.messageSource.getMessage("mail.from", null, null);

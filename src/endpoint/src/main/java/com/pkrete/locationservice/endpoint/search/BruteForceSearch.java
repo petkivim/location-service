@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.search;
 
@@ -30,24 +30,26 @@ import com.pkrete.locationservice.endpoint.model.search.SearchType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class extends the abstract {@link Search Search} class and implements
- * the abstract search method. This class implements the search by 
- * systematically enumerating all the possible locations and checking
- * if they match the given conditions.
- * 
+ * the abstract search method. This class implements the search by
+ * systematically enumerating all the possible locations and checking if they
+ * match the given conditions.
+ *
  * @author Petteri Kivimäki
  */
 public class BruteForceSearch extends Search {
 
-    private final static Logger logger = Logger.getLogger(BruteForceSearch.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(BruteForceSearch.class.getName());
 
     /**
-     * Searches locations mathing the given conditions. The search is
-     * implemented by systematically enumerating all the possible locations 
-     * and checking if they match the given conditions.
+     * Searches locations matching the given conditions. The search is
+     * implemented by systematically enumerating all the possible locations and
+     * checking if they match the given conditions.
+     *
      * @param search search string
      * @param position position of the search string in the target field
      * indicated by the type
@@ -56,12 +58,13 @@ public class BruteForceSearch extends Search {
      * @param children children if true, all the sub locations are included
      * @return list of matching locations
      */
+    @Override
     public List<Location> search(String search, Position position, SearchType type, Owner owner, boolean children) {
         if (logger.isDebugEnabled()) {
             StringBuilder builder = new StringBuilder("Exporter search - search string : \"");
             builder.append(search).append("\", type : \"").append(type);
             builder.append("\", owner : \"").append(owner.getCode());
-            builder.append("\", position : ").append(position.toString());
+            builder.append("\", position : \"").append(position.toString());
             builder.append("\", children : ").append(children);
             logger.debug(builder.toString());
         }
@@ -69,9 +72,7 @@ public class BruteForceSearch extends Search {
         Pattern pattern = Pattern.compile("([\\\\*+\\[\\](){}\\$.?\\^|])");
         search = escapeRegex(search, pattern);
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Search string after escaping regex special characters: \"" + search + "\"");
-        }
+        logger.debug("Search string after escaping regex special characters: \"{}\".", search);
 
         // Get all the libraries related to the given owner.
         // All the collections and shelves related to the libraries
@@ -79,9 +80,7 @@ public class BruteForceSearch extends Search {
         List<Library> libraries = dbService.getAllLocations((owner == null ? "" : owner.getCode()));
         List results = new ArrayList<Location>();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Fetched " + libraries.size() + " libraries from the database. Start searching.");
-        }
+        logger.debug("Fetched {} libraries from the database. Start searching.", libraries.size());
 
         // Do search according to the search type
         if (type == SearchType.CALLNO) {
@@ -107,16 +106,18 @@ public class BruteForceSearch extends Search {
         } else if (type == SearchType.ALL) {
             results = libraries;
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("Search completed. Found " + results.size() + " locations matching the conditions.");
-        }
+
+        logger.debug("Search completed. Found {} locations matching the conditions.", results.size());
+
         return results;
     }
 
     /**
-     * Performs a search by call number. Goes through the given list of libraries
-     * and their collections and shelves, and returns a list containing all
-     * the Location objects which call number matches the given search string.
+     * Performs a search by call number. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which call number matches the given
+     * search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which call number matches the search string
@@ -142,9 +143,11 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by location code. Goes through the given list of libraries
-     * and their collections and shelves, and returns a list containing all
-     * the Location objects which location code matches the given search string.
+     * Performs a search by location code. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which location code matches the given
+     * search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which location code matches the search string
@@ -170,9 +173,11 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by description. Goes through the given list of libraries
-     * and their collections and shelves, and returns a list containing all
-     * the Location objects which description matches the given search string.
+     * Performs a search by description. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which description matches the given
+     * search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which description matches the search string
@@ -210,9 +215,10 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by note. Goes through the given list of libraries
-     * and their collections and shelves, and returns a list containing all
-     * the Location objects which note matches the given search string.
+     * Performs a search by note. Goes through the given list of libraries and
+     * their collections and shelves, and returns a list containing all the
+     * Location objects which note matches the given search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which note matches the search string
@@ -250,9 +256,11 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by subject matters. Goes through the given list of libraries
-     * and their collections and shelves, and returns a list containing all
-     * the Location objects which subject matters match the given search string.
+     * Performs a search by subject matters. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which subject matters match the given
+     * search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which subject matters match the search string
@@ -283,13 +291,15 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by primary staff note. Goes through the given list 
-     * of libraries and their collections and shelves, and returns a list 
-     * containing all the Location objects which primary staff note matches 
-     * the given search string.
+     * Performs a search by primary staff note. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which primary staff note matches the
+     * given search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
-     * @return list of Locations which primary staff note matches the search string
+     * @return list of Locations which primary staff note matches the search
+     * string
      */
     private List getResultsByStaffNotePri(List<Library> libraries, String searchStr) {
         List results = new ArrayList<Location>();
@@ -312,13 +322,14 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by secondary staff note. Goes through the given list 
-     * of libraries and their collections and shelves, and returns a list 
-     * containing all the Location objects which secondary staff note matches 
+     * Performs a search by secondary staff note. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which secondary staff note matches
      * the given search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
-     * @return list of Locations which secondary staff note matches the search 
+     * @return list of Locations which secondary staff note matches the search
      * string
      */
     private List getResultsByStaffNoteSec(List<Library> libraries, String searchStr) {
@@ -342,9 +353,11 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by location id. Goes through the given list of libraries
-     * and their collections and shelves, and returns a list containing all
-     * the Location objects which location id matches the given search string.
+     * Performs a search by location id. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which location id matches the given
+     * search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which location id matches the search string
@@ -380,10 +393,10 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by floor. Goes through the given list of libraries
-     * and their collections and shelves, and returns a list containing all
-     * the Location objects which floor attribute matches the given 
-     * search string.
+     * Performs a search by floor. Goes through the given list of libraries and
+     * their collections and shelves, and returns a list containing all the
+     * Location objects which floor attribute matches the given search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which floor attribute matches the search string
@@ -409,10 +422,11 @@ public class BruteForceSearch extends Search {
     }
 
     /**
-     * Performs a search by shelf number. Goes through the given list of 
-     * libraries and their collections and shelves, and returns a list 
-     * containing all the Location objects which floor attribute matches the 
+     * Performs a search by shelf number. Goes through the given list of
+     * libraries and their collections and shelves, and returns a list
+     * containing all the Location objects which floor attribute matches the
      * given search string.
+     *
      * @param libraries list of libraries to be searched
      * @param searchStr search string
      * @return list of Locations which shelf number matches the search string

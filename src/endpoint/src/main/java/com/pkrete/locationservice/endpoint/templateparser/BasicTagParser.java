@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.templateparser;
 
@@ -34,27 +34,29 @@ import java.net.URLEncoder;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The <code>BasicTagParser</code> class implements the 
+ * The <code>BasicTagParser</code> class implements the
  * {@link TemplateParser TemplateParser} interface.
  *
- * This class implements the methods defined in the TemplateParser interface.  
- * This class offers the functionality for generating the html page that is 
- * returned to the user. Templates can contain standard html code and
- * Location Service's own tag markup. This class defines the tags that can be 
- * used in the templates. 
+ * This class implements the methods defined in the TemplateParser interface.
+ * This class offers the functionality for generating the HTML page that is
+ * returned to the user. Templates can contain standard HTML code and Location
+ * Service's own tag markup. This class defines the tags that can be used in the
+ * templates.
  *
  * @author Petteri Kivimäki
  */
 public class BasicTagParser implements TemplateParser {
 
-    private final static Logger logger = Logger.getLogger(BasicTagParser.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(BasicTagParser.class.getName());
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param shelf Shelf object to which the string is related
@@ -236,8 +238,9 @@ public class BasicTagParser implements TemplateParser {
     }
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param collection LibraryCollection object to which the string is related
@@ -245,6 +248,7 @@ public class BasicTagParser implements TemplateParser {
      * @param loader Loader object responsible of loading the template file
      * @return parsed string
      */
+    @Override
     public String parse(String line, String lang, LibraryCollection collection, String callno, Loader loader) {
         if (!line.matches(".*<!--.*\\$.*-->.*")) {
             return line;
@@ -413,8 +417,9 @@ public class BasicTagParser implements TemplateParser {
     }
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param library Library object to which the string is related
@@ -422,6 +427,7 @@ public class BasicTagParser implements TemplateParser {
      * @param loader Loader object responsible of loading the template file
      * @return parsed string
      */
+    @Override
     public String parse(String line, String lang, Library library, String callno, Loader loader) {
         if (!line.matches(".*<!--.*\\$.*-->.*")) {
             return line;
@@ -532,8 +538,9 @@ public class BasicTagParser implements TemplateParser {
     }
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param status status of the item
@@ -542,6 +549,7 @@ public class BasicTagParser implements TemplateParser {
      * @param owner owner code of the library
      * @return parsed string
      */
+    @Override
     public String parse(String line, String lang, String status, String callno, Loader loader, String owner) {
         if (!line.matches(".*<!--.*\\$.*-->.*")) {
             return line;
@@ -577,8 +585,9 @@ public class BasicTagParser implements TemplateParser {
     }
 
     /**
-     * Returns the name of the file which is included into another
-     * file. If a filename can not be found, null is returned instead.
+     * Returns the name of the file which is included into another file. If a
+     * filename can not be found, null is returned instead.
+     *
      * @param line single line of a template file that is processed
      * @param lang language of the UI
      * @return name of the file or null if the filename can not be found
@@ -600,7 +609,7 @@ public class BasicTagParser implements TemplateParser {
         try {
             return URLEncoder.encode(value, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            logger.error(ex);
+            logger.error(ex.getMessage());
             return value;
         }
     }

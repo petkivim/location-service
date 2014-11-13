@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.servlets;
 
@@ -38,32 +38,34 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This servlet offers an interface for searching and retrieving information
- * from LocationService so that it's possible to fetch data
- * without connecting the database directly. This interface is secure, because
- * only the owner parameter is used for fetching data from the
- * database. 
- * 
- * The search is implemented by fecthing all the locations of the given 
- * owner from the database and then searching programmatically Location
- * objects matching the given conditions. The downside of this implementation
- * is that response times get slower when the size of the database increases.
- * 
+ * from LocationService so that it's possible to fetch data without connecting
+ * the database directly. This interface is secure, because only the owner
+ * parameter is used for fetching data from the database.
+ *
+ * The search is implemented by fetching all the locations of the given owner
+ * from the database and then searching programmatically Location objects
+ * matching the given conditions. The downside of this implementation is that
+ * response times get slower when the size of the database increases.
+ *
  * The results are returned in XML format.
  *
  * @author Petteri Kivimäki
  */
 public class Exporter extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(Exporter.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Exporter.class.getName());
     private static final String errorMessage = PropertiesUtil.getProperty("error.exporter.400.message");
     private static final String accessDeniedMessage = PropertiesUtil.getProperty("error.exporter.401.message");
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -100,7 +102,7 @@ public class Exporter extends HttpServlet {
         // Variable that defines the name of the bean that's responsible of the search operation
         String searchBeanName = "exporterSearch";
         // If version is "2", change searchBean's name
-        if(version.equals("2")) {
+        if (version.equals("2")) {
             searchBeanName = "exporterSearchSolr";
         }
 
@@ -134,9 +136,7 @@ public class Exporter extends HttpServlet {
             Search searcher = (Search) ApplicationContextUtils.getApplicationContext().getBean(searchBeanName);
             // Search locations matching the conditions
             List results = searcher.search(searchStr, position, type, owner, children);
-            if (logger.isDebugEnabled()) {
-                logger.debug(new StringBuilder("Exporting ").append(results.size()).append(" locations. Owner : \"").append(owner.getCode()).append("\""));
-            }
+            logger.debug("Exporting {} locations. Owner : \"{}\".", results.size(), owner.getCode());
             // Generate output
             output = generator.generateBatchOutput(results, languages, children);
         }
@@ -145,26 +145,27 @@ public class Exporter extends HttpServlet {
             // Send the response
             out.println(output);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         } finally {
             out.close();
             // Create new SearchEvent for the statistics
             SearchEventStatisticsQueue.getInstance().put(
                     new SearchEvent(
-                    searchStr,
-                    type.toString(),
-                    position.toString(),
-                    authorized,
-                    getIpAddress(request),
-                    SearchEventType.EXPORTER,
-                    ownerCode,
-                    System.currentTimeMillis() - start));
+                            searchStr,
+                            type.toString(),
+                            position.toString(),
+                            authorized,
+                            getIpAddress(request),
+                            SearchEventType.EXPORTER,
+                            ownerCode,
+                            System.currentTimeMillis() - start));
         }
     }
 
     /**
-     * Returns the IP address of the user. If the IP address for some
-     * reason can not delivered, an empty string is returned.
+     * Returns the IP address of the user. If the IP address for some reason can
+     * not delivered, an empty string is returned.
+     *
      * @param request http request object
      * @return IP address of the user or an empty string
      */
@@ -178,8 +179,8 @@ public class Exporter extends HttpServlet {
                     InetAddress[] ips = InetAddress.getAllByName(request.getHeader("x-forwarded-for"));
                     ip = (ips != null && ips.length > 0) ? ips[0].getHostAddress() : "";
                 } catch (UnknownHostException uheAll) {
-                    logger.error(uhe);
-                    logger.error(uheAll);
+                    logger.error(uhe.getMessage());
+                    logger.error(uheAll.getMessage());
                     return "";
                 }
             }
@@ -190,6 +191,7 @@ public class Exporter extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -203,6 +205,7 @@ public class Exporter extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -216,6 +219,7 @@ public class Exporter extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

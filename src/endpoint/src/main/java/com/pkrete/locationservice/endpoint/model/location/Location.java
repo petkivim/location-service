@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.model.location;
 
@@ -25,9 +25,10 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * This abstract class defines the basic structure for all the objects representing locations like
- * libraries, collections or shelves. All the subclasses must implement the abstract <i>getCallNo</i> method.
- * 
+ * This abstract class defines the basic structure for all the objects
+ * representing locations like libraries, collections or shelves. All the
+ * subclasses must implement the abstract <i>getCallNo</i> method.
+ *
  * @author Petteri Kivimäki
  */
 public abstract class Location implements SimpleLocation, Serializable {
@@ -41,26 +42,28 @@ public abstract class Location implements SimpleLocation, Serializable {
      */
     protected String name;
     /**
-     * A string that equals to the location's location code in the ILS's database and OPAC.
+     * A string that equals to the location's location code in the ILS's
+     * database and OPAC.
      */
     protected String locationCode;
     /**
-     * Tells if the location code should be considered as a substring
-     * in the beginning of a string, or if it's an entire word.
+     * Tells if the location code should be considered as a substring in the
+     * beginning of a string, or if it's an entire word.
      */
     protected boolean isSubstring;
     /**
-     * Descriptions about the location. It's possible to add one description
-     * in each language.
+     * Descriptions about the location. It's possible to add one description in
+     * each language.
      */
     protected List<Description> descriptions;
     /**
-     * Notes related to the location. It's possible to add one note
-     * in each language.
+     * Notes related to the location. It's possible to add one note in each
+     * language.
      */
     protected List<Note> notes;
     /**
-     * A list of area objects that speficy the position of the location on a map.
+     * A list of area objects that speficy the position of the location on a
+     * map.
      */
     protected List<Area> areas;
     /**
@@ -94,17 +97,19 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the call number of the location.
+     *
      * @return the call number of the location.
      */
     public abstract String getCallNo();
 
     /**
-     * Returns the call number of the location in a format that is
-     * used in templates' names. All the whitespaces in the call number
-     * are replaced with underscores.
-     * @param incCollectionCode boolean value that tells if collection
-     * code should be included in the returned call number. If true, collection
-     * code is included only if it exists and is not empty
+     * Returns the call number of the location in a format that is used in
+     * templates' names. All the whitespaces in the call number are replaced
+     * with underscores.
+     *
+     * @param incCollectionCode boolean value that tells if collection code
+     * should be included in the returned call number. If true, collection code
+     * is included only if it exists and is not empty
      * @return the call number of the location
      */
     public abstract String getCallNoForTemplateName(boolean incCollectionCode);
@@ -122,6 +127,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Construct and initializes a location with the given location code.
+     *
      * @param locationCode the location code of the location
      */
     public Location(String locationCode) {
@@ -135,6 +141,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the locationId of the location in the database.
+     *
      * @return the id number of the location in the database
      */
     public int getLocationId() {
@@ -143,6 +150,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the name of the location.
+     *
      * @return the name of the location.
      */
     public String getName() {
@@ -151,6 +159,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the location code of the location.
+     *
      * @return the location code of the location
      */
     public String getLocationCode() {
@@ -159,6 +168,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the map related to the location.
+     *
      * @return the map related to the location
      */
     public Map getMap() {
@@ -167,6 +177,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the image related to the location.
+     *
      * @return the image related to the location
      */
     public Image getImage() {
@@ -175,6 +186,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the subject matters related to this location.
+     *
      * @return list of subject matters related to this location
      */
     public List<SubjectMatter> getSubjectMatters() {
@@ -183,6 +195,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the descriptions related to this location.
+     *
      * @return descriptions related to this location
      */
     public List<Description> getDescriptions() {
@@ -191,6 +204,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns a list of notes related to this location.
+     *
      * @return notes related to this location
      */
     public List<Note> getNotes() {
@@ -199,6 +213,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the floor where the location is located.
+     *
      * @return floor where the location is located
      */
     public String getFloor() {
@@ -206,8 +221,9 @@ public abstract class Location implements SimpleLocation, Serializable {
     }
 
     /**
-     * Returns the primary staff note, that's accessbile through
-     * the XML export, but not through the templates.
+     * Returns the primary staff note, that's accessbile through the XML export,
+     * but not through the templates.
+     *
      * @return primary staff note
      */
     public String getStaffNotePri() {
@@ -215,8 +231,9 @@ public abstract class Location implements SimpleLocation, Serializable {
     }
 
     /**
-     * Returns the secondary staff note, that's accessbile through
-     * the XML export, but not through the templates.
+     * Returns the secondary staff note, that's accessbile through the XML
+     * export, but not through the templates.
+     *
      * @return secondary staff note
      */
     public String getStaffNoteSec() {
@@ -224,9 +241,10 @@ public abstract class Location implements SimpleLocation, Serializable {
     }
 
     /**
-     * Returns a boolean value that tells if the location code
-     * should be considered as a substring in the beginning of a 
-     * string, or if it's an entire word.
+     * Returns a boolean value that tells if the location code should be
+     * considered as a substring in the beginning of a string, or if it's an
+     * entire word.
+     *
      * @return true if is a substring, otherwise false
      */
     public boolean getIsSubstring() {
@@ -235,6 +253,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes the id number of the location.
+     *
      * @param locationId the new id number
      */
     public void setLocationId(int locationId) {
@@ -243,6 +262,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes the name of the location.
+     *
      * @param name new name
      */
     public void setName(String name) {
@@ -251,6 +271,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes the location code of the location
+     *
      * @param locationCode the new location code
      */
     public void setLocationCode(String locationCode) {
@@ -259,6 +280,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes the map related to the location
+     *
      * @param map the new map
      */
     public void setMap(Map map) {
@@ -267,6 +289,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes the image related to the location
+     *
      * @param image the new image
      */
     public void setImage(Image image) {
@@ -275,6 +298,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes all the subject matters related to this location.
+     *
      * @param subjectMatters new list of subject matters
      */
     public void setSubjectMatters(List<SubjectMatter> subjectMatters) {
@@ -283,6 +307,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes all the descriptions related to this location.
+     *
      * @param descriptions new list of descriptions
      */
     public void setDescriptions(List<Description> descriptions) {
@@ -291,6 +316,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes all the notes related to this location.
+     *
      * @param notes new list of notes
      */
     public void setNotes(List<Note> notes) {
@@ -299,6 +325,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes the floor where the location is located.
+     *
      * @param floor new floor
      */
     public void setFloor(String floor) {
@@ -307,6 +334,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes the owner of the location.
+     *
      * @param owner new owner of the location
      */
     public void setOwner(Owner owner) {
@@ -315,6 +343,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the owner of the location.
+     *
      * @return owner of the location
      */
     public Owner getOwner() {
@@ -323,6 +352,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Returns the areas related to the location
+     *
      * @return the area related to the location
      */
     public List<Area> getAreas() {
@@ -331,6 +361,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Changes all the areas related to the location
+     *
      * @param areas the new areas
      */
     public void setAreas(List<Area> areas) {
@@ -339,6 +370,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Adds a new area related to the location.
+     *
      * @param area the new area
      */
     public void addArea(Area area) {
@@ -346,7 +378,9 @@ public abstract class Location implements SimpleLocation, Serializable {
     }
 
     /**
-     * Removes the specified area from the list of areas related to the location.
+     * Removes the specified area from the list of areas related to the
+     * location.
+     *
      * @param area the area to be removed
      */
     public void removeArea(Area area) {
@@ -356,6 +390,7 @@ public abstract class Location implements SimpleLocation, Serializable {
     /**
      * Changes the value of the primary staff note, that's accessbile through
      * the XML export, but not through the templates.
+     *
      * @param note new primary staff note
      */
     public void setStaffNotePri(String note) {
@@ -365,6 +400,7 @@ public abstract class Location implements SimpleLocation, Serializable {
     /**
      * Changes the value of the secondary staff note, that's accessbile through
      * the XML export, but not through the templates.
+     *
      * @param new secondary staff note
      */
     public void setStaffNoteSec(String note) {
@@ -372,9 +408,10 @@ public abstract class Location implements SimpleLocation, Serializable {
     }
 
     /**
-     * Changes the boolean value that tells if the location code
-     * should be considered as a substring in the beginning of a 
-     * string, or if it's an entire word.
+     * Changes the boolean value that tells if the location code should be
+     * considered as a substring in the beginning of a string, or if it's an
+     * entire word.
+     *
      * @param sub new value
      */
     public void setIsSubstring(boolean sub) {
@@ -383,6 +420,7 @@ public abstract class Location implements SimpleLocation, Serializable {
 
     /**
      * Default implementation. False is always returned.
+     *
      * @return always false
      */
     public boolean hasCollectionCode() {

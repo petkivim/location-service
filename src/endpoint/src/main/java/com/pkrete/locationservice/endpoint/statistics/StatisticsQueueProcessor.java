@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.statistics;
 
@@ -25,16 +25,16 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- * This class is responsible for monitoring search event queue and
- * saving the objects added to the queue to the database. After
- * the object has been added, it's removed from the queue.
- * 
- * Saving operation is run in a JDK Timer based thread, that is different from the main
- * thread. This implementation makes the actual database operation
- * invisible for the user, as it runs in the backround in another thread. The
+ * This class is responsible for monitoring search event queue and saving the
+ * objects added to the queue to the database. After the object has been added,
+ * it's removed from the queue.
+ *
+ * Saving operation is run in a JDK Timer based thread, that is different from
+ * the main thread. This implementation makes the actual database operation
+ * invisible for the user, as it runs in the background in another thread. The
  * thread is started when the application starts, and it's making blocking
  * method calls, which means that it keeps on running until the shutdown.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class StatisticsQueueProcessor implements Runnable {
@@ -59,6 +59,7 @@ public class StatisticsQueueProcessor implements Runnable {
 
     /**
      * Changes the dbService object.
+     *
      * @param dbService new value
      */
     public void setDbService(Service dbService) {
@@ -67,6 +68,7 @@ public class StatisticsQueueProcessor implements Runnable {
 
     /**
      * Sets the value of the mailService instance variable.
+     *
      * @param mailService new value
      */
     public void setMailService(EmailService mailService) {
@@ -75,6 +77,7 @@ public class StatisticsQueueProcessor implements Runnable {
 
     /**
      * Returns the current value of failed attempts max limit.
+     *
      * @return current value of failed attempts max limit
      */
     public int getFailedAttemptsMaxLimit() {
@@ -83,6 +86,7 @@ public class StatisticsQueueProcessor implements Runnable {
 
     /**
      * Sets the value of failed attempts max limit.
+     *
      * @param failedAttemptsMaxLimit new value
      */
     public void setFailedAttemptsMaxLimit(int failedAttemptsMaxLimit) {
@@ -90,8 +94,8 @@ public class StatisticsQueueProcessor implements Runnable {
     }
 
     /**
-     * Monitors the search event statistics queue and saves event to the db
-     * when one becomes available.
+     * Monitors the search event statistics queue and saves event to the db when
+     * one becomes available.
      */
     @Override
     public void run() {

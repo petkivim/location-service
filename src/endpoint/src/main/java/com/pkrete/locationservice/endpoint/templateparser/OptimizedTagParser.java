@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.templateparser;
 
@@ -34,32 +34,34 @@ import java.net.URLEncoder;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The <code>OptimizedTagParser</code> class implements the 
+ * The <code>OptimizedTagParser</code> class implements the
  * {@link TemplateParser TemplateParser} interface.
  *
- * This class implements the methods defined in the TemplateParser interface.  
- * This class offers the functionality for generating the html page that is 
- * returned to the user. Templates can contain standard html code and
- * Location Service's own tag markup. This class defines the tags that can be 
- * used in the templates. 
- * 
+ * This class implements the methods defined in the TemplateParser interface.
+ * This class offers the functionality for generating the HTML page that is
+ * returned to the user. Templates can contain standard HTML code and Location
+ * Service's own tag markup. This class defines the tags that can be used in the
+ * templates.
+ *
  * This class is optimized version of {@link BasicTagParser BasicTagParser}
- * class. Both classes do lot of String concatenation, and BasciTagParser
- * uses String objects and this class StringBuilder objects. This class
- * also contains some minor refactoring.
+ * class. Both classes do lot of String concatenation, and BasciTagParser uses
+ * String objects and this class StringBuilder objects. This class also contains
+ * some minor refactoring.
  *
  * @author Petteri Kivimäki
  */
 public class OptimizedTagParser implements TemplateParser {
 
-    private final static Logger logger = Logger.getLogger(OptimizedTagParser.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(OptimizedTagParser.class.getName());
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param shelf Shelf object to which the string is related
@@ -261,8 +263,9 @@ public class OptimizedTagParser implements TemplateParser {
     }
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param collection LibraryCollection object to which the string is related
@@ -461,8 +464,9 @@ public class OptimizedTagParser implements TemplateParser {
     }
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param library Library object to which the string is related
@@ -596,8 +600,9 @@ public class OptimizedTagParser implements TemplateParser {
     }
 
     /**
-     * Parses the given string and replaces all the markup codes with 
+     * Parses the given string and replaces all the markup codes with
      * corresponding information.
+     *
      * @param line string to be parsed
      * @param lang language of the UI
      * @param status status of the item
@@ -645,8 +650,9 @@ public class OptimizedTagParser implements TemplateParser {
     }
 
     /**
-     * Returns the name of the file which is included into another
-     * file. If a filename can not be found, null is returned instead.
+     * Returns the name of the file which is included into another file. If a
+     * filename can not be found, null is returned instead.
+     *
      * @param line single line of a template file that is processed
      * @param lang language of the UI
      * @return name of the file or null if the filename can not be found
@@ -668,7 +674,7 @@ public class OptimizedTagParser implements TemplateParser {
         try {
             return URLEncoder.encode(value, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            logger.error(ex);
+            logger.error(ex.getMessage());
             return value;
         }
     }
@@ -734,7 +740,7 @@ public class OptimizedTagParser implements TemplateParser {
         StringBuilder url = new StringBuilder();
         StringBuilder link = new StringBuilder();
         String baseUrl = "https://maps.google.com/?q=";
-        
+
         Pattern regex = Pattern.compile(pattern0);
         Matcher m = regex.matcher(line);
 

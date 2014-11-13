@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.service;
 
@@ -29,67 +29,67 @@ import com.pkrete.locationservice.endpoint.model.location.SimpleLocation;
 import java.util.List;
 
 /**
- * Service interface defines methods that are needed by other parts of 
- * the application that need to access the data in the database. All the
- * classes implementing this interface must implement all the methods.
+ * Service interface defines methods that are needed by other parts of the
+ * application that need to access the data in the database. All the classes
+ * implementing this interface must implement all the methods.
  *
  * @author Petteri Kivimäki
  */
 public interface Service {
 
-    public boolean save(SearchEvent event);
+    boolean save(SearchEvent event);
 
-    public List getLibrary(String callno, String owner);
+    List getLibrary(String callno, String owner);
 
-    public Library getLibrary(int id);
+    Library getLibrary(int id);
 
-    public List getLibraries(String owner);
+    List getLibraries(String owner);
 
-    public List<SimpleLocation> getLibrariesFromIndex(String owner);
+    List<SimpleLocation> getLibrariesFromIndex(String owner);
 
-    public List getCollection(String callno, String owner);
+    List getCollection(String callno, String owner);
 
-    public List getCollections(String owner);
+    List getCollections(String owner);
 
-    public List<SimpleLocation> getCollectionsFromIndex(String owner);
+    List<SimpleLocation> getCollectionsFromIndex(String owner);
 
-    public List<SimpleLocation> getCollectionsByLibraryId(int id, String owner);
+    List<SimpleLocation> getCollectionsByLibraryId(int id, String owner);
 
-    public LibraryCollection getCollection(int id);
+    LibraryCollection getCollection(int id);
 
-    public List getShelf(String callno, String owner);
+    List getShelf(String callno, String owner);
 
-    public List getShelves(String owner);
+    List getShelves(String owner);
 
-    public List<SimpleLocation> getShelvesFromIndex(String owner);
+    List<SimpleLocation> getShelvesFromIndex(String owner);
 
-    public List<SimpleLocation> getShelvesByCollectionId(int id, String owner);
+    List<SimpleLocation> getShelvesByCollectionId(int id, String owner);
 
-    public Shelf getShelf(int id);
+    Shelf getShelf(int id);
 
-    public Location getLocation(String locationId, String owner);
+    Location getLocation(String locationId, String owner);
 
-    public List<SimpleLocation> getSubstringLocations(String owner);
-    
-    public List<SimpleLocation> getSubstringLocations(String owner, String collectionCode);
+    List<SimpleLocation> getSubstringLocations(String owner);
 
-    public List<SimpleLocation> getShelvesByCollectionCode(String owner, String collectionCode);
+    List<SimpleLocation> getSubstringLocations(String owner, String collectionCode);
 
-    public LibraryCollection getCollectionByCollectionCode(String owner, String collectionCode);
+    List<SimpleLocation> getShelvesByCollectionCode(String owner, String collectionCode);
 
-    public List<Library> getAllLocations(String owner);
+    LibraryCollection getCollectionByCollectionCode(String owner, String collectionCode);
 
-    public Owner getOwnerByCode(String code);
+    List<Library> getAllLocations(String owner);
 
-    public LocatingStrategy getLocatingStrategy(String owner);
+    Owner getOwnerByCode(String code);
 
-    public List<CallnoModification> getNotFoundRedirects(String owner);
+    LocatingStrategy getLocatingStrategy(String owner);
 
-    public List<CallnoModification> getPreprocessingRedirects(String owner);
+    List<CallnoModification> getNotFoundRedirects(String owner);
 
-    public SimpleLocation getIndexEntry(String locationId, String owner);
-    
-    public List<Location> getLocations(List<Integer> libraryIds, List<Integer> collectionIds, List<Integer> shelfIds, boolean children);
-    
-    public boolean testDbConnection();
+    List<CallnoModification> getPreprocessingRedirects(String owner);
+
+    SimpleLocation getIndexEntry(String locationId, String owner);
+
+    List<Location> getLocations(List<Integer> libraryIds, List<Integer> collectionIds, List<Integer> shelfIds, boolean children);
+
+    boolean testDbConnection();
 }

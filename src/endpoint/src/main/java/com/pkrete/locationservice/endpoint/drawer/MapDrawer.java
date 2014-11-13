@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.drawer;
 
@@ -30,22 +30,24 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import javax.imageio.ImageIO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * This class implements {@link Drawer Drawer} interface and implements
- * all the methods defined in it. This class can be used for drawing
- * a position of a Location object on a map.
- * 
+ * This class implements {@link Drawer Drawer} interface and implements all the
+ * methods defined in it. This class can be used for drawing a position of a
+ * Location object on a map.
+ *
  * @author Petteri Kivimäki
  */
 public class MapDrawer implements Drawer {
 
-    private final static Logger logger = Logger.getLogger(MapDrawer.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(MapDrawer.class.getName());
     private ConverterService converterService;
 
     /**
      * Changes the value of converterService instance variable
+     *
      * @param converterService new value to be set
      */
     public void setConverterService(ConverterService converterService) {
@@ -53,13 +55,15 @@ public class MapDrawer implements Drawer {
     }
 
     /**
-     * Creates a BufferedImage that presents the location of the given
-     * Location object on a map.
+     * Creates a BufferedImage that presents the location of the given Location
+     * object on a map.
+     *
      * @param location Location object
      * @param lang language of the UI
-     * @return BufferedImage that presents the location of the given
-     * Location object on a map
+     * @return BufferedImage that presents the location of the given Location
+     * object on a map
      */
+    @Override
     public BufferedImage draw(Location location, String lang) {
         // If location is null, there's nothing to do
         if (location == null) {
@@ -93,7 +97,7 @@ public class MapDrawer implements Drawer {
                 if (file.exists()) {
                     bufferedImage = ImageIO.read(file);
                 } else {
-                    logger.error("The image file doesn't exist! Path: \"" + file.getAbsolutePath() + "\"");
+                    logger.error("The image file doesn't exist! Path: \"{}\"", file.getAbsolutePath());
                 }
             } else {
                 // The image is external and accessed via its URL
@@ -132,14 +136,15 @@ public class MapDrawer implements Drawer {
                 g.dispose();
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return bufferedImage;
     }
 
     /**
-     * Parses red, green or blue component value from the given HEX color 
-     * string according to the rgb parameter value.
+     * Parses red, green or blue component value from the given HEX color string
+     * according to the rgb parameter value.
+     *
      * @param color color as a HEX string, 3 or 6 characters long
      * @param rgb the value that is parsed from the HEX string
      * @return red, green or blue value
@@ -170,8 +175,9 @@ public class MapDrawer implements Drawer {
 
     /**
      * Returns the drawing color that is used with the given Location object.
-     * The color can be defined on owner or on map level. If map 
-     * level definition is missing, owner level definition is used.
+     * The color can be defined on owner or on map level. If map level
+     * definition is missing, owner level definition is used.
+     *
      * @param location Location object
      * @return drawing color as HEX decimal number
      */
@@ -196,10 +202,11 @@ public class MapDrawer implements Drawer {
 
     /**
      * Returns the opacity value that is used with the given Location object.
-     * The opacity can be defined on owner or on map level. If map 
-     * level definition is missing, owner level definition is used.
-     * @param location Location object 
-     * @return opacity value to be used with the location (0-255) 
+     * The opacity can be defined on owner or on map level. If map level
+     * definition is missing, owner level definition is used.
+     *
+     * @param location Location object
+     * @return opacity value to be used with the location (0-255)
      */
     private int getOpacity(Location location) {
         String opacity = "150";

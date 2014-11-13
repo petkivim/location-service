@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.modifier;
 
@@ -21,9 +21,9 @@ import com.pkrete.locationservice.endpoint.model.owner.Owner;
 
 /**
  * This abstract class represents the rules of a modification operation that can
- * be applied to a call number. The rules consist of a condition that
- * defines the conditions when modification is applied, and the modification
- * that's applied to the call number when the condition is true.
+ * be applied to a call number. The rules consist of a condition that defines
+ * the conditions when modification is applied, and the modification that's
+ * applied to the call number when the condition is true.
  *
  * The actual modification operation is done by the
  * {@link CallnoModifier CallnoModifier} class.
@@ -31,6 +31,7 @@ import com.pkrete.locationservice.endpoint.model.owner.Owner;
  * @author Petteri Kivimäki
  */
 public abstract class CallnoModification {
+
     /* Id of this object in the db. */
     private int id;
     /* Condition for the modification. */
@@ -51,6 +52,7 @@ public abstract class CallnoModification {
     /**
      * Initializes a CallnoModification object with the given conditino and
      * operation.
+     *
      * @param condition condition for the operation
      * @param operation operation when the condition is true
      */
@@ -61,6 +63,7 @@ public abstract class CallnoModification {
 
     /**
      * Returns the database id of this object.
+     *
      * @return id number of this object in the db
      */
     public int getId() {
@@ -69,6 +72,7 @@ public abstract class CallnoModification {
 
     /**
      * Returns the condition that defines the condition for the modification.
+     *
      * @return condition for the modification
      */
     public String getCondition() {
@@ -77,6 +81,7 @@ public abstract class CallnoModification {
 
     /**
      * Returns the modification that's applied when the rule is true.
+     *
      * @return modification that's applied when the rule is true
      */
     public String getOperation() {
@@ -85,6 +90,7 @@ public abstract class CallnoModification {
 
     /**
      * Returns a boolean value that indicates if this object is acitve.
+     *
      * @return true if active, otherwise false
      */
     public boolean getIsActive() {
@@ -93,6 +99,7 @@ public abstract class CallnoModification {
 
     /**
      * Returns the owner of this object.
+     *
      * @return owner of this object
      */
     public Owner getOwner() {
@@ -101,6 +108,7 @@ public abstract class CallnoModification {
 
     /**
      * Changes the database id of this object.
+     *
      * @param id new id
      */
     public void setId(int id) {
@@ -109,6 +117,7 @@ public abstract class CallnoModification {
 
     /**
      * Changes the condition that defines the condition for the modification.
+     *
      * @param condition new condition
      */
     public void setCondition(String condition) {
@@ -117,14 +126,16 @@ public abstract class CallnoModification {
 
     /**
      * Changes the modification that's applied when the rule is true.
+     *
      * @param opeartion new operation
      */
     public void setOperation(String operation) {
         this.operation = operation;
     }
-    
+
     /**
      * Changes the boolean value that indicates if this object is acitve.
+     *
      * @param active new value
      */
     public void setIsActive(boolean active) {
@@ -133,6 +144,7 @@ public abstract class CallnoModification {
 
     /**
      * Changes the owner of this object
+     *
      * @param owner new owner
      */
     public void setOwner(Owner owner) {

@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.resolver;
 
@@ -29,17 +29,18 @@ import com.pkrete.locationservice.endpoint.service.Service;
 import com.pkrete.locationservice.endpoint.util.LocationServiceConstants;
 import com.pkrete.locationservice.endpoint.util.ServiceFactory;
 import java.util.Map;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Abstract base class that defines the methods for locating the location object 
+ * Abstract base class that defines the methods for locating the location object
  * corresponding the given parameters from the database.
  *
  * @author Petteri Kivimäki
  */
 public abstract class Resolver {
 
-    private final static Logger logger = Logger.getLogger(Resolver.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(Resolver.class.getName());
     protected Modifier modifier;
     protected CallNoParserFactory callNoParserFactory;
     protected Map<OutputFormat, Generator> generators;
@@ -65,8 +66,9 @@ public abstract class Resolver {
     }
 
     /**
-     * Contructs and initializes a new Resolver object
-     * @param generators list of Generator objects that are responsible of 
+     * Constructs and initializes a new Resolver object
+     *
+     * @param generators list of Generator objects that are responsible of
      * generating the output shown to the user
      */
     public Resolver(Map<OutputFormat, Generator> generators) {
@@ -75,6 +77,7 @@ public abstract class Resolver {
 
     /**
      * Sets the generator variable.
+     *
      * @param generator new value
      */
     public void setGenerators(Map<OutputFormat, Generator> generators) {
@@ -83,6 +86,7 @@ public abstract class Resolver {
 
     /**
      * Sets the serviceFactory variable.
+     *
      * @param serviceFactory new value
      */
     public void setServiceFactory(ServiceFactory serviceFactory) {
@@ -91,6 +95,7 @@ public abstract class Resolver {
 
     /**
      * Sets the callNoParserFactory variable.
+     *
      * @param callNoParserFactory new value
      */
     public void setCallNoParserFactory(CallNoParserFactory callNoParserFactory) {
@@ -99,6 +104,7 @@ public abstract class Resolver {
 
     /**
      * Sets the modifier variable.
+     *
      * @param modifier new value
      */
     public void setModifier(Modifier modifier) {
@@ -106,8 +112,9 @@ public abstract class Resolver {
     }
 
     /**
-     * Sets the regex that's used for parsing interval definitions from
-     * call numbers.
+     * Sets the regex that's used for parsing interval definitions from call
+     * numbers.
+     *
      * @param regex new regex
      */
     public void setIntervalRegex(String regex) {
@@ -117,53 +124,54 @@ public abstract class Resolver {
     /**
      * Sets language of the locale that's used for call number interval
      * matching. Default is "fi".
-     * @param language language code (two lower case characters) 
+     *
+     * @param language language code (two lower case characters)
      */
     public void setLanguage(String language) {
         this.language = language;
     }
 
     /**
-     * Sets country of the locale that's used for call number interval
-     * matching. Default is "FI".
-     * @param country country code (two upper case characters) 
+     * Sets country of the locale that's used for call number interval matching.
+     * Default is "FI".
+     *
+     * @param country country code (two upper case characters)
      */
     public void setCountry(String country) {
         this.country = country;
     }
 
     /**
-     * Fetches the information related to the given call number. If the id 
-     * parameter is supplied, first the location is searched by the id
-     * and then by the call number. If the id parameter is null, then call
-     * number is used. If collection parameter is given, it's used together
-     * with the call number.
+     * Fetches the information related to the given call number. If the id
+     * parameter is supplied, first the location is searched by the id and then
+     * by the call number. If the id parameter is null, then call number is
+     * used. If collection parameter is given, it's used together with the call
+     * number.
+     *
      * @param callno the call number to be resolved
      * @param lang the language of the UI
      * @param status of the publication, 0 = available, 1 = charged
      * @param owner owner of the location
      * @param collection collection code that's related to the location
      * @param id id number of the Location object to be searched
-     * @return the html page that is returned to the user
+     * @return the HTML page that is returned to the user
      */
     public String resolve(String callno, String lang, boolean status, String owner, String collection, OutputFormat format, String id) {
         /* Get the output generator defined by the format */
         Generator generator = generators.get(format);
         /* Generator cannot be null */
         if (generator == null) {
-            logger.error("Unable to find generator matching the given format \"" + format + "\". Processing aborted.");
+            logger.error("Unable to find generator matching the given format \"{}\". Processing aborted.", format);
             return "";
         }
 
         if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Use \"").append(format).append("\" as output format."));
+            logger.debug("Use \"{}\" as output format.", format);
         }
 
         /* If status is false, the item is not available. */
         if (!status) {
-            if (logger.isDebugEnabled()) {
-                logger.debug(new StringBuilder("Not available: {\"lang:\"").append(lang).append("\",\"callno\":\"").append(callno).append("\",\"owner\":\"").append(owner).append("\"}"));
-            }
+            logger.debug("Not available: {\"lang:\"{}\",\"callno\":\"{}\",\"owner\":\"{}\"}", lang, callno, owner);
             return generator.generateOutputNotAvailable(lang, callno, owner);
         }
 
@@ -180,7 +188,7 @@ public abstract class Resolver {
             /* pass it to the Generator object. */
             if (index != null) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug(new StringBuilder("Get location by id parameter : ").append(id));
+                    logger.debug("Get location by id parameter : \"{}\"", id);
                 }
                 switch (index.getLocationType()) {
                     case LIBRARY:
@@ -195,9 +203,7 @@ public abstract class Resolver {
             }
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Parameters : {\"callno\":\"").append(callno).append("\",\"lang\":\"").append(lang).append("\",\"collection\":\"").append(collection).append("\",\"owner\":\"").append(owner).append("\"}"));
-        }
+        logger.debug("Parameters : {\"callno\":\"{}\",\"lang\":\"{}\",\"collection\":\"{}\",\"owner\":\"{}\"}", callno, lang, collection, owner);
 
         /* Get the CallNoParser that is defined in settings. */
         CallNoParser parser = callNoParserFactory.createParser(generator, owner, strategy);
@@ -213,40 +219,29 @@ public abstract class Resolver {
             /* Run through locations that have Match beginning checkbox checked. */
             SimpleLocation temp = runMatchBeginningByCollectionCodeCheck(callno, owner, collection, localService);
             if (temp != null) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(new StringBuilder("Match beginning by collection code check hit! Location id : ").append(temp.getLocationId()));
-                }
+                logger.debug("Match beginning by collection code check hit! Location id : \"{}\"", temp.getLocationId());
                 return parser.parse(callno, lang, owner, temp);
             }
 
             Shelf shelf = runShelvesByCollectionCodeCheck(collection, callno, owner, localService);
             if (shelf != null) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(new StringBuilder("Check shelves by collection code hit! Shelf id : ").append(shelf.getLocationId()));
-                }
+                logger.debug("Check shelves by collection code hit! Shelf id : \"{}\"", shelf.getLocationId());
                 return generator.generateOutput(shelf, lang, callno);
             }
 
             /* Then check the collections. */
             LibraryCollection libCollection = runCollectionsByCollectionCodeCheck(collection, callno, owner, localService);
             if (libCollection != null) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(new StringBuilder("Check collections by collection code hit! Collection id : ").append(libCollection.getLocationId()));
-                }
+                logger.debug("Check collections by collection code hit! Collection id : \"{}\"", libCollection.getLocationId());
                 return generator.generateOutput(libCollection, lang, callno);
             }
-
-            if (logger.isDebugEnabled()) {
-                logger.debug(new StringBuilder("No location matching the given collection code was found! Collection code : ").append(collection));
-            }
+            logger.debug("No location matching the given collection code was found! Collection code : \"{}\"", collection);
         }
 
         /* Run through locations that have Match beginning checkbox checked. */
         SimpleLocation location = runMatchBeginningCheck(callno, owner, localService);
         if (location != null) {
-            if (logger.isDebugEnabled()) {
-                logger.debug(new StringBuilder("Match beginning check hit! Location id : ").append(location.getLocationId()));
-            }
+            logger.debug("Match beginning check hit! Location id : \"{}\"", location.getLocationId());
             return parser.parse(callno, lang, owner, location);
         }
 

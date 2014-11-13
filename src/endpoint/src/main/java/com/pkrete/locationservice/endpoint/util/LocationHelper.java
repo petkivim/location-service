@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.util;
 
@@ -23,16 +23,17 @@ import java.util.regex.Pattern;
 
 /**
  * This class offers helper methods for handling Location objects.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class LocationHelper {
 
     /**
-     * Compares the given call numbers and returns true if and only if the
-     * whole callno1 can be found from the beginning of callno2. Whole words 
-     * are compared which means that 'Lib Col 001' and 'Lib Col 001 Author' 
-     * match, but 'Lib Col 001' and 'Lib Col 0010 Author' do not match.
+     * Compares the given call numbers and returns true if and only if the whole
+     * callno1 can be found from the beginning of callno2. Whole words are
+     * compared which means that 'Lib Col 001' and 'Lib Col 001 Author' match,
+     * but 'Lib Col 001' and 'Lib Col 0010 Author' do not match.
+     *
      * @param callno1 call number to compare
      * @param callno2 call number to compare
      * @return true or false
@@ -49,10 +50,11 @@ public class LocationHelper {
     }
 
     /**
-     * Compares the given call numbers and returns true if and only if the
-     * whole callno1 can be found from the beginning of callno2. Substrings are 
-     * compared which means that 'Lib Col 001' and 'Lib Col 001 Author' match, 
-     * and 'Lib Col 001' and 'Lib Col 0010 Author' match too. 
+     * Compares the given call numbers and returns true if and only if the whole
+     * callno1 can be found from the beginning of callno2. Substrings are
+     * compared which means that 'Lib Col 001' and 'Lib Col 001 Author' match,
+     * and 'Lib Col 001' and 'Lib Col 0010 Author' match too.
+     *
      * @param callno1 call number to compare
      * @param callno2 call number to compare
      * @return true or false
@@ -70,11 +72,12 @@ public class LocationHelper {
      * Compares the given call numbers and returns true if and only if the
      * callno2 is between the interval defined in callno1. The given pattern
      * defines the syntax of the interval definition.
+     *
      * @param callno1 call number to compare
      * @param callno2 call number to compare
      * @param pattern syntax of the interval definition
      * @param collator RuleBasedCollator that's used for call number comparisons
-     * @return  true or false
+     * @return true or false
      */
     public static boolean match(String callno1, String callno2, Pattern pattern, RuleBasedCollator collator) {
         // Regex matcher
@@ -91,7 +94,7 @@ public class LocationHelper {
             // Interval end
             String end = base + matcher.group(2);
             // Callno1 base must be found from the beginning of callno2
-            if(!LocationHelper.match(base.trim(), callno2)) {
+            if (!LocationHelper.match(base.trim(), callno2)) {
                 return false;
             }
             // Callno2Begin can not be longer than interval begin

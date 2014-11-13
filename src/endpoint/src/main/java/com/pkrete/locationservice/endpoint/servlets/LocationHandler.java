@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.servlets;
 
@@ -35,26 +35,29 @@ import com.pkrete.locationservice.endpoint.util.PropertiesUtil;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The LocationHandler servlet class receives the call number and the language 
- * of the UI via <code>GET</code> or <code>POST</code> method and forwards 
- * them to the {@link LocationResolver LocationResolver}
- * class. LocationResolver generates output string and returns it to the 
- * LocationHandler that returns it to the user. All the parameters are
- * validated by the LocationHandlerRequestValidator class, so no validation 
- * is needed in LocationHandler.
+ * The LocationHandler servlet class receives the call number and the language
+ * of the UI via <code>GET</code> or <code>POST</code> method and forwards them
+ * to the {@link LocationResolver LocationResolver} class. LocationResolver
+ * generates output string and returns it to the LocationHandler that returns it
+ * to the user. All the parameters are validated by the
+ * LocationHandlerRequestValidator class, so no validation is needed in
+ * LocationHandler.
  *
  * @author Petteri Kivimäki
  */
 public class LocationHandler extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(LocationHandler.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LocationHandler.class.getName());
     private static final String errorMessage = PropertiesUtil.getProperty("error.locationhandler.400.message");
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -129,7 +132,7 @@ public class LocationHandler extends HttpServlet {
                     output = generator.generateError("400", errorMessage);
                 }
             } else {
-                logger.warn("Failed to generate error message, because no \"" + format + "\" generator is configured. Processing aborted.");
+                logger.warn("Failed to generate error message, because no \"{}\" generator is configured. Processing aborted.", format);
             }
         }
         try {
@@ -138,21 +141,21 @@ public class LocationHandler extends HttpServlet {
             // Flush stream
             out.flush();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         } finally {
             // Close stream
             out.close();
             // Add SearchEvent to DB
             SearchEventStatisticsQueue.getInstance().put(
                     new SearchEvent(
-                    callno,
-                    collection,
-                    lang,
-                    statusStr,
-                    getIpAddress(request),
-                    SearchEventType.LOCATION_HANDLER,
-                    owner,
-                    System.currentTimeMillis() - start));
+                            callno,
+                            collection,
+                            lang,
+                            statusStr,
+                            getIpAddress(request),
+                            SearchEventType.LOCATION_HANDLER,
+                            owner,
+                            System.currentTimeMillis() - start));
         }
     }
 
@@ -166,8 +169,8 @@ public class LocationHandler extends HttpServlet {
                     InetAddress[] ips = InetAddress.getAllByName(request.getHeader("x-forwarded-for"));
                     ip = (ips != null && ips.length > 0) ? ips[0].getHostAddress() : "";
                 } catch (UnknownHostException uheAll) {
-                    logger.error(uhe);
-                    logger.error(uheAll);
+                    logger.error(uhe.getMessage());
+                    logger.error(uheAll.getMessage());
                     return "";
                 }
             }
@@ -176,8 +179,9 @@ public class LocationHandler extends HttpServlet {
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -189,8 +193,9 @@ public class LocationHandler extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -202,8 +207,9 @@ public class LocationHandler extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

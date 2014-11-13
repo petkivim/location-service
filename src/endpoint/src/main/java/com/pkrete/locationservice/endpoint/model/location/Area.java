@@ -1,24 +1,25 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.model.location;
 
 /**
  * An area specifies a rectangle in a coordinate space.
+ *
  * @author Petteri Kivimäki
  */
 public class Area {
@@ -60,8 +61,9 @@ public class Area {
     }
 
     /**
-     * Constructs and initializes an area thats top-left point is defined by 
+     * Constructs and initializes an area thats top-left point is defined by
      * (x1, y1) and low-right point by (x2, y2).
+     *
      * @param x1 the x coordinate of the upper left corner.
      * @param y1 the y coordinate of the upper left corner.
      * @param x2 the x coordinate of the lower right corner.
@@ -75,8 +77,9 @@ public class Area {
     }
 
     /**
-     * Constructs and initializes an area thats top-left point is defined by 
+     * Constructs and initializes an area thats top-left point is defined by
      * (x1, y1), low-right point by (x2, y2) and the angle.
+     *
      * @param x1 the x coordinate of the upper left corner.
      * @param y1 the y coordinate of the upper left corner.
      * @param x2 the x coordinate of the lower right corner.
@@ -93,6 +96,7 @@ public class Area {
 
     /**
      * Returns the areaId of the area in the database.
+     *
      * @return the id number of the area in the database
      */
     public int getAreaId() {
@@ -101,6 +105,7 @@ public class Area {
 
     /**
      * Returns the x coordinate of the upper left corner of the area.
+     *
      * @return the x coordinate of the upper left corner of the area
      */
     public int getX1() {
@@ -109,6 +114,7 @@ public class Area {
 
     /**
      * Returns the y coordinate of the upper left corner of the area.
+     *
      * @return the y coordinate of the upper left corner of the area
      */
     public int getY1() {
@@ -117,6 +123,7 @@ public class Area {
 
     /**
      * Returns the x coordinate of the lower right corner of the area.
+     *
      * @return the x coordinate of the lower right corner of the area
      */
     public int getX2() {
@@ -125,6 +132,7 @@ public class Area {
 
     /**
      * Returns the y coordinate of the lower right corner of the area.
+     *
      * @return the y coordinate of the lower right corner of the area
      */
     public int getY2() {
@@ -133,6 +141,7 @@ public class Area {
 
     /**
      * Changes the areaId of the area.
+     *
      * @param areaId the new areaId of the area
      */
     public void setAreaId(int areaId) {
@@ -140,7 +149,9 @@ public class Area {
     }
 
     /**
-     * Changes the x coordinate of the upper left corner to the specified location.
+     * Changes the x coordinate of the upper left corner to the specified
+     * location.
+     *
      * @param x1 the x coordinate of the new location
      */
     public void setX1(int x1) {
@@ -148,7 +159,9 @@ public class Area {
     }
 
     /**
-     * Changes the y coordinate of the upper left corner to the specified location.
+     * Changes the y coordinate of the upper left corner to the specified
+     * location.
+     *
      * @param y1 the y coordinate of the new location
      */
     public void setY1(int y1) {
@@ -156,7 +169,9 @@ public class Area {
     }
 
     /**
-     * Changes the x coordinate of the lower right corner to the specified location.
+     * Changes the x coordinate of the lower right corner to the specified
+     * location.
+     *
      * @param x2 the x coordinate of the new location
      */
     public void setX2(int x2) {
@@ -164,7 +179,9 @@ public class Area {
     }
 
     /**
-     * Changes the y coordinate of the lower right corner to the specified location.
+     * Changes the y coordinate of the lower right corner to the specified
+     * location.
+     *
      * @param y2 the y coordinate of the new location
      */
     public void setY2(int y2) {
@@ -172,8 +189,9 @@ public class Area {
     }
 
     /**
-     * Returns the angle of the area in degrees. If the area is rotated the 
-     * angle is greater than zero. 
+     * Returns the angle of the area in degrees. If the area is rotated the
+     * angle is greater than zero.
+     *
      * @return angle of the area
      */
     public int getAngle() {
@@ -181,8 +199,9 @@ public class Area {
     }
 
     /**
-     * Changes the angle of the area, that must be given in degrees. If the 
-     * area is rotated the value is greater than zero.
+     * Changes the angle of the area, that must be given in degrees. If the area
+     * is rotated the value is greater than zero.
+     *
      * @param angle new value in degrees
      */
     public void setAngle(int angle) {

@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.generator.json;
 
@@ -28,10 +28,11 @@ import com.pkrete.locationservice.endpoint.model.location.Shelf;
 import com.pkrete.locationservice.endpoint.model.subjectmatter.SubjectMatter;
 import com.pkrete.locationservice.endpoint.util.Settings;
 import java.util.LinkedHashMap;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The <code>HTMLGenerator</code> class extends the abstract 
+ * The <code>HTMLGenerator</code> class extends the abstract
  * {@link EmptyGenerator EmptyGenerator} class.
  *
  * This class returns the output in JSON format.
@@ -40,7 +41,7 @@ import org.apache.log4j.Logger;
  */
 public class JSONGenerator extends EmptyGenerator {
 
-    private final static Logger logger = Logger.getLogger(JSONGenerator.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(JSONGenerator.class.getName());
 
     /**
      * Constructs and initializes a new JSONGenerator object.
@@ -52,6 +53,7 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Generates the JSON that is returned to the user.
+     *
      * @param library the Library object thats information is shown to the user
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
@@ -59,9 +61,7 @@ public class JSONGenerator extends EmptyGenerator {
      */
     @Override
     public String generateOutput(Library library, String lang, String callno) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Generate output for library. Id: ").append(library.getLocationId()));
-        }
+        logger.debug("Generate output for library. Id: \"{}\".", library.getLocationId());
         StringBuilder builder = new StringBuilder();
         builder.append("{\"library\":{");
         locationToJSON(library, lang, builder);
@@ -72,17 +72,16 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Generates the JSON that is returned to the user.
-     * @param collection the LibraryCollection object thats information is 
-     * shown to the user
+     *
+     * @param collection the LibraryCollection object thats information is shown
+     * to the user
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
      * @return JSON that is returned to the user
      */
     @Override
     public String generateOutput(LibraryCollection collection, String lang, String callno) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Generate output for collection. Id: ").append(collection.getLocationId()));
-        }
+        logger.debug("Generate output for collection. Id: \"{}\".", collection.getLocationId());
         StringBuilder builder = new StringBuilder();
         builder.append("{\"library\":{");
         locationToJSON(collection.getLibrary(), lang, builder);
@@ -96,6 +95,7 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Generates the JSON that is returned to the user.
+     *
      * @param shelf the Shelf object thats information is shown to the user
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
@@ -103,9 +103,7 @@ public class JSONGenerator extends EmptyGenerator {
      */
     @Override
     public String generateOutput(Shelf shelf, String lang, String callno) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Generate output for shelf. Id: ").append(shelf.getLocationId()));
-        }
+        logger.debug("Generate output for shelf. Id: \"{}\".", shelf.getLocationId());
         StringBuilder builder = new StringBuilder();
         builder.append("{\"library\":{");
         locationToJSON(shelf.getCollection().getLibrary(), lang, builder);
@@ -121,17 +119,16 @@ public class JSONGenerator extends EmptyGenerator {
     }
 
     /**
-     * Generates the JSON that is returned to the user when the given 
-     * location doesn't exist in the database.
+     * Generates the JSON that is returned to the user when the given location
+     * doesn't exist in the database.
+     *
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
      * @return JSON that is returned to the user
      */
     @Override
     public String generateOutputNotFound(String lang, String callno, String owner) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Generate output not found.");
-        }
+        logger.debug("Generate output not found.");
         StringBuilder builder = new StringBuilder();
         builder.append("{\"message\":\"Location can not be found.\"}");
 
@@ -139,17 +136,16 @@ public class JSONGenerator extends EmptyGenerator {
     }
 
     /**
-     * Generates the JSON that is returned to the user when the located 
-     * item is not available.
+     * Generates the JSON that is returned to the user when the located item is
+     * not available.
+     *
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
      * @return JSON that is returned to the user
      */
     @Override
     public String generateOutputNotAvailable(String lang, String callno, String owner) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Generate output not available.");
-        }
+        logger.debug("Generate output not available.");
         StringBuilder builder = new StringBuilder();
         builder.append("{\"message\":\"Item is not available.\"}");
 
@@ -158,6 +154,7 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Generates output containing the given error code and error message.
+     *
      * @param errorCode error code
      * @param errorMsg error message
      * @return String containing the given error code and error message
@@ -174,8 +171,9 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Writes fields that are shared by all the location types.
+     *
      * @param location location object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param builder StringBuilder object
      */
     private void locationToJSON(Location location, String lang, StringBuilder builder) {
@@ -197,7 +195,6 @@ public class JSONGenerator extends EmptyGenerator {
                 break;
             }
         }
-
 
         for (Note note : location.getNotes()) {
             if (note.getLanguage().getCode().equals(lang)) {
@@ -247,8 +244,9 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Writes fields that are collection specific.
+     *
      * @param location collection object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param callno the call number that was received from the UI
      * @param builder StringBuilder object
      */
@@ -267,8 +265,9 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Writes fields that are shelf specific.
+     *
      * @param location shelf object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param callno the call number that was received from the UI
      * @param builder StringBuilder object
      */
@@ -287,8 +286,9 @@ public class JSONGenerator extends EmptyGenerator {
 
     /**
      * Writes subject matters to JSON.
+     *
      * @param location location object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param builder StringBuilder object
      */
     private void subjectsToJSON(Location location, String lang, StringBuilder builder) {

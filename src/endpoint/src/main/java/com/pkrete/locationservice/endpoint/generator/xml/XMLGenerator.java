@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Endpoint.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Endpoint. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Endpoint is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Endpoint is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
- * Location Service :: Endpoint is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Location Service :: Endpoint is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Endpoint. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.endpoint.generator.xml;
 
@@ -28,10 +28,11 @@ import com.pkrete.locationservice.endpoint.model.location.Shelf;
 import com.pkrete.locationservice.endpoint.model.subjectmatter.SubjectMatter;
 import com.pkrete.locationservice.endpoint.util.Settings;
 import java.util.LinkedHashMap;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The <code>HTMLGenerator</code> class extends the abstract 
+ * The <code>HTMLGenerator</code> class extends the abstract
  * {@link EmptyGenerator EmptyGenerator} class.
  *
  * This class returns the output in XML format.
@@ -40,7 +41,7 @@ import org.apache.log4j.Logger;
  */
 public class XMLGenerator extends EmptyGenerator {
 
-    private final static Logger logger = Logger.getLogger(XMLGenerator.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(XMLGenerator.class.getName());
 
     /**
      * Constructs and initializes a new XMLGenerator object.
@@ -56,6 +57,7 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Generates the XML that is returned to the user.
+     *
      * @param library the Library object thats information is shown to the user
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
@@ -63,9 +65,7 @@ public class XMLGenerator extends EmptyGenerator {
      */
     @Override
     public String generateOutput(Library library, String lang, String callno) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Generate output for library. Id: ").append(library.getLocationId()));
-        }
+        logger.debug("Generate output for library. Id: \"{}\".", library.getLocationId());
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         builder.append("<library>\n");
@@ -77,17 +77,16 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Generates the XML that is returned to the user.
-     * @param collection the LibraryCollection object thats information is 
-     * shown to the user
+     *
+     * @param collection the LibraryCollection object thats information is shown
+     * to the user
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
      * @return XML that is returned to the user
      */
     @Override
     public String generateOutput(LibraryCollection collection, String lang, String callno) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Generate output for collection. Id: ").append(collection.getLocationId()));
-        }
+        logger.debug("Generate output for collection. Id: \"{}\".", collection.getLocationId());
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         builder.append("<library>\n");
@@ -103,6 +102,7 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Generates the XML that is returned to the user.
+     *
      * @param shelf the Shelf object thats information is shown to the user
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
@@ -110,9 +110,7 @@ public class XMLGenerator extends EmptyGenerator {
      */
     @Override
     public String generateOutput(Shelf shelf, String lang, String callno) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Generate output for shelf. Id: ").append(shelf.getLocationId()));
-        }
+        logger.debug("Generate output for shelf. Id: \"{}\".", shelf.getLocationId());
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         builder.append("<library>\n");
@@ -131,8 +129,9 @@ public class XMLGenerator extends EmptyGenerator {
     }
 
     /**
-     * Generates the XML that is returned to the user when the given 
-     * location doesn't exist in the database.
+     * Generates the XML that is returned to the user when the given location
+     * doesn't exist in the database.
+     *
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
      * @return XML that is returned to the user
@@ -150,8 +149,9 @@ public class XMLGenerator extends EmptyGenerator {
     }
 
     /**
-     * Generates the XML that is returned to the user when the located 
-     * item is not available.
+     * Generates the XML that is returned to the user when the located item is
+     * not available.
+     *
      * @param lang the language of the UI
      * @param callno the call number that was received from the UI
      * @return XML that is returned to the user
@@ -170,6 +170,7 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Generates output containing the given error code and error message.
+     *
      * @param errorCode error code
      * @param errorMsg error message
      * @return String containing the given error code and error message
@@ -187,8 +188,9 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Writes XML tags that are shared by all the location types.
+     *
      * @param location location object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param builder StringBuilder object
      */
     private void locationToXml(Location location, String lang, StringBuilder builder) {
@@ -290,8 +292,9 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Writes XML tags that are collection specific.
+     *
      * @param location collection object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param callno the call number that was received from the UI
      * @param builder StringBuilder object
      */
@@ -317,8 +320,9 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Writes XML tags that are shelf specific.
+     *
      * @param location shelf object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param callno the call number that was received from the UI
      * @param builder StringBuilder object
      */
@@ -344,8 +348,9 @@ public class XMLGenerator extends EmptyGenerator {
 
     /**
      * Writes subject matters to XML.
+     *
      * @param location location object
-     * @param lang language of the UI 
+     * @param lang language of the UI
      * @param builder StringBuilder object
      */
     private void subjectsToXml(Location location, String lang, StringBuilder builder) {
