@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.mailer.impl;
 
@@ -22,29 +22,31 @@ import com.pkrete.locationservice.admin.converter.ConverterService;
 import com.pkrete.locationservice.admin.mailer.MailerService;
 import com.pkrete.locationservice.admin.util.PropertiesUtil;
 import org.apache.commons.mail.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 
 /**
- * BasicEmailService class implements the 
- * {@link MailerService MailerService} interface.
- * 
- * This class is responsible for sending an email to the user when
- * a new user is created or the password of the user is modified. All the
- * settings related to the mail server that are being used are defined
- * in the config.properties file. It's also possible to disable this feature
- * by usings the config.properties file.
+ * BasicEmailService class implements the {@link MailerService MailerService}
+ * interface.
+ *
+ * This class is responsible for sending an email to the user when a new user is
+ * created or the password of the user is modified. All the settings related to
+ * the mail server that are being used are defined in the config.properties
+ * file. It's also possible to disable this feature by using the
+ * config.properties file.
  *
  * @author Petteri Kivimäki
  */
 public class BasicEmailService implements MailerService {
 
-    private final static Logger logger = Logger.getLogger(BasicEmailService.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(BasicEmailService.class.getName());
     private ConverterService converterService;
     private MessageSource messageSource;
 
     /**
      * Changes the value of converterService instance variable
+     *
      * @param converterService new value to be set
      */
     public void setConverterService(ConverterService converterService) {
@@ -58,12 +60,12 @@ public class BasicEmailService implements MailerService {
     /**
      * Send an email to the given user when the user is created or the password
      * is modified.
+     *
      * @param user the receiver of the email
      */
+    @Override
     public void send(UserFull user) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Create new email message.");
-        }
+        logger.info("Create new email message.");
         Email email = new SimpleEmail();
         email.setHostName(PropertiesUtil.getProperty("mail.host"));
         email.setSmtpPort(this.converterService.strToInt(PropertiesUtil.getProperty("mail.port")));
@@ -79,7 +81,7 @@ public class BasicEmailService implements MailerService {
 
             // Set message arguments
             Object[] args = new Object[]{user.getUsername(), user.getPasswordUi()};
-            
+
             // Set variables values
             if (user.getUpdated() == null) {
                 // This is a new user
@@ -94,9 +96,7 @@ public class BasicEmailService implements MailerService {
                 msg = this.messageSource.getMessage("mail.message.add", args, null);
             } else {
                 // This is an existing user
-                if (logger.isDebugEnabled()) {
-                    logger.debug("The message is for an existing user.");
-                }
+                logger.debug("The message is for an existing user.");
                 // Set subject
                 email.setSubject(this.messageSource.getMessage("mail.title.edit", null, null));
                 // Get message header
@@ -135,12 +135,10 @@ public class BasicEmailService implements MailerService {
             email.addTo(user.getEmail());
             // Send message
             email.send();
-            if (logger.isInfoEnabled()) {
-                logger.info("Email was sent to \"" + user.getEmail() + "\".");
-            }
+            logger.info("Email was sent to \"{}\".", user.getEmail());
         } catch (Exception e) {
-            logger.error("Failed to send email to \"" + user.getEmail() + "\".");
-            logger.error(e);
+            logger.error("Failed to send email to \"{}\".", user.getEmail());
+            logger.error(e.getMessage(), e);
         }
     }
 }

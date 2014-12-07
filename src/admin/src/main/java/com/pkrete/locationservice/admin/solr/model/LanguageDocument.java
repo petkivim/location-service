@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.solr.model;
 
@@ -22,12 +22,11 @@ import com.pkrete.locationservice.admin.solr.repository.RepositoryConstants;
 import java.io.Serializable;
 import org.apache.solr.client.solrj.beans.Field;
 
-/** 
- * This class represents a Language object that is stored in an external
- * search index. Only information that is used in searches is
- * stored. When a Language object with all the variables is needed,
- * it's fetched from the DB.
- * 
+/**
+ * This class represents a Language object that is stored in an external search
+ * index. Only information that is used in searches is stored. When a Language
+ * object with all the variables is needed, it's fetched from the DB.
+ *
  * @author Petteri Kivimäki
  */
 public class LanguageDocument extends RepositoryDocument implements Serializable {
@@ -48,6 +47,7 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
 
     /**
      * Constructs and initializes a new LanguageDocument with the given values.
+     *
      * @param id id of the Language
      * @param name name of the Language
      * @param languageCode language code of the Language
@@ -63,8 +63,8 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
     }
 
     /**
-     * Sets the id of this Document. 
-     * 
+     * Sets the id of this Document.
+     *
      * @param id new value
      */
     @Override
@@ -75,6 +75,7 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
 
     /**
      * Returns the language id.
+     *
      * @return language id
      */
     public int getLanguageId() {
@@ -83,6 +84,7 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
 
     /**
      * Sets the language id.
+     *
      * @param languageId new value
      */
     public void setLanguageId(int languageId) {
@@ -92,6 +94,7 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
 
     /**
      * Returns the language code.
+     *
      * @return language code
      */
     public String getLanguageCode() {
@@ -100,6 +103,7 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
 
     /**
      * Sets the language code
+     *
      * @param lanuageCode new value
      */
     public void setLanguageCode(String lanuageCode) {
@@ -108,6 +112,7 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
 
     /**
      * Returns the owner id of this LanguageDocument.
+     *
      * @return owner id of this LanguageDocument
      */
     public int getOwnerId() {
@@ -116,6 +121,7 @@ public class LanguageDocument extends RepositoryDocument implements Serializable
 
     /**
      * Changes the owner id of this LanguageDocument.
+     *
      * @param ownerId new owner id
      */
     public void setOwnerId(int ownerId) {

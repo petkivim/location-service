@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.rest.v1;
 
@@ -32,7 +32,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -45,29 +46,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * This class provides REST API to css files. This class implements
- * create, read, update, delete and list all css file functions.
- * 
- * NB! Must use "file" postfix after {filename}, because otherwise dots
- * in the URL cause problems. The file extension problem only exists if 
- * the parameter is in the last part of the URL.
- * 
- * INDEX    /styles                   [GET]   
- * READ     /styles/default           [GET]
- * UPDATE   /styles/default           [PUT]
- * CREATE   /styles                   [POST]
- * READ     /styles/{filename}/file   [GET]
- * UPDATE   /styles/{filename}/file   [PUT]
- * DELETE   /styles/{filename}/file   [DELETE]
- * RENAME   /styles/{filename}/rename [PUT]
- * 
+ * This class provides REST API to css files. This class implements create,
+ * read, update, delete and list all css file functions.
+ *
+ * NB! Must use "file" postfix after {filename}, because otherwise dots in the
+ * URL cause problems. The file extension problem only exists if the parameter
+ * is in the last part of the URL.
+ *
+ * INDEX /styles [GET] READ /styles/default [GET] UPDATE /styles/default [PUT]
+ * CREATE /styles [POST] READ /styles/{filename}/file [GET] UPDATE
+ * /styles/{filename}/file [PUT] DELETE /styles/{filename}/file [DELETE] RENAME
+ * /styles/{filename}/rename [PUT]
+ *
  * @author Petteri Kivimäki
  */
 @Controller
 @RequestMapping("/styles")
 public class StylesRestController extends RestController {
 
-    private final static Logger logger = Logger.getLogger(StylesRestController.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(StylesRestController.class.getName());
     @Autowired
     @Qualifier("cssMapService")
     private ObjectMapService mapConverter;
@@ -240,7 +237,7 @@ public class StylesRestController extends RestController {
         }
         // Contents must be set for the validation
         css.setContents("");
-        
+
         // Validate CSS object
         this.validator.validate(css, results);
 
@@ -319,7 +316,7 @@ public class StylesRestController extends RestController {
         String url = Settings.getInstance().getWebpath();
         // Name of the file
         String file = "style.css";
-        
+
         // Create Map containing the response
         Map result = new LinkedHashMap();
         // Add filename

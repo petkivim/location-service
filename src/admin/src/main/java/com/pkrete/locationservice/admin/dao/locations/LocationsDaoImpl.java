@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.dao.locations;
 
@@ -27,7 +27,8 @@ import com.pkrete.locationservice.admin.model.search.SearchIndex;
 import com.pkrete.locationservice.admin.model.location.Shelf;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -37,30 +38,30 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  * This class implements {@link LocationsDao LocationsDao} interface that
- * defines data access layer for Library, LibraryCollection and
- * Shelf objects. 
- * 
- * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class 
- * that is a wrapper over {@link HibernateTemplate HibernateTemplate} class. 
- * HibernateTemplate is a convenience class for Hibernate based database access. 
- * HibernateDaoSupport creates the HibernateTemplate and subclasses can use 
- * the getHibernateTemplate() method to obtain the hibernateTemplate and 
- * then perform operations on it. HibernateTemplate takes care of obtaining or 
- * releasing sessions and managing exceptions. 
- * 
+ * defines data access layer for Library, LibraryCollection and Shelf objects.
+ *
+ * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class that
+ * is a wrapper over {@link HibernateTemplate HibernateTemplate} class.
+ * HibernateTemplate is a convenience class for Hibernate based database access.
+ * HibernateDaoSupport creates the HibernateTemplate and subclasses can use the
+ * getHibernateTemplate() method to obtain the hibernateTemplate and then
+ * perform operations on it. HibernateTemplate takes care of obtaining or
+ * releasing sessions and managing exceptions.
+ *
  * @author Petteri Kivimäki
  */
 public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDao {
 
-    private final static Logger localLogger = Logger.getLogger(LocationsDaoImpl.class.getName());
+    private final static Logger localLogger = LoggerFactory.getLogger(LocationsDaoImpl.class.getName());
 
     /**
      * Returns the library which locationId matches with the given id number.
      * This method is only for editor classes. All the other classes must give
      * also the owner parameter.
+     *
      * @param libraryId locationId that is used for searching
-     * @return library with the desired locationId or null if matching
-     * library doesn't exist
+     * @return library with the desired locationId or null if matching library
+     * doesn't exist
      */
     @Override
     public Library getLibrary(int libraryId) {
@@ -75,12 +76,13 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the library which locationId matches with the given id number.
-     * Initializes image, map, areas and collections objects related to
-     * the library, so that the library can be edited.
+     * Initializes image, map, areas and collections objects related to the
+     * library, so that the library can be edited.
+     *
      * @param libraryId locationId that is used for searching
      * @param owner the owner of the object
-     * @return library with the desired locationId or null if matching
-     * library doesn't exist
+     * @return library with the desired locationId or null if matching library
+     * doesn't exist
      */
     @Override
     public Library getLibrary(int libraryId, Owner owner) {
@@ -102,13 +104,13 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the library which locationId matches with the given id number.
-     * Initializes areas, collections and shelves related to the given
-     * library object, so that the library and the objects related to it can
-     * be deleted.
+     * Initializes areas, collections and shelves related to the given library
+     * object, so that the library and the objects related to it can be deleted.
+     *
      * @param libraryId locationId that is used for searching
      * @param owner the owner of the object
-     * @return library with the desired locationId or null if matching
-     * library doesn't exist
+     * @return library with the desired locationId or null if matching library
+     * doesn't exist
      */
     @Override
     public Library getLibraryToBeDeleted(int libraryId, Owner owner) {
@@ -130,8 +132,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the collection which locationId matches with the given id number.
-     * Initializes image, map, areas, subject matters and shelves objects related to
-     * the collection, so that the collection can be edited.
+     * Initializes image, map, areas, subject matters and shelves objects
+     * related to the collection, so that the collection can be edited.
+     *
      * @param collectionId locationId that is used for searching
      * @param owner the owner of the object
      * @return the collection with the desired locationId or null if matching
@@ -144,9 +147,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the collection which locationId matches with the given id number
-     * and that belongs to the given library. Initializes image, map, areas, 
-     * subject matters and shelves objects related to the collection, so that 
+     * and that belongs to the given library. Initializes image, map, areas,
+     * subject matters and shelves objects related to the collection, so that
      * the collection can be edited.
+     *
      * @param collectionId locationId that is used for searching
      * @param libraryId locationId of the library
      * @param owner the owner of the object
@@ -182,6 +186,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
      * Returns the collection which locationId matches with the given id number.
      * This method is only for editor classes. All the other classes must give
      * also the owner parameter.
+     *
      * @param collectionId locationId that is used for searching
      * @return collection with the desired locationId or null if matching
      * collection doesn't exist
@@ -200,8 +205,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Returns the collection which locationId matches with the given id number.
      * Initializes areas, subject matters and shelves related to the given
-     * collection object, so that the collection and the objects related to it can
-     * be deleted.
+     * collection object, so that the collection and the objects related to it
+     * can be deleted.
+     *
      * @param collectionId locationId that is used for searching
      * @param owner the owner of the object
      * @return collection with the given locationId or null if matching
@@ -213,10 +219,11 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Returns the collection which locationId matches with the given id number 
-     * and that belongs to the given library. Initializes areas, subject 
-     * matters and shelves related to the given collection object, so that the
+     * Returns the collection which locationId matches with the given id number
+     * and that belongs to the given library. Initializes areas, subject matters
+     * and shelves related to the given collection object, so that the
      * collection and the objects related to it can be deleted.
+     *
      * @param collectionId locationId that is used for searching
      * @param libraryId locationId of the library
      * @param owner the owner of the object
@@ -251,10 +258,11 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Returns all the collections that are related to the library which
      * locationId matches with the given id number.
+     *
      * @param libraryId locationId of the library that is used for searching
      * @param owner the owner of the object
-     * @return list of collections that belong to the library with the
-     * given locationId
+     * @return list of collections that belong to the library with the given
+     * locationId
      */
     @Override
     public List<LibraryCollection> getCollectionsByLibraryId(int libraryId, Owner owner) {
@@ -270,6 +278,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns all the collections that are owned by the given owner.
+     *
      * @param owner the owner of the collections
      * @return list of collections owned by the given owner
      */
@@ -284,12 +293,13 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the shelf which locationId matches with the given id number.
-     * Initializes image, map, areas and subject matters objects related to
-     * the shelf, so that the shelf can be edited.
+     * Initializes image, map, areas and subject matters objects related to the
+     * shelf, so that the shelf can be edited.
+     *
      * @param shelfId locationId that is used for searching
      * @param owner the owner of the object
-     * @return shelf with the desired locationId or null if matching shelf
-     * is not found
+     * @return shelf with the desired locationId or null if matching shelf is
+     * not found
      */
     @Override
     public Shelf getShelf(int shelfId, Owner owner) {
@@ -298,14 +308,15 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the shelf which locationId matches with the given id number.
-     * Initializes image, map, areas and subject matters objects related to
-     * the shelf, so that the shelf can be edited.
+     * Initializes image, map, areas and subject matters objects related to the
+     * shelf, so that the shelf can be edited.
+     *
      * @param shelfId locationId that is used for searching
      * @param collectionId locationId of the collection
      * @param libraryId locationId of the library
      * @param owner the owner of the object
-     * @return shelf with the desired locationId or null if matching shelf
-     * is not found
+     * @return shelf with the desired locationId or null if matching shelf is
+     * not found
      */
     @Override
     public Shelf getShelf(int shelfId, int collectionId, int libraryId, Owner owner) {
@@ -340,6 +351,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Returns all the shelves that are related to the collection which
      * locationId matches with the given id number.
+     *
      * @param collectionId locationId that is used for searching
      * @param owner the owner of the object
      * @return list of shelves that belong to the given collection
@@ -360,6 +372,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Returns all the shelves that are related to the collection which
      * locationId matches with the given id number.
+     *
      * @param libraryId id of the library
      * @param collectionId id of the collection
      * @param owner the owner of the object
@@ -381,9 +394,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the shelf which locationId matches with the given id number.
-     * Initializes areas and subject matters related to the given
-     * shelf object, so that the shelf and the objects related to it can
-     * be deleted.
+     * Initializes areas and subject matters related to the given shelf object,
+     * so that the shelf and the objects related to it can be deleted.
+     *
      * @param shelfId locationId that is used for searching
      * @param owner the owner of the object
      * @return shelf with the desired locationId
@@ -395,9 +408,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the shelf which locationId matches with the given id number.
-     * Initializes areas and subject matters related to the given
-     * shelf object, so that the shelf and the objects related to it can
-     * be deleted.
+     * Initializes areas and subject matters related to the given shelf object,
+     * so that the shelf and the objects related to it can be deleted.
+     *
      * @param shelfId locationId that is used for searching
      * @param collectionId locationId of the collection
      * @param libraryId locationId of the library
@@ -411,6 +424,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns the location which id number matches with given id number
+     *
      * @param locationId the id number that is used for searching
      * @param owner the owner of the object
      * @return the location with the desired id number
@@ -430,7 +444,8 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
                 }
             }
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
+            return null;
         }
         if (result.isEmpty()) {
             return null;
@@ -439,8 +454,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Returns a list of all the libraries in the database that are related
-     * to the given owner object.
+     * Returns a list of all the libraries in the database that are related to
+     * the given owner object.
+     *
      * @param owner the owner of the objects
      * @return all the libraries in the database
      */
@@ -453,8 +469,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Returns a list of all the areas in the database that are related
-     * to the given location id.
+     * Returns a list of all the areas in the database that are related to the
+     * given location id.
+     *
      * @param location id of the location that the areas are related to
      * @return all the areas related to the given location
      */
@@ -467,6 +484,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Adds the given library object to the database.
+     *
      * @param library the library to be created
      * @return true if and only if the library was successfully created;
      * otherwise false
@@ -476,7 +494,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().save(library);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -484,6 +502,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Updates the given library object to the database.
+     *
      * @param library the library to be updated
      * @return true if and only if the library was successfully updated;
      * otherwise false
@@ -493,7 +512,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().update(library);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -501,6 +520,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Adds the given collection object to the database.
+     *
      * @param collection the collection to be created
      * @return true if and only if the collection was successfully created;
      * otherwise false
@@ -510,7 +530,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().save(collection);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -518,6 +538,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Updates the given collection object to the database.
+     *
      * @param collection the collection to be updated
      * @return true if and only if the collection was successfully updated;
      * otherwise false
@@ -527,7 +548,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().update(collection);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -535,16 +556,17 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Adds the given shelf object to the database.
+     *
      * @param shelf the shelf to be created
-     * @return true if and only if the shelf was successfully created;
-     * otherwise false
+     * @return true if and only if the shelf was successfully created; otherwise
+     * false
      */
     @Override
     public boolean create(Shelf shelf) {
         try {
             getHibernateTemplate().save(shelf);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -552,24 +574,26 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Updates the given shelf object to the database.
+     *
      * @param shelf the shelf to be updated
-     * @return true if and only if the shelf was successfully updated;
-     * otherwise false
+     * @return true if and only if the shelf was successfully updated; otherwise
+     * false
      */
     @Override
     public boolean update(Shelf shelf) {
         try {
             getHibernateTemplate().update(shelf);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
     }
 
     /**
-     * Deletes the given library object from the database. All the collections and shelves
-     * attached to the library will be deleted as well.
+     * Deletes the given library object from the database. All the collections
+     * and shelves attached to the library will be deleted as well.
+     *
      * @param library the library to be deleted
      * @return true if and only if the object was successfully deleted;
      * otherwise false
@@ -579,7 +603,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().delete(library);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -588,6 +612,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Deletes the given location object from the database. All the shelves
      * attached to the collection will be deleted as well.
+     *
      * @param collection the collection to be deleted
      * @return true if and only if the object was successfully deleted;
      * otherwise false
@@ -597,7 +622,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().delete(collection);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -605,6 +630,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Deletes the given shelf object from the database.
+     *
      * @param shelf the shelf to be deleted
      * @return true if and only if the object was successfully deleted;
      * otherwise false
@@ -614,7 +640,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().delete(shelf);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -623,6 +649,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Deletes all the Description objects which id is included in the given
      * list.
+     *
      * @param ids list of Description ids to be deleted
      * @return returns true if and only if the ids were successfully deleted;
      * otherwise returns false
@@ -633,15 +660,15 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
             sess.createQuery("delete from Description where id in (" + toString(ids) + ")").executeUpdate();
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
     }
 
     /**
-     * Deletes all the Note objects which id is included in the given
-     * list.
+     * Deletes all the Note objects which id is included in the given list.
+     *
      * @param ids list of Note ids to be deleted
      * @return returns true if and only if the ids were successfully deleted;
      * otherwise returns false
@@ -652,15 +679,15 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
             sess.createQuery("delete from Note where id in (" + toString(ids) + ")").executeUpdate();
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
     }
 
     /**
-     * Deletes all the Area objects which id is included in the given
-     * list.
+     * Deletes all the Area objects which id is included in the given list.
+     *
      * @param ids list of Area ids to be deleted
      * @return returns true if and only if the ids were successfully deleted;
      * otherwise returns false
@@ -671,15 +698,16 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
             sess.createQuery("delete from Area where id in (" + toString(ids) + ")").executeUpdate();
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
     }
 
     /**
-     * Saves the given SearchIndex object to the database. Can be used 
-     * to add and update indexes.
+     * Saves the given SearchIndex object to the database. Can be used to add
+     * and update indexes.
+     *
      * @param index the SearchIndex to be saved
      * @return true if and only if the operation was successfully completed;
      * otherwise false
@@ -689,15 +717,16 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
         try {
             getHibernateTemplate().saveOrUpdate(index);
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
     }
 
     /**
-     * Returns a list of search indexes related to the location with
-     * the given id.
+     * Returns a list of search indexes related to the location with the given
+     * id.
+     *
      * @param locationId id of the location
      * @return list of search indexes
      */
@@ -708,9 +737,10 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Returns a list of collections that belong to the library with the
-     * given location id. Search indexes and shelves with their search
-     * indexes are loaded too.
+     * Returns a list of collections that belong to the library with the given
+     * location id. Search indexes and shelves with their search indexes are
+     * loaded too.
+     *
      * @param locationId id of the library
      * @return list of collections
      */
@@ -730,8 +760,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Returns a list of shelves that belong to the collection with the
-     * given location id. Search indexes are loaded too.
+     * Returns a list of shelves that belong to the collection with the given
+     * location id. Search indexes are loaded too.
+     *
      * @param locationId id of the collection
      * @return list of shelves
      */
@@ -747,6 +778,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Deletes all the SearchIndex entries.
+     *
      * @return true if and only the search index was successfully cleared;
      * otherwise false
      */
@@ -756,7 +788,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
             Session sess = getHibernateTemplate().getSessionFactory().getCurrentSession();
             sess.createQuery("delete from SearchIndex where id > 0").executeUpdate();
         } catch (Exception e) {
-            localLogger.error(e);
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -765,6 +797,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Returns a list of all the libraries in the database. All the collections
      * and shelves are loaded as well.
+     *
      * @return list of all the libraries in the database
      */
     @Override
@@ -779,6 +812,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     /**
      * Returns a list of all the locations in the database that are related to
      * the given owner. All the collections and shelves are loaded.
+     *
      * @param owner owner of the object
      * @return all the libraries in the database
      */
@@ -801,8 +835,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Returns the id of the library in which the collection with the given
-     * id belongs to.
+     * Returns the id of the library in which the collection with the given id
+     * belongs to.
+     *
      * @param collectionId id of the collection
      * @return id of the library or zero if no library is found
      */
@@ -818,8 +853,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Returns the id of the collection in which the shelf with the given
-     * id belongs to.
+     * Returns the id of the collection in which the shelf with the given id
+     * belongs to.
+     *
      * @param shelfId id of the shelf
      * @return id of the collection or zero if no library is found
      */
@@ -836,6 +872,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns a list of Area ids that belong to the given Location.
+     *
      * @param location Location that owns the Areas
      * @return list of Area ids that belong to the given Location
      */
@@ -849,6 +886,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns a list of Description ids that belong to the given Location.
+     *
      * @param location Location that owns the Descriptions
      * @return list of Description ids that belong to the given Location
      */
@@ -868,6 +906,7 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
 
     /**
      * Returns a list of Note ids that belong to the given Location.
+     *
      * @param location Location that owns the Notes
      * @return list of Note ids that belong to the given Location
      */
@@ -886,8 +925,9 @@ public class LocationsDaoImpl extends HibernateDaoSupport implements LocationsDa
     }
 
     /**
-     * Converts a list of integers to a comma separated string that can be 
-     * used in a HQL query,
+     * Converts a list of integers to a comma separated string that can be used
+     * in a HQL query,
+     *
      * @param list list of integers
      * @return integers as a comma separated string
      */

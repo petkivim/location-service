@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.converter.objectmap;
 
@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * This class converts Image objects to Map.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class MapMapService implements ObjectMapService<Map> {
@@ -47,23 +47,27 @@ public class MapMapService implements ObjectMapService<Map> {
     }
 
     /**
-     * Converts a single Map object to java.util.Map object. All the variables of
-     * the Map object are included.
+     * Converts a single Map object to java.util.Map object. All the variables
+     * of the Map object are included.
+     *
      * @param source Map object to be converted
      * @return java.util.Map object
      */
+    @Override
     public java.util.Map convert(Map source) {
         return this.convert(source, false);
     }
 
     /**
-     * Converts a single Map object to java.util.Map object. All the variables of
-     * the Map object are included. If logEntry is true, also owner_id
-     * is included.
+     * Converts a single Map object to java.util.Map object. All the variables
+     * of the Map object are included. If logEntry is true, also owner_id is
+     * included.
+     *
      * @param source Map object to be converted
      * @param logEntry is this for a log entry
      * @return java.util.Map object
      */
+    @Override
     public java.util.Map convert(Map source, boolean logEntry) {
         List<Language> languages = null;
         if (source != null) {
@@ -105,11 +109,13 @@ public class MapMapService implements ObjectMapService<Map> {
     }
 
     /**
-     * Converts a list of Image objects to a list of Map objects. Only 
-     * selected variables are included.
+     * Converts a list of Image objects to a list of Map objects. Only selected
+     * variables are included.
+     *
      * @param sources Map objects to be converted
      * @return list of Map objects
      */
+    @Override
     public List convert(List<Map> sources) {
         String url = null;
         List<Language> languages = null;

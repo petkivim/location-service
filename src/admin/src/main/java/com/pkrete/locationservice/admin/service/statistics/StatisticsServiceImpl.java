@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.service.statistics;
 
@@ -36,6 +36,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     /**
      * Sets the data access object.
+     *
      * @param dao new value
      */
     public void setDao(StatisticsDao dao) {
@@ -43,61 +44,74 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     /**
-     * Fetches the number of searches and unique ips grouped by date.
+     * Fetches the number of searches and unique IPs grouped by date.
+     *
      * @param owner the owner of the object
-     * @param group how the results are grouped: by day, by month or by year 
-     * @return number of searches and unique ips grouped by date
+     * @param group how the results are grouped: by day, by month or by year
+     * @return number of searches and unique IPs grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group) {
         return dao.getStatistics(owner, group);
     }
 
     /**
-     * Fetches the number of searches and unique ips grouped by date.
+     * Fetches the number of searches and unique IPs grouped by date.
+     *
      * @param owner the owner of the object
      * @param group how the results are grouped: by day, by month or by year
-     * @param type type of the search events that are included: location handler or exporter
-     * @return number of searches and unique ips grouped by date
+     * @param type type of the search events that are included: location handler
+     * or exporter
+     * @return number of searches and unique IPs grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group, SearchEventType type) {
         return dao.getStatistics(owner, group, type);
     }
 
     /**
-     * Fetches the number of searches and unique ips grouped by date.
+     * Fetches the number of searches and unique IPs grouped by date.
+     *
      * @param owner the owner of the object
-     * @param group how the results are grouped: by day, by month or by year 
+     * @param group how the results are grouped: by day, by month or by year
      * @param from begin date of the period
      * @param to end date of the period
-     * @return number of searches and unique ips grouped by date
+     * @return number of searches and unique IPs grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group, String from, String to) {
         return dao.getStatistics(owner, group, from, to);
     }
 
     /**
-     * Fetches the number of searches and unique ips grouped by date.
+     * Fetches the number of searches and unique IPs grouped by date.
+     *
      * @param owner the owner of the object
      * @param group how the results are grouped: by day, by month or by year
-     * @param type type of the search events that are included: location handler or exporter
+     * @param type type of the search events that are included: location handler
+     * or exporter
      * @param from begin date of the period
      * @param to end date of the period
-     * @return number of searches and unique ips grouped by date
+     * @return number of searches and unique IPs grouped by date
      */
+    @Override
     public List<Object[]> getStatistics(String owner, StatisticsGroup group, SearchEventType type, String from, String to) {
         return dao.getStatistics(owner, group, type, from, to);
     }
 
     /**
-     * Fetches the number of searches and unique ips grouped by date.
+     * Fetches the number of searches and unique IPs grouped by date.
+     *
      * @param owner the organization which statistics are fetched
      * @param group how the results are grouped: by day, by month or by year
-     * @param type type of the search events that are included: location handler or exporter
+     * @param type type of the search events that are included: location handler
+     * or exporter
      * @param from begin date of the period
      * @param to end date of the period
      * @param sortOrder sort order of the results (ASC / DESC)
-     * @return number of searches and unique ips grouped by date
+     * @return number of searches and unique IPs grouped by date
      */
+    @Override
     public StatisticsSearchResult getStatistics(String owner, StatisticsGroup group, SearchEventType type, String from, String to, String sortOrder) {
         List<Object[]> list = null;
         if (type.equals(SearchEventType.ALL)) {
@@ -122,7 +136,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             }
         }
         StatisticsSearchResult results = new StatisticsSearchResult(group, type, from, to, list);
-        
+
         return results;
     }
 }

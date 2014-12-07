@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.language;
 
@@ -45,8 +45,8 @@ public class Language extends DateInfo implements Serializable, Comparable {
      */
     private String code;
     /**
-     * Previous code of the language that is used when a language object
-     * is being edited. This value is not saved to DB.
+     * Previous code of the language that is used when a language object is
+     * being edited. This value is not saved to DB.
      */
     private String codePrevious;
     /**
@@ -69,6 +69,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Constructs and initializes a Language object with the given name.
+     *
      * @param name name of the language object
      */
     public Language(String name) {
@@ -78,6 +79,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Constructs and initializes a Language object with the given name.
+     *
      * @param code code of the language object
      * @param name name of the language object
      */
@@ -87,8 +89,9 @@ public class Language extends DateInfo implements Serializable, Comparable {
     }
 
     /**
-     * Constructs and initializes a Language object with the given id, name
-     * and code.
+     * Constructs and initializes a Language object with the given id, name and
+     * code.
+     *
      * @param id id number of the object
      * @param code code of the language object
      * @param name name of the language object
@@ -100,6 +103,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the id number of the object in the database.
+     *
      * @return the id number of the object
      */
     public int getId() {
@@ -108,6 +112,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the code of this language object.
+     *
      * @return code of the language object
      */
     public String getCode() {
@@ -116,6 +121,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the previous code of this language object.
+     *
      * @return previous code of the language object
      */
     public String getCodePrevious() {
@@ -124,6 +130,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the name of this language object.
+     *
      * @return name of the language object
      */
     public String getName() {
@@ -132,6 +139,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the owner of the language.
+     *
      * @return owner of the language
      */
     public Owner getOwner() {
@@ -140,6 +148,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Changes the id number of the object.
+     *
      * @param id the new id number
      */
     public void setId(int id) {
@@ -148,6 +157,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Changes the code of the object.
+     *
      * @param code the new code of the language
      */
     public void setCode(String code) {
@@ -156,6 +166,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Changes the previous code of the object.
+     *
      * @param code the new previous code of the language
      */
     public void setCodePrevious(String code) {
@@ -164,6 +175,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Changes the name of the object.
+     *
      * @param name the new name of the language
      */
     public void setName(String name) {
@@ -172,6 +184,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Changes the owner of the language.
+     *
      * @param owner new owner of the language
      */
     public void setOwner(Owner owner) {
@@ -181,9 +194,10 @@ public class Language extends DateInfo implements Serializable, Comparable {
     @Override
     /**
      * Compares this object with the specified object for order.
+     *
      * @param o the Object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(Object o) {
         return compareTo((Language) o);
@@ -191,9 +205,10 @@ public class Language extends DateInfo implements Serializable, Comparable {
 
     /**
      * Compares this object with the specified object for order.
+     *
      * @param language the Language object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(Language language) {
         return this.name.compareTo(language.name);
@@ -202,6 +217,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
     @Override
     /**
      * Indicates whether some other object is "equal to" this Language.
+     *
      * @param o the reference object with which to compare
      * @return true only if the specified object is also an Language and it
      * imposes the same ordering as this Language
@@ -216,6 +232,7 @@ public class Language extends DateInfo implements Serializable, Comparable {
     @Override
     /**
      * Returns a hash code value for the object.
+     *
      * @return a hash code value for this object
      */
     public int hashCode() {
@@ -223,8 +240,9 @@ public class Language extends DateInfo implements Serializable, Comparable {
     }
 
     /**
-     * Converts te given languages list to a map that contains
-     * language id - language pairs.
+     * Converts the given languages list to a map that contains language id -
+     * language pairs.
+     *
      * @param languages list of languages
      * @return language id - language map
      */

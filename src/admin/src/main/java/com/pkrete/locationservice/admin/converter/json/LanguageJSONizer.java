@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.converter.json;
 
@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * This class converts Language objects to JSON.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class LanguageJSONizer implements JSONizerService<Language> {
@@ -32,21 +32,25 @@ public class LanguageJSONizer implements JSONizerService<Language> {
     /**
      * Converts a single language object to JSON string. All the variables of
      * the Language object are included.
+     *
      * @param source Language object to be converted
      * @return JSON string
      */
+    @Override
     public String jsonize(Language source) {
         return this.jsonize(source, false);
     }
 
     /**
      * Converts a single language object to JSON string. All the variables of
-     * the Language object are included. If logEntry is true, also owner_id
-     * is included.
+     * the Language object are included. If logEntry is true, also owner_id is
+     * included.
+     *
      * @param source Language object to be converted
      * @param logEntry is this JSON for a log entry
      * @return JSON string
      */
+    @Override
     public String jsonize(Language source, boolean logEntry) {
         StringBuilder builder = new StringBuilder();
         builder.append("{\"id\":").append(source.getId());
@@ -68,9 +72,11 @@ public class LanguageJSONizer implements JSONizerService<Language> {
     /**
      * Converts a list of Language objects to JSON string. Only selected
      * variables are included.
+     *
      * @param sources Language objects to be converted
      * @return JSON string
      */
+    @Override
     public String jsonize(List<Language> sources) {
         StringBuilder builder = new StringBuilder("[");
         for (int i = 0; i < sources.size(); i++) {

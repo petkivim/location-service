@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.solr.model;
 
@@ -25,12 +25,11 @@ import java.io.Serializable;
 import java.util.List;
 import org.apache.solr.client.solrj.beans.Field;
 
-/** 
- * This class represents a Location object that is stored in an external
- * search index. Only information that is used in searches is
- * stored. When a Location object with all the variables is needed,
- * it's fetched from the DB.
- * 
+/**
+ * This class represents a Location object that is stored in an external search
+ * index. Only information that is used in searches is stored. When a Location
+ * object with all the variables is needed, it's fetched from the DB.
+ *
  * @author Petteri Kivimäki
  */
 public class LocationDocument extends RepositoryDocument implements SimpleLocation, Serializable {
@@ -83,9 +82,11 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     /**
      * Creates and initializes a new LocationDocument object with the given
      * values.
+     *
      * @param locationId locationId of the Location object
      * @param name name of the location
-     * @param locationType type of the Location object (library/collection/shelf)
+     * @param locationType type of the Location object
+     * (library/collection/shelf)
      * @param callNo call number of the location
      * @param locationCode location code of the location
      * @param collectionCode collection code (only collections can have one)
@@ -104,8 +105,8 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Sets the id of this Document. 
-     * 
+     * Sets the id of this Document.
+     *
      * @param id new value
      */
     @Override
@@ -116,6 +117,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the locationId of this LocationDocument.
+     *
      * @return locationId number
      */
     public int getLocationId() {
@@ -124,6 +126,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the locationId of this LocationDocument.
+     *
      * @param locationId new value
      */
     public void setLocationId(int locationId) {
@@ -132,20 +135,20 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Returns the type of the Location object to which
-     * this LocationDocument is pointing. Type is LIBRARY,
-     * COLLECTION or SHELF.
-     * @return type of the Location object to which
-     * this LocationDocument is pointing
+     * Returns the type of the Location object to which this LocationDocument is
+     * pointing. Type is LIBRARY, COLLECTION or SHELF.
+     *
+     * @return type of the Location object to which this LocationDocument is
+     * pointing
      */
     public LocationType getLocationType() {
         return locationType;
     }
 
     /**
-     * Sets the location type of the Location object to which
-     * this LocationDocument is pointing. Type is LIBRARY,
-     * COLLECTION or SHELF.
+     * Sets the location type of the Location object to which this
+     * LocationDocument is pointing. Type is LIBRARY, COLLECTION or SHELF.
+     *
      * @param locationType new locationType
      */
     public void setLocationType(LocationType locationType) {
@@ -154,6 +157,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the owner id of this LocationDocument.
+     *
      * @return owner id of this LocationDocument
      */
     public int getOwnerId() {
@@ -162,6 +166,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Changes the owner id of this LocationDocument.
+     *
      * @param ownerId new owner id
      */
     public void setOwnerId(int ownerId) {
@@ -170,6 +175,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the owner code of the owner.
+     *
      * @return owner code of the owner
      */
     public String getOwnerCode() {
@@ -178,6 +184,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the owner code.
+     *
      * @param ownerCode new value
      */
     public void setOwnerCode(String ownerCode) {
@@ -186,6 +193,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the location code of the location.
+     *
      * @return locatioan code of the location
      */
     public String getLocationCode() {
@@ -194,6 +202,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the location code.
+     *
      * @param locationCode new value
      */
     public void setLocationCode(String locationCode) {
@@ -202,6 +211,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the code of the collection that's used in the ILS.
+     *
      * @return code of the collection that's used in the ILS
      */
     public String getCollectionCode() {
@@ -210,6 +220,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Changes the code of the collection that's used in the ILS.
+     *
      * @param collectionCode new collection code
      */
     public void setCollectionCode(String collectionCode) {
@@ -218,6 +229,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the call number of the location.
+     *
      * @return call number of the location
      */
     public String getCallNo() {
@@ -226,6 +238,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the call number.
+     *
      * @param callNo new value
      */
     public void setCallNo(String callNumber) {
@@ -233,11 +246,11 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Returns a boolean value that tells if the location code
-     * should be considered as a substring in the beginning of a
-     * string, or if it's an entire word. This variable is used only
-     * when locationType is COLLECTION. If locationType is LIBRARY or
-     * SHELF, false is always returned.
+     * Returns a boolean value that tells if the location code should be
+     * considered as a substring in the beginning of a string, or if it's an
+     * entire word. This variable is used only when locationType is COLLECTION.
+     * If locationType is LIBRARY or SHELF, false is always returned.
+     *
      * @return true if is a substring, otherwise false
      */
     public boolean getIsSubstring() {
@@ -245,11 +258,11 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Changes the boolean value that tells if the location code
-     * should be considered as a substring in the beginning of a
-     * string, or if it's an entire word. This variable is used only
-     * when locationType is COLLECTION. If locationType is LIBRARY or
-     * SHELF, false is always returned.
+     * Changes the boolean value that tells if the location code should be
+     * considered as a substring in the beginning of a string, or if it's an
+     * entire word. This variable is used only when locationType is COLLECTION.
+     * If locationType is LIBRARY or SHELF, false is always returned.
+     *
      * @param sub new value
      */
     public void setIsSubstring(boolean sub) {
@@ -258,9 +271,9 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the parent id of this LocationDocument. If this object represents
-     * a Shelf the parent id is the locationId of the collection. If this
-     * object represents a collection the parentId is the locationId of
-     * the library.
+     * a Shelf the parent id is the locationId of the collection. If this object
+     * represents a collection the parentId is the locationId of the library.
+     *
      * @return parent id of this LocationDocument
      */
     public int getParentId() {
@@ -269,9 +282,9 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Changes the parent id of this LocationDocument. If this object represents
-     * a Shelf the parent id is the locationId of the collection. If this
-     * object represents a collection the parentId is the locationId of
-     * the library.
+     * a Shelf the parent id is the locationId of the collection. If this object
+     * represents a collection the parentId is the locationId of the library.
+     *
      * @param parentId new parent id
      */
     public void setParentId(int parentId) {
@@ -279,10 +292,11 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Returns the grandparent id of this LocationDocument. If this object 
-     * represents a Shelf the parent id is the locationId of the collection and 
-     * the grandparent id is the locationId of the library. If this
-     * object represents a collection or a library the grandparentId is 0.
+     * Returns the grandparent id of this LocationDocument. If this object
+     * represents a Shelf the parent id is the locationId of the collection and
+     * the grandparent id is the locationId of the library. If this object
+     * represents a collection or a library the grandparentId is 0.
+     *
      * @return grandparent id of this LocationDocument
      */
     public int getGrandparentId() {
@@ -290,10 +304,11 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Changes the grandparent id of this LocationDocument. If this object 
+     * Changes the grandparent id of this LocationDocument. If this object
      * represents a Shelf the parent id is the locationId of the collection and
-     * the grandparent id is the locationId of the library. If this
-     * object represents a collection or a library the grandparentId is 0.
+     * the grandparent id is the locationId of the library. If this object
+     * represents a collection or a library the grandparentId is 0.
+     *
      * @param grandparentId new grandparent id
      */
     public void setGrandparentId(int grandparentId) {
@@ -301,8 +316,9 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Returns a boolean value that indicates if this LocationDocument
-     * has a collection code.
+     * Returns a boolean value that indicates if this LocationDocument has a
+     * collection code.
+     *
      * @return true if this SeachIndex has a collection code, otherwise false
      */
     public boolean hasCollectionCode() {
@@ -317,6 +333,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the floor of the location.
+     *
      * @return floor of the location
      */
     public String getFloor() {
@@ -325,6 +342,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the floor of the location.
+     *
      * @param floor new value
      */
     public void setFloor(String floor) {
@@ -333,6 +351,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns the shelf number of the location.
+     *
      * @return shelf number of the location
      */
     public String getShelf() {
@@ -341,6 +360,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the shelf number of the location.
+     *
      * @param shelf new value
      */
     public void setShelf(String shelf) {
@@ -349,6 +369,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns a list of notes related to this location.
+     *
      * @return list of notes
      */
     public List<String> getNotes() {
@@ -357,6 +378,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the list of notes related to this location.
+     *
      * @param notes new value
      */
     public void setNotes(List<String> notes) {
@@ -365,6 +387,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns a list of descriptions related to this location.
+     *
      * @return list of descriptions
      */
     public List<String> getDescriptions() {
@@ -373,6 +396,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the list of descriptions related to this location.
+     *
      * @param descriptions new value
      */
     public void setDescriptions(List<String> descriptions) {
@@ -381,6 +405,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns a list of primary staff notes related to this location.
+     *
      * @return list of primary staff notes
      */
     public String getStaffNotePri() {
@@ -389,6 +414,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the list of primary staff notes related to this location.
+     *
      * @param staffNotePri new value
      */
     public void setStaffNotePri(String staffNotePri) {
@@ -397,6 +423,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns a list of secondary staff notes related to this location.
+     *
      * @return list of secondary staff notes
      */
     public String getStaffNoteSec() {
@@ -404,7 +431,8 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
     }
 
     /**
-     * Sets the list of secondary staff notes  related to this location.
+     * Sets the list of secondary staff notes related to this location.
+     *
      * @param staffNoteSec new value
      */
     public void setStaffNoteSec(String staffNoteSec) {
@@ -413,6 +441,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns a list of subject matters related to this location.
+     *
      * @return list of subject matters
      */
     public List<String> getSubjectMatters() {
@@ -421,6 +450,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the list of subject matters related to this location.
+     *
      * @param subjectsMatters new value
      */
     public void setSubjectMatters(List<String> subjectMatters) {
@@ -429,6 +459,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Returns a list of subject matter ids related to this location.
+     *
      * @return list of subject matter ids
      */
     public List<Integer> getSubjectMatterIds() {
@@ -437,6 +468,7 @@ public class LocationDocument extends RepositoryDocument implements SimpleLocati
 
     /**
      * Sets the list of subject matter ids related to this location.
+     *
      * @param subjectMatterIds new value
      */
     public void setSubjectMatterIds(List<Integer> subjectMatterIds) {

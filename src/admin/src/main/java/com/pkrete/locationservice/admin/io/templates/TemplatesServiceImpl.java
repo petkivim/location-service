@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.io.templates;
 
@@ -39,20 +39,21 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * TemplatesServiceImpl class implements the 
+ * TemplatesServiceImpl class implements the
  * {@link TemplatesService TemplatesService} interface.
- * 
- * This class offers methods for creating, reading, updating, deleteting
- * and moving template files.
- * 
+ *
+ * This class offers methods for creating, reading, updating, deleteting and
+ * moving template files.
+ *
  * @author Petteri Kivimäki
  */
 public class TemplatesServiceImpl implements TemplatesService {
 
-    private final static Logger logger = Logger.getLogger(TemplatesServiceImpl.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(TemplatesServiceImpl.class.getName());
     private FileService fileService;
     private LocationsService locationsService;
     private LanguagesService languagesService;
@@ -60,6 +61,7 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Sets the file service object.
+     *
      * @param fileService new value
      */
     public void setFileService(FileService fileService) {
@@ -68,6 +70,7 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Sets the locations service object.
+     *
      * @param locationsService new value
      */
     public void setLocationsService(LocationsService locationsService) {
@@ -76,6 +79,7 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Sets the language service object.
+     *
      * @param languageService new value
      */
     public void setLanguagesService(LanguagesService languagesService) {
@@ -84,6 +88,7 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Sets the directory service object.
+     *
      * @param dirService new value
      */
     public void setDirService(DirectoryService dirService) {
@@ -93,24 +98,28 @@ public class TemplatesServiceImpl implements TemplatesService {
     /**
      * Returns a list of templates related to the given owner located in the
      * given language folder.
+     *
      * @param lang language code
      * @param owner owner of the templates
      * @return list of templates
      */
+    @Override
     public List<String> getList(String lang, Owner owner) {
         return getList(false, lang, owner);
     }
 
     /**
      * Returns a list of templates related to the given owner located in the
-     * given language folder. If onlyOther is true, only templates which
-     * is other are returned. Otherwise all the templates in the directory
-     * are returned.
+     * given language folder. If onlyOther is true, only templates which is
+     * other are returned. Otherwise all the templates in the directory are
+     * returned.
+     *
      * @param onlyOther if true, only templates which type is other are returned
      * @param lang language code
      * @param owner owner of the templates
      * @return list of templates
      */
+    @Override
     public List<String> getList(boolean onlyOther, String lang, Owner owner) {
         List<String> results = new ArrayList<String>();
         String postfix = "(.*)";
@@ -120,7 +129,7 @@ public class TemplatesServiceImpl implements TemplatesService {
         String path = Settings.getInstance().getTemplatesPath(owner.getCode());
         File dir = new File(path + lang + "/");
         if (!dir.exists()) {
-            logger.warn("The given directory doesn't exist! Path : " + dir.getAbsolutePath());
+            logger.warn("The given directory doesn't exist! Path : {}", dir.getAbsolutePath());
             return results;
         }
         if (dir.list() != null) {
@@ -135,13 +144,15 @@ public class TemplatesServiceImpl implements TemplatesService {
     }
 
     /**
-     * Returns a map that contains template name - template display name 
-     * key-value pairs. Template file name is the key and template display 
-     * name is the value.
+     * Returns a map that contains template name - template display name
+     * key-value pairs. Template file name is the key and template display name
+     * is the value.
+     *
      * @param lang language code
      * @param owner owner of the templates
      * @return map of template name - template display name key-value pairs
      */
+    @Override
     public Map<String, String> getMap(String lang, Owner owner) {
         List<String> templates = getList(lang, owner);
         Map<String, String> results = new TreeMap<String, String>();
@@ -162,28 +173,30 @@ public class TemplatesServiceImpl implements TemplatesService {
     }
 
     /**
-     * Creates a new template named after the given filename, 
-     * language and owner. Before creating the template the given filename is
-     * validated and false is returned in case the filename doesn't pass
-     * the validation. The contents of the system template are copied to
-     * the new template.
+     * Creates a new template named after the given filename, language and
+     * owner. Before creating the template the given filename is validated and
+     * false is returned in case the filename doesn't pass the validation. The
+     * contents of the system template are copied to the new template.
+     *
      * @param filename name of the template
      * @param lang language of the template
      * @param owner owner of the template
-     * @return true if and only if the template was succesfully created;
+     * @return true if and only if the template was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(String filename, String lang, Owner owner) {
         return create(filename, null, lang, owner);
     }
 
     /**
-     * Creates a new template named after the given filename, contents,
-     * language and owner. Before creating the template the given filename is
-     * validated and false is returned in case the filename doesn't pass
-     * the validation. The contents of the system template are copied to
-     * the new template if contents parameter is null. Otherwise the give contents
-     * are written to the file.
+     * Creates a new template named after the given filename, contents, language
+     * and owner. Before creating the template the given filename is validated
+     * and false is returned in case the filename doesn't pass the validation.
+     * The contents of the system template are copied to the new template if
+     * contents parameter is null. Otherwise the give contents are written to
+     * the file.
+     *
      * @param filename name of the template
      * @param contents file contents, system template is used if null
      * @param lang language of the template
@@ -191,6 +204,7 @@ public class TemplatesServiceImpl implements TemplatesService {
      * @return true if and only if the template was succesfully created;
      * otherwise false
      */
+    @Override
     public boolean create(String filename, String contents, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -199,7 +213,7 @@ public class TemplatesServiceImpl implements TemplatesService {
         }
         // Check that the name is valid
         if (!TemplatesUtil.isTemplateNameValid(filename)) {
-            logger.warn("Creating new template failed! Invalid template name : " + filename);
+            logger.warn("Creating new template failed! Invalid template name : {}", filename);
             return false;
         }
         // Get the absolute path of the file
@@ -212,33 +226,33 @@ public class TemplatesServiceImpl implements TemplatesService {
 
         // Create new template
         if (fileService.add(path, contents)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("New template created : " + path);
-            }
+            logger.debug("New template created : {}", path);
             return true;
         }
-        logger.warn("Failed to create template : " + path);
+        logger.warn("Failed to create template : {}", path);
         return false;
     }
 
     /**
-     * Creates a new template for the Location matching the given locationId
-     * on a given level. If no Location matching the given id is found, a
-     * default template for the given type is created. If type is OTHER, the
-     * otherName parameter must contain the name of the template. If type
-     * is NOT_AVAILABLE or NOT_FOUND, locationId and othername are ignored.
+     * Creates a new template for the Location matching the given locationId on
+     * a given level. If no Location matching the given id is found, a default
+     * template for the given type is created. If type is OTHER, the otherName
+     * parameter must contain the name of the template. If type is NOT_AVAILABLE
+     * or NOT_FOUND, locationId and other name are ignored.
+     *
      * @param locationId id of the Location object
      * @param otherName name of the template, if type is OTHER
-     * @param incCollectionCode boolean value that tells if collection
-     * code should be included in the template's name. If true, collection
-     * code is included only if it exists and is not empty.
+     * @param incCollectionCode boolean value that tells if collection code
+     * should be included in the template's name. If true, collection code is
+     * included only if it exists and is not empty.
      * @param type type of template: LIBRARY, SHELF, COLLECTION, NOT_FOUND,
      * NOT_AVAILABLE, OTHER
      * @param lang language of the template
      * @param owner owner of the template
-     * @return true if and only if the template was succesfully created; 
+     * @return true if and only if the template was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(int locationId, String otherName, boolean incCollectionCode, TemplateType type, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -255,14 +269,14 @@ public class TemplatesServiceImpl implements TemplatesService {
 
         // Check that the name is valid
         if (!TemplatesUtil.isTemplateNameValid(filename)) {
-            logger.warn("Creating new template failed! Invalid template name : " + filename);
+            logger.warn("Creating new template failed! Invalid template name : {}", filename);
             return false;
         }
         // Get the absolute path of the file
         String path = TemplatesUtil.buildFilePath(filename, lang, owner);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Create new template : " + path);
-        }
+
+        logger.debug("Create new template : {}", path);
+
         // Get default contents from the system template
         String contents = read(owner);
         // Create new template
@@ -271,26 +285,28 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Reads the system template related to the given Owner.
+     *
      * @param owner owner of the template
      * @return contents of the system template
      */
+    @Override
     public String read(Owner owner) {
         // Get the absolute path of the template
         String filePath = TemplatesUtil.buildFilePath("../template.txt", null, owner);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Read system template : " + filePath);
-        }
+        logger.debug("Read system template : {}", filePath);
         // Read file contents
         return fileService.read(filePath);
     }
 
     /**
      * Reads the template matching the given name and language.
+     *
      * @param filename name of the template
      * @param lang language if the template
      * @param owner owner of the template
      * @return contents of the template
      */
+    @Override
     public String read(String filename, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -299,14 +315,13 @@ public class TemplatesServiceImpl implements TemplatesService {
         }
         // Check that the name is valid
         if (!TemplatesUtil.isTemplateNameValid(filename)) {
-            logger.warn("Reading template failed! Invalid template name : " + filename);
+            logger.warn("Reading template failed! Invalid template name : {}", filename);
             return "";
         }
         // Get the absolute path of the file
         String path = TemplatesUtil.buildFilePath(filename, lang, owner);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Read template : " + path);
-        }
+        logger.debug("Read template : {}", path);
+
         // Read file contents
         return fileService.read(path);
     }
@@ -315,35 +330,37 @@ public class TemplatesServiceImpl implements TemplatesService {
      * Writes the given contents to the system template of the given Owner. If
      * the system template file doesn't exist yet, it's created, otherwise it
      * will be overwritten.
+     *
      * @param contents contents of the template
      * @param owner owner of the template
      * @return true if and only if the template is successfully written;
      * otherwise false
      */
+    @Override
     public boolean update(String contents, Owner owner) {
         // Get the absolute path of the file
         String filePath = TemplatesUtil.buildFilePath("../template.txt", null, owner);
 
         // Write contents to the system template
         if (fileService.write(filePath, contents)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("System template updated : " + filePath);
-            }
+            logger.debug("System template updated : {}", filePath);
             return true;
         }
-        logger.debug("Updating system template failed : " + filePath);
+        logger.debug("Updating system template failed : {}", filePath);
         return false;
     }
 
     /**
      * Update the template pointed by the given filename, language and owner.
+     *
      * @param filename name of the template
      * @param contents contents of the template
      * @param lang language of the template
      * @param owner owner of the template
-     * @return true if and only if the template exists and it's succesfully 
+     * @return true if and only if the template exists and it's successfully
      * updated; otherwise false
      */
+    @Override
     public boolean update(String filename, String contents, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -352,34 +369,33 @@ public class TemplatesServiceImpl implements TemplatesService {
         }
         // Check that the name is valid
         if (!TemplatesUtil.isTemplateNameValid(filename)) {
-            logger.warn("Updating template failed! Invalid template name : " + filename);
+            logger.warn("Updating template failed! Invalid template name : {}", filename);
             return false;
         }
         // Get the absolute path of the file
         String path = TemplatesUtil.buildFilePath(filename, lang, owner);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Update template : " + path);
-        }
+        logger.debug("Update template : {}", path);
+
         // Update file contents
         if (fileService.update(path, contents)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Template updated : " + path);
-            }
+            logger.debug("Template updated : {}", path);
             return true;
         }
-        logger.debug("Updating template failed : " + path);
+        logger.debug("Updating template failed : {}", path);
         return false;
 
     }
 
     /**
      * Deletes the template pointed by the given filename, language and owner.
+     *
      * @param filename name of the template
      * @param lang language of the template
      * @param owner owner of the template
-     * @return true if and only if the template is successfully 
-     * deleted; false otherwise
+     * @return true if and only if the template is successfully deleted; false
+     * otherwise
      */
+    @Override
     public boolean delete(String filename, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -388,33 +404,32 @@ public class TemplatesServiceImpl implements TemplatesService {
         }
         // Check that the name is valid
         if (!TemplatesUtil.isTemplateNameValid(filename)) {
-            logger.warn("Deleting template failed! Invalid template name : " + filename);
+            logger.warn("Deleting template failed! Invalid template name : {}", filename);
             return false;
         }
         // Get the absolute path of the file
         String path = TemplatesUtil.buildFilePath(filename, lang, owner);
-        if (logger.isInfoEnabled()) {
-            logger.info("Delete template : " + path);
-        }
+        logger.info("Delete template : {}", path);
+
         // Delete the template
         if (fileService.delete(path)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Template deleted : " + path);
-            }
+            logger.debug("Template deleted : {}", path);
             return true;
         }
-        logger.debug("Deleting template failed : " + path);
+        logger.debug("Deleting template failed : {}", path);
         return false;
     }
 
     /**
      * Renames the given template.
+     *
      * @param oldFilename old template name
      * @param newFilename new template name
      * @param lang language of the templates
      * @param owner owner of the template
      * @return true if and only if the template was renamed
      */
+    @Override
     public boolean rename(String oldFilename, String newFilename, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -423,12 +438,12 @@ public class TemplatesServiceImpl implements TemplatesService {
         }
         // Check that the new name is valid
         if (!TemplatesUtil.isTemplateNameValid(newFilename)) {
-            logger.warn("Renaming template failed! New template name is invalid : " + newFilename);
+            logger.warn("Renaming template failed! New template name is invalid : {}", newFilename);
             return false;
         }
         // Check that the old name is valid
         if (!TemplatesUtil.isTemplateNameValid(oldFilename)) {
-            logger.warn("Renaming template failed! Old template name is invalid : " + oldFilename);
+            logger.warn("Renaming template failed! Old template name is invalid : {}", oldFilename);
             return false;
         }
         // Get the absolute paths of the templates
@@ -437,9 +452,7 @@ public class TemplatesServiceImpl implements TemplatesService {
 
         // Rename template
         if (fileService.rename(oldPath, newPath)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Template renamed.");
-            }
+            logger.debug("Template renamed.");
             return true;
         }
         logger.warn("Renaming template failed.");
@@ -448,19 +461,21 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Renames the given template.
+     *
      * @param oldFilename old template name
-     * @param newId id of the Location object according to which the template
-     * is renamed
+     * @param newId id of the Location object according to which the template is
+     * renamed
      * @param otherName name of the template, if type is OTHER
-     * @param incCollectionCode boolean value that tells if collection
-     * code should be included in the template's name. If true, collection
-     * code is included only if it exists and is not empty
-     * @param newType new type of template: LIBRARY, SHELF, COLLECTION, NOT_FOUND,
-     * NOT_AVAILABLE, OTHER
+     * @param incCollectionCode boolean value that tells if collection code
+     * should be included in the template's name. If true, collection code is
+     * included only if it exists and is not empty
+     * @param newType new type of template: LIBRARY, SHELF, COLLECTION,
+     * NOT_FOUND, NOT_AVAILABLE, OTHER
      * @param lang language of the template
      * @param owner owner of the template
      * @return true if and only if the template was renamed
      */
+    @Override
     public boolean rename(String oldFilename, int newId, String newOtherName, boolean incCollectionCode, TemplateType newType, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -476,25 +491,22 @@ public class TemplatesServiceImpl implements TemplatesService {
         }
         // Check that the new name is valid
         if (!TemplatesUtil.isTemplateNameValid(newFilename)) {
-            logger.warn("Renaming template failed! New template name is invalid : " + newFilename);
+            logger.warn("Renaming template failed! New template name is invalid : {}", newFilename);
             return false;
         }
         // Check that the old name is valid
         if (!TemplatesUtil.isTemplateNameValid(oldFilename)) {
-            logger.warn("Renaming template failed! Old template name is invalid : " + oldFilename);
+            logger.warn("Renaming template failed! Old template name is invalid : {}", oldFilename);
             return false;
         }
         // Get the absolute paths of the templates
         String oldPath = TemplatesUtil.buildFilePath(oldFilename, lang, owner);
         String newPath = TemplatesUtil.buildFilePath(newFilename, lang, owner);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Rename template.");
-        }
+        logger.debug("Rename template.");
+
         // Rename template
         if (fileService.rename(oldPath, newPath)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Template renamed.");
-            }
+            logger.debug("Template renamed.");
             return true;
         }
         logger.warn("Renaming template failed.");
@@ -503,11 +515,13 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Tests whether the template exists.
+     *
      * @param filename name of the template
      * @param lang language of the template
      * @param owner owner of the template
      * @return true if and only if the template exists; false otherwise
      */
+    @Override
     public boolean exists(String filename, String lang, Owner owner) {
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
@@ -527,18 +541,18 @@ public class TemplatesServiceImpl implements TemplatesService {
     }
 
     /**
-     * Creates the default template files that must exist in each language.
-     * The system template file is used as a base for the files, which
-     * means that the contents of the system template are copied into 
-     * each file that is created. This method can be used when adding a
-     * new language to the system, so that the user doesn't have to
-     * create the default templates for the new language.
+     * Creates the default template files that must exist in each language. The
+     * system template file is used as a base for the files, which means that
+     * the contents of the system template are copied into each file that is
+     * created. This method can be used when adding a new language to the
+     * system, so that the user doesn't have to create the default templates for
+     * the new language.
+     *
      * @param lang language of the templates to be created
      */
+    @Override
     public boolean createDefaults(String lang, Owner owner) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Create default templates.");
-        }
+        logger.info("Create default templates.");
         // Validate lang and owner parameters
         if (!validate(lang, owner)) {
             logger.warn("Creating default templates failed! Reason : invalid parameters.");
@@ -556,7 +570,7 @@ public class TemplatesServiceImpl implements TemplatesService {
         for (int i = 0; i < templates.length; i++) {
             // Validate template name
             if (!TemplatesUtil.isTemplateNameValid(templates[i])) {
-                logger.warn("Creating new default template failed! Invalid template name : " + templates[i]);
+                logger.warn("Creating new default template failed! Invalid template name : {}", templates[i]);
                 ok = false;
                 break;
             }
@@ -594,18 +608,20 @@ public class TemplatesServiceImpl implements TemplatesService {
      * Builds a new template name for the Location matching the given locationId
      * on a given level. If no Location matching the given id is found, a
      * default template for the given type is created. If type is OTHER, the
-     * otherName parameter must contain the name of the template. If type
-     * is NOT_AVAILABLE or NOT_FOUND, locationId and othername are ignored.
+     * otherName parameter must contain the name of the template. If type is
+     * NOT_AVAILABLE or NOT_FOUND, locationId and other name are ignored.
+     *
      * @param locationId id of the Location object
      * @param otherName name of the template, if type is OTHER
-     * @param incCollectionCode boolean value that tells if collection
-     * code should be included in the template's name. If true, collection
-     * code is included only if it exists and is not empty
+     * @param incCollectionCode boolean value that tells if collection code
+     * should be included in the template's name. If true, collection code is
+     * included only if it exists and is not empty
      * @param type type of template: LIBRARY, SHELF, COLLECTION, NOT_FOUND,
      * NOT_AVAILABLE, OTHER
      * @param owner owner of the template
      * @return name of the template or null, if parameters are invalid
      */
+    @Override
     public String buildTemplateName(int locationId, String otherName, boolean incCollectionCode, TemplateType type, Owner owner) {
         StringBuilder builder = new StringBuilder();
         // Get index entry matching the given locationId
@@ -637,7 +653,7 @@ public class TemplatesServiceImpl implements TemplatesService {
         } else if (index != null && type != TemplateType.NOT_AVAILABLE && type != TemplateType.NOT_FOUND) {
             // Check that index owner and given owner are the same
             if (index.getOwner().getId() != owner.getId()) {
-                logger.warn("Building template name failed! Given owner doesn't match with index entry owner : " + index.getOwner().getCode() + " <> " + owner.getCode());
+                logger.warn("Building template name failed! Given owner doesn't match with index entry owner : {} <> {}", index.getOwner().getCode(), owner.getCode());
                 return null;
             }
 
@@ -653,7 +669,7 @@ public class TemplatesServiceImpl implements TemplatesService {
                 location = locationsService.getShelf(index.getLocationId(), owner);
             }
             if (location == null) {
-                logger.warn("Building template name failed! Unable to find Location matching the given conditions {\"id\":" + index.getLocationId() + "\",\"owner\":\"" + owner.getCode() + "\"}");
+                logger.warn("Building template name failed! Unable to find Location matching the given conditions {\"id\":{}\",\"owner\":\"{}\"}", index.getLocationId(), owner.getCode());
                 return null;
             }
             // Get call number
@@ -666,12 +682,14 @@ public class TemplatesServiceImpl implements TemplatesService {
     }
 
     /**
-     * Returns a Map containing all the template files and a list of
-     * languages in which they're available.
+     * Returns a Map containing all the template files and a list of languages
+     * in which they're available.
+     *
      * @param owner owner of the template files
-     * @return Map containing all the template files and a list of
-     * languages in which they're available
+     * @return Map containing all the template files and a list of languages in
+     * which they're available
      */
+    @Override
     public Map<String, List<Language>> getTemplatesAndLanguages(Owner owner) {
         // Map for the results
         java.util.Map maps = new LinkedHashMap();
@@ -704,11 +722,12 @@ public class TemplatesServiceImpl implements TemplatesService {
     }
 
     /**
-     * Checks that the given language and owner parameters are not null
-     * or empty.
+     * Checks that the given language and owner parameters are not null or
+     * empty.
+     *
      * @param lang language
      * @param owner owner
-     * @return true if and only if both parameters are not null and are not 
+     * @return true if and only if both parameters are not null and are not
      * empty; otherwise false
      */
     private boolean validate(String lang, Owner owner) {
@@ -726,6 +745,7 @@ public class TemplatesServiceImpl implements TemplatesService {
 
     /**
      * Checks that the owner parameter is not null.
+     *
      * @param owner owner
      * @return true if and only if owner is not null; otherwise false
      */

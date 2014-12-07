@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.converter.json;
 
@@ -25,16 +25,17 @@ import com.pkrete.locationservice.admin.model.subjectmatter.SubjectMatter;
 import com.pkrete.locationservice.admin.util.DateTimeUtil;
 
 /**
- * This class offers methods that can be used when converting
- * Location objects to JSON Strings.
- * 
+ * This class offers methods that can be used when converting Location objects
+ * to JSON Strings.
+ *
  * @author Petteri Kivimäki
  */
 public abstract class LocationJSONizer {
 
     /**
-     * Appends locationId, name, locationCode, callNumber and floor variables
-     * to the given StringBuilder object.
+     * Appends locationId, name, locationCode, callNumber and floor variables to
+     * the given StringBuilder object.
+     *
      * @param map container for the variables
      * @param source Location object
      */
@@ -47,8 +48,9 @@ public abstract class LocationJSONizer {
     }
 
     /**
-     * Appends staffNote1, staffNote2, imageId and mapId variables
-     * to the given StringBuilder object.
+     * Appends staffNote1, staffNote2, imageId and mapId variables to the given
+     * StringBuilder object.
+     *
      * @param map container for the variables
      * @param source Location object
      */
@@ -60,9 +62,10 @@ public abstract class LocationJSONizer {
     }
 
     /**
-     * Appends ownerId, createdAt, creator, updatedAt and updater variables
-     * to the given StringBuilder object. OwnerId is included if and only if 
-     * the given logEntry parameter is true.
+     * Appends ownerId, createdAt, creator, updatedAt and updater variables to
+     * the given StringBuilder object. OwnerId is included if and only if the
+     * given logEntry parameter is true.
+     *
      * @param map container for the variables
      * @param source Location object
      * @param logEntry if true, include ownerId
@@ -80,7 +83,9 @@ public abstract class LocationJSONizer {
     }
 
     /**
-     * Appends descriptions and notes variales to the given StringBuilder object.
+     * Appends descriptions and notes variales to the given StringBuilder
+     * object.
+     *
      * @param map container for the variables
      * @param source Location object
      */
@@ -110,7 +115,8 @@ public abstract class LocationJSONizer {
     }
 
     /**
-     * Appends subject matter variales to the given StringBuilder object.
+     * Appends subject matter variables to the given StringBuilder object.
+     *
      * @param map container for the variables
      * @param source Location object
      */
@@ -132,6 +138,7 @@ public abstract class LocationJSONizer {
 
     /**
      * Appends areas variable to the given StringBuilder object.
+     *
      * @param map container for the variables
      * @param source Location object
      */
@@ -156,8 +163,9 @@ public abstract class LocationJSONizer {
     }
 
     /**
-     * Appends locationId, name, locationCode and callNumber variables
-     * to the given StringBuilder object.
+     * Appends locationId, name, locationCode and callNumber variables to the
+     * given StringBuilder object.
+     *
      * @param map container for the variables
      * @param source Location object
      */

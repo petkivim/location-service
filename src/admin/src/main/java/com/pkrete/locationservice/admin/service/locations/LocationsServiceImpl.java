@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.service.locations;
 
@@ -38,20 +38,21 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * This class implements {@link LocationsService LocationsService} interface, 
+ * This class implements {@link LocationsService LocationsService} interface,
  * which defines service layer for Location objects.
- * 
- * This class offers methods for adding, editing and removing Location
- * objects. This class doesn't support external index software.
- * 
+ *
+ * This class offers methods for adding, editing and removing Location objects.
+ * This class doesn't support external index software.
+ *
  * @author Petteri Kivimäki
  */
 public class LocationsServiceImpl implements LocationsService {
 
-    private final static Logger logger = Logger.getLogger(LocationsServiceImpl.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(LocationsServiceImpl.class.getName());
     private LocationsDao dao;
     private JSONizerService libJsonizer;
     private JSONizerService colJsonizer;
@@ -59,6 +60,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Sets the data access object.
+     *
      * @param dao new value
      */
     public void setDao(LocationsDao dao) {
@@ -67,6 +69,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Sets the library JSON converter object.
+     *
      * @param jsonizer new value
      */
     public void setLibJsonizer(JSONizerService jsonizer) {
@@ -75,6 +78,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Sets the collection JSON converter object.
+     *
      * @param jsonizer new value
      */
     public void setColJsonizer(JSONizerService jsonizer) {
@@ -83,119 +87,135 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Sets the shelf JSON converter object.
+     *
      * @param jsonizer new value
      */
     public void setShelfJsonizer(JSONizerService jsonizer) {
         this.shelfJsonizer = jsonizer;
     }
 
-
     /**
-     * Returns the library which locationId matches with the given libraryId 
-     * number. This method is only for editor classes. All the other classes 
+     * Returns the library which locationId matches with the given libraryId
+     * number. This method is only for editor classes. All the other classes
      * must give also the owner parameter.
+     *
      * @param libraryId locationId that is used for searching
-     * @return library with the desired locationId or null if matching
-     * library doesn't exist
+     * @return library with the desired locationId or null if matching library
+     * doesn't exist
      */
+    @Override
     public Library getLibrary(int libraryId) {
         return dao.getLibrary(libraryId);
     }
 
     /**
-     * Returns the library which locationId matches with the given libraryId 
+     * Returns the library which locationId matches with the given libraryId
      * number. Initializes image, map, areas and collections objects related to
      * the library, so that the library can be edited.
+     *
      * @param libraryId locationId that is used for searching
      * @param owner the owner of the object
-     * @return library with the desired locationId or null if matching
-     * library doesn't exist
+     * @return library with the desired locationId or null if matching library
+     * doesn't exist
      */
+    @Override
     public Library getLibrary(int libraryId, Owner owner) {
         return dao.getLibrary(libraryId, owner);
     }
 
     /**
-     * Returns the library which locationId matches with the given libraryId 
+     * Returns the library which locationId matches with the given libraryId
      * number. Initializes areas, collections and shelves related to the given
-     * library object, so that the library and the objects related to it can
-     * be deleted.
+     * library object, so that the library and the objects related to it can be
+     * deleted.
+     *
      * @param libraryId locationId that is used for searching
      * @param owner the owner of the object
-     * @return library with the desired locationId or null if matching
-     * library doesn't exist
+     * @return library with the desired locationId or null if matching library
+     * doesn't exist
      */
+    @Override
     public Library getLibraryToBeDeleted(int libraryId, Owner owner) {
         return dao.getLibraryToBeDeleted(libraryId, owner);
     }
 
     /**
-     * Returns the collection which locationId matches with the given 
-     * collectionId number. This method is only for editor classes. All the 
+     * Returns the collection which locationId matches with the given
+     * collectionId number. This method is only for editor classes. All the
      * other classes must give also the owner parameter.
+     *
      * @param collectionId locationId that is used for searching
      * @return collection with the desired locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollection(int collectionId) {
         return dao.getCollection(collectionId);
     }
 
     /**
-     * Returns the collection which locationId matches with the given 
-     * collectionId number. Initializes image, map, areas, subject matters 
-     * and shelves objects related to the collection, so that the collection 
-     * can be edited.
+     * Returns the collection which locationId matches with the given
+     * collectionId number. Initializes image, map, areas, subject matters and
+     * shelves objects related to the collection, so that the collection can be
+     * edited.
+     *
      * @param collectionId locationId that is used for searching
      * @param owner the owner of the object
      * @return collection with the desired locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollection(int collectionId, Owner owner) {
         return dao.getCollection(collectionId, owner);
     }
 
     /**
-     * Returns the collection which locationId matches with the given 
-     * collectionId number and that belongs to the given library. Initializes 
-     * image, map, areas, subject matters and shelves objects related to the 
+     * Returns the collection which locationId matches with the given
+     * collectionId number and that belongs to the given library. Initializes
+     * image, map, areas, subject matters and shelves objects related to the
      * collection, so that the collection can be edited.
+     *
      * @param collectionId locationId that is used for searching
      * @param libraryId locationId of the library that holds the collection
      * @param owner owner of the collection
      * @return collection with the desired locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollection(int collectionId, int libraryId, Owner owner) {
         return dao.getCollection(collectionId, libraryId, owner);
     }
 
     /**
-     * Returns the collection which locationId matches with the given 
-     * collectionId number. Initializes areas, subject matters and shelves 
-     * related to the given collection object, so that the collection and the 
+     * Returns the collection which locationId matches with the given
+     * collectionId number. Initializes areas, subject matters and shelves
+     * related to the given collection object, so that the collection and the
      * objects related to it can be deleted.
+     *
      * @param collectionId locationId that is used for searching
      * @param owner the owner of the object
      * @return collection with the given locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollectionToBeDeleted(int collectionId, Owner owner) {
         return dao.getCollectionToBeDeleted(collectionId, owner);
     }
 
     /**
-     * Returns the collection which locationId matches with the given 
-     * collectionId number and that belongs to the given library. Initializes 
-     * areas, subject  matters and shelves related to the given collection 
-     * object, so that the collection and the objects related to it can be 
+     * Returns the collection which locationId matches with the given
+     * collectionId number and that belongs to the given library. Initializes
+     * areas, subject matters and shelves related to the given collection
+     * object, so that the collection and the objects related to it can be
      * deleted.
+     *
      * @param collectionId locationId that is used for searching
      * @param libraryId locationId of the library that holds the collection
      * @param owner owner of the collection
      * @return collection with the given locationId or null if matching
      * collection doesn't exist
      */
+    @Override
     public LibraryCollection getCollectionToBeDeleted(int collectionId, int libraryId, Owner owner) {
         return this.dao.getCollectionToBeDeleted(collectionId, libraryId, owner);
     }
@@ -203,47 +223,55 @@ public class LocationsServiceImpl implements LocationsService {
     /**
      * Returns all the collections that are related to the library which
      * locationId matches with the given libraryId number.
+     *
      * @param libraryId locationId of the library that holds the collection
      * @param owner owner of the collection
      * @return list of collections that belong to the given library
      */
+    @Override
     public List<SimpleLocation> getCollectionsByLibraryId(int libraryId, Owner owner) {
-        return (List)dao.getCollectionsByLibraryId(libraryId, owner);
+        return (List) dao.getCollectionsByLibraryId(libraryId, owner);
     }
 
     /**
      * Returns all the collections that are owned by the given owner.
+     *
      * @param owner the owner of the collections
      * @return list of collections owned by the given owner
      */
+    @Override
     public List<SimpleLocation> getCollections(Owner owner) {
-        return (List)dao.getCollections(owner);
+        return (List) dao.getCollections(owner);
     }
 
     /**
      * Returns the shelf which locationId matches with the given shelfId number.
-     * Initializes image, map, areas and subject matters objects related to
-     * the shelf, so that the shelf can be edited.
+     * Initializes image, map, areas and subject matters objects related to the
+     * shelf, so that the shelf can be edited.
+     *
      * @param shelfId locationId that is used for searching
      * @param owner the owner of the object
-     * @return the shelf with the desired locationId or null if matching
-     * shelf doesn't exist
+     * @return the shelf with the desired locationId or null if matching shelf
+     * doesn't exist
      */
+    @Override
     public Shelf getShelf(int shelfId, Owner owner) {
         return dao.getShelf(shelfId, owner);
     }
 
     /**
      * Returns the shelf which locationId matches with the given id number.
-     * Initializes image, map, areas and subject matters objects related to
-     * the shelf, so that the shelf can be edited.
+     * Initializes image, map, areas and subject matters objects related to the
+     * shelf, so that the shelf can be edited.
+     *
      * @param shelfId locationId that is used for searching
      * @param collectionId locationId of the collection
-     * @param libraryId locationId of the lirary
+     * @param libraryId locationId of the library
      * @param owner the owner of the object
-     * @return shelf with the desired locationId or null if matching shelf
-     * is not found
+     * @return shelf with the desired locationId or null if matching shelf is
+     * not found
      */
+    @Override
     public Shelf getShelf(int shelfId, int collectionId, int libraryId, Owner owner) {
         return dao.getShelf(shelfId, collectionId, libraryId, owner);
     }
@@ -251,92 +279,105 @@ public class LocationsServiceImpl implements LocationsService {
     /**
      * Returns all the shelves that are related to the collection which
      * locationId matches with the given collectionId number.
+     *
      * @param collectionId locationId of the collection that holds the shelves
      * @param owner the owner of the object
      * @return list of shelves that belong to the given collection
      */
+    @Override
     public List<SimpleLocation> getShelvesByCollectionId(int collectionId, Owner owner) {
-        return (List)dao.getShelvesByCollectionId(collectionId, owner);
+        return (List) dao.getShelvesByCollectionId(collectionId, owner);
     }
 
     /**
      * Returns all the shelves that are related to the collection which
      * locationId matches with the given id number.
+     *
      * @param libraryId id of the library
      * @param collectionId id of the collection
      * @param owner the owner of the object
      * @return list of shelves that belong to the given collection
      */
+    @Override
     public List<SimpleLocation> getShelvesByCollectionId(int libraryId, int collectionId, Owner owner) {
-        return (List)this.dao.getShelvesByCollectionId(libraryId, collectionId, owner);
+        return (List) this.dao.getShelvesByCollectionId(libraryId, collectionId, owner);
     }
 
     /**
      * Returns the shelf which locationId matches with the given shelfId number.
-     * Initializes areas and subject matters related to the given
-     * shelf object, so that the shelf and the objects related to it can
-     * be deleted.
+     * Initializes areas and subject matters related to the given shelf object,
+     * so that the shelf and the objects related to it can be deleted.
+     *
      * @param shelfId the locationId that is used for searching
      * @param owner the owner of the object
-     * @return shelf with the desired locationId or null if matching
-     * shelf doesn't exist
+     * @return shelf with the desired locationId or null if matching shelf
+     * doesn't exist
      */
+    @Override
     public Shelf getShelfToBeDeleted(int shelfId, Owner owner) {
         return dao.getShelfToBeDeleted(shelfId, owner);
     }
 
     /**
      * Returns the shelf which locationId matches with the given shelfId number.
-     * Initializes areas and subject matters related to the given
-     * shelf object, so that the shelf and the objects related to it can
-     * be deleted.
+     * Initializes areas and subject matters related to the given shelf object,
+     * so that the shelf and the objects related to it can be deleted.
+     *
      * @param shelfId the locationId that is used for searching
      * @param collectionId locationId of the collection
-     * @param libraryId locationId of the lirary
+     * @param libraryId locationId of the library
      * @param owner the owner of the object
-     * @return shelf with the desired locationId or null if matching
-     * shelf doesn't exist
+     * @return shelf with the desired locationId or null if matching shelf
+     * doesn't exist
      */
+    @Override
     public Shelf getShelfToBeDeleted(int shelfId, int collectionId, int libraryId, Owner owner) {
         return this.dao.getShelfToBeDeleted(shelfId, collectionId, libraryId, owner);
     }
 
     /**
      * Returns the location which id number matches with given id number
+     *
      * @param locationId the id number that is used for searching
      * @param owner the owner of the object
      * @return the location with the desired id number
      */
+    @Override
     public Location getLocation(int locationId, Owner owner) {
         return dao.getLocation(locationId, owner);
     }
 
     /**
-     * Returns a list of all the libraries in the database that are related
-     * to the given owner object.
+     * Returns a list of all the libraries in the database that are related to
+     * the given owner object.
+     *
      * @param owner the owner of the objects
      * @return all the libraries in the database
      */
+    @Override
     public List<SimpleLocation> getlLibraries(Owner owner) {
-        return (List)dao.getAllLocations(owner);
+        return (List) dao.getAllLocations(owner);
     }
 
     /**
-     * Returns a list of all the areas in the database that are related
-     * to the given location id.
+     * Returns a list of all the areas in the database that are related to the
+     * given location id.
+     *
      * @param location id of the location that the areas are related to
      * @return all the areas related to the given location
      */
+    @Override
     public List<Area> getAreasByLocationId(int locationId) {
         return dao.getAreasByLocationId(locationId);
     }
 
     /**
-     * Returns a Set that contains Area ids related to the given
-     * Location.
+     * Returns a Set that contains Area ids related to the given Location.
+     *
      * @param location Location that owns the Descriptions
      * @return Set containing Area ids related to the given Location
      */
+    @Override
     public Set<Integer> getAreaIdsSet(Location location) {
         List<Integer> list = this.dao.getAreaIds(location);
         Set<Integer> ids = new HashSet<Integer>();
@@ -349,9 +390,11 @@ public class LocationsServiceImpl implements LocationsService {
     /**
      * Returns a Set that contains Description ids related to the given
      * Location.
+     *
      * @param location Location that owns the Descriptions
      * @return Set containing Description ids related to the given Location
      */
+    @Override
     public Set<Integer> getDescriptionIdsSet(Location location) {
         List<Integer> list = this.dao.getDescriptionIds(location);
         Set<Integer> ids = new HashSet<Integer>();
@@ -362,11 +405,12 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Returns a Set that contains Note ids related to the given
-     * Location.
+     * Returns a Set that contains Note ids related to the given Location.
+     *
      * @param location Location that owns the Notes
      * @return Set containing Note ids related to the given Location
      */
+    @Override
     public Set<Integer> getNoteIdsSet(Location location) {
         List<Integer> list = this.dao.getNoteIds(location);
         Set<Integer> ids = new HashSet<Integer>();
@@ -378,10 +422,12 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Adds the given library object to the database and updates search index.
+     *
      * @param library the library to be added
-     * @return true if and only if the library was succesfully created;
+     * @return true if and only if the library was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(Library library) {
         // Remove empty descriptions and notes
         this.checkDescriptions(library);
@@ -390,9 +436,7 @@ public class LocationsServiceImpl implements LocationsService {
         library.setCreated(new Date());
         // Add Library to the database
         if (dao.create(library)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Library created : ").append(this.libJsonizer.jsonize(library, true)));
-            }
+            logger.info("Library created : {}", this.libJsonizer.jsonize(library, true));
             // Create index entry
             if (!dao.save(new SearchIndex(library.getLocationId(), LocationType.LIBRARY, library.getCallNo(), library.getLocationCode(), library.getOwner()))) {
                 logger.error("Creating index entry failed!");
@@ -405,11 +449,14 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Updatess the given library object to the database and updates search index.
+     * Updates the given library object to the database and updates search
+     * index.
+     *
      * @param library the library to be updated
-     * @return true if and only if the library was succesfully updated;
+     * @return true if and only if the library was successfully updated;
      * otherwise false
      */
+    @Override
     public boolean update(Library library) {
         // Remove unused descriptions, notes and areas, and get ids that must be deleted
         List<Integer> descriptionIds = this.checkDescriptions(library);
@@ -420,7 +467,7 @@ public class LocationsServiceImpl implements LocationsService {
         library.setUpdated(new Date());
         // Update Library to the database
         if (!dao.update(library)) {
-            logger.info(new StringBuilder("Failed to update library : ").append(this.libJsonizer.jsonize(library, true)));
+            logger.info("Failed to update library : {}", this.libJsonizer.jsonize(library, true));
             return false;
         }
 
@@ -439,9 +486,7 @@ public class LocationsServiceImpl implements LocationsService {
             logger.warn("Failed to delete unused Areas!");
         }
 
-        if (logger.isInfoEnabled()) {
-            logger.info(new StringBuilder("Library updated : ").append(this.libJsonizer.jsonize(library, true)));
-        }
+        logger.info("Library updated : {}", this.libJsonizer.jsonize(library, true));
 
         // Update to external index
         this.updateToIndex(library);
@@ -450,9 +495,7 @@ public class LocationsServiceImpl implements LocationsService {
         List<SearchIndex> indexes = dao.findSearchIndexes(library.getLocationId());
         // Index needs to be updated only if the location code has changed
         if (indexes.size() == 1 && !indexes.get(0).getLocationCode().equals(library.getLocationCode())) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Library's location code changed -> update index : \"" + indexes.get(0).getLocationCode() + "\" -> \"" + library.getLocationCode() + "\"");
-            }
+            logger.info("Library's location code changed -> update index : \"{}\" -> \"{}\"", indexes.get(0).getLocationCode(), library.getLocationCode());
             SearchIndex index = indexes.get(0);
             // Update location code
             index.setLocationCode(library.getLocationCode());
@@ -460,19 +503,17 @@ public class LocationsServiceImpl implements LocationsService {
             index.setCallNumber(library.getCallNo());
             // Update index
             if (!dao.save(index)) {
-                logger.error(new StringBuilder("Updating index entry failed! Index id : ").append(index.getId()));
+                logger.error("Updating index entry failed! Index id : {}", index.getId());
             }
             // Update collections' indexes, because their call number has
             // changed too
             for (LibraryCollection col : dao.getCollectionsForIndexUpdate(library.getLocationId())) {
                 if (col.getSearchIndexes().size() == 1) {
                     SearchIndex temp = col.getSearchIndexes().get(0);
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Update collection's call number : \"" + temp.getCallNumber() + "\" -> \"" + col.getCallNo() + "\"");
-                    }
+                    logger.debug("Update collection's call number : \"{}\" -> \"{}\"", temp.getCallNumber(), col.getCallNo());
                     temp.setCallNumber(col.getCallNo());
                     if (!dao.save(temp)) {
-                        logger.error(new StringBuilder("Updating index entry failed! Index id : ").append(temp.getId()));
+                        logger.error("Updating index entry failed! Index id : {}", temp.getId());
                     }
                 }
                 // Update external index
@@ -482,32 +523,30 @@ public class LocationsServiceImpl implements LocationsService {
                 for (Shelf shelf : col.getShelves()) {
                     if (shelf.getSearchIndexes().size() == 1) {
                         SearchIndex temp = shelf.getSearchIndexes().get(0);
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Update shelf's call number : \"" + temp.getCallNumber() + "\" -> \"" + shelf.getCallNo() + "\"");
-                        }
+                        logger.debug("Update shelf's call number : \"{}\" -> \"{}\"", temp.getCallNumber(), shelf.getCallNo());
                         temp.setCallNumber(shelf.getCallNo());
                         if (!dao.save(temp)) {
-                            logger.error(new StringBuilder("Updating index entry failed! Index id : ").append(temp.getId()));
+                            logger.error("Updating index entry failed! Index id : {}", temp.getId());
                         }
                     }
                     // Update external index
                     this.updateToIndex(shelf);
                 }
             }
-            if (logger.isDebugEnabled()) {
-                logger.debug("Done! Index is up-to-date.");
-            }
+            logger.debug("Done! Index is up-to-date.");
         }
         return true;
     }
 
     /**
-     * Adds the given collection object to the database and updates search 
+     * Adds the given collection object to the database and updates search
      * index.
+     *
      * @param collection the collection to be added
-     * @return true if and only if the collection was succesfully created;
+     * @return true if and only if the collection was successfully created;
      * otherwise false
      */
+    @Override
     public boolean create(LibraryCollection collection) {
         // Remove empty descriptions and notes
         this.checkDescriptions(collection);
@@ -516,9 +555,7 @@ public class LocationsServiceImpl implements LocationsService {
         collection.setCreated(new Date());
         // Add collection to the database
         if (dao.create(collection)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Collection created : ").append(this.colJsonizer.jsonize(collection, true)));
-            }
+            logger.info("Collection created : {}", this.colJsonizer.jsonize(collection, true));
             // Create index entry
             if (!dao.save(new SearchIndex(collection.getLocationId(), LocationType.COLLECTION, collection.getCallNo(), collection.getLocationCode(), collection.getOwner(), collection.getCollectionCode()))) {
                 logger.error("Creating index entry failed!");
@@ -531,12 +568,14 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Updates the given collection object to the database and updates search 
+     * Updates the given collection object to the database and updates search
      * index.
+     *
      * @param collection the collection to be updated
-     * @return true if and only if the collection was succesfully updated;
+     * @return true if and only if the collection was successfully updated;
      * otherwise false
      */
+    @Override
     public boolean update(LibraryCollection collection) {
         // Remove unused descriptions, notes and areas, and get ids that must be deleted
         List<Integer> descriptionIds = this.checkDescriptions(collection);
@@ -547,7 +586,7 @@ public class LocationsServiceImpl implements LocationsService {
         collection.setUpdated(new Date());
         // Update collection to the database
         if (!dao.update(collection)) {
-            logger.info(new StringBuilder("Failed to update collection : ").append(this.colJsonizer.jsonize(collection, true)));
+            logger.info("Failed to update collection : {}", this.colJsonizer.jsonize(collection, true));
             return false;
         }
 
@@ -566,9 +605,7 @@ public class LocationsServiceImpl implements LocationsService {
             logger.warn("Failed to delete unused Areas!");
         }
 
-        if (logger.isInfoEnabled()) {
-            logger.info(new StringBuilder("Collection updated : ").append(this.colJsonizer.jsonize(collection, true)));
-        }
+        logger.info("Collection updated : {}", this.colJsonizer.jsonize(collection, true));
 
         // Update external index
         this.updateToIndex(collection);
@@ -579,12 +616,10 @@ public class LocationsServiceImpl implements LocationsService {
         if (indexes.size() == 1 && (!indexes.get(0).getCallNumber().equals(collection.getCallNo()) || !indexes.get(0).getCollectionCode().equals(collection.getCollectionCode()))) {
             // Get index entry
             SearchIndex index = indexes.get(0);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Collection's location code, collection code and/or call number have changed -> update index.");
-                logger.debug("Location code : \"" + indexes.get(0).getLocationCode() + "\" -> \"" + collection.getLocationCode() + "\"");
-                logger.debug("Collection code : \"" + indexes.get(0).getCollectionCode() + "\" -> \"" + collection.getCollectionCode() + "\"");
-                logger.debug("Call number : \"" + indexes.get(0).getCallNumber() + "\" -> \"" + collection.getCallNo() + "\"");
-            }
+            logger.info("Collection's location code, collection code and/or call number have changed -> update index.");
+            logger.debug("Location code : \"{}\" -> \"{}\"", indexes.get(0).getLocationCode(), collection.getLocationCode());
+            logger.debug("Collection code : \"{}\" -> \"{}\"", indexes.get(0).getCollectionCode(), collection.getCollectionCode());
+            logger.debug("Call number : \"{}\" -> \"{}\"", indexes.get(0).getCallNumber(), collection.getCallNo());
             // Update location code
             index.setLocationCode(collection.getLocationCode());
             // Update collection code
@@ -593,36 +628,34 @@ public class LocationsServiceImpl implements LocationsService {
             index.setCallNumber(collection.getCallNo());
             // Save changes to DB
             if (!dao.save(index)) {
-                logger.error(new StringBuilder("Updating index entry failed! Index id : ").append(index.getId()));
+                logger.error("Updating index entry failed! Index id : {}", index.getId());
             }
             // Update shelves' indexes, because their call number and/or
             // collection code changed too
             for (Shelf shelf : dao.getShelvesForIndexUpdate(collection.getLocationId())) {
                 if (shelf.getSearchIndexes().size() == 1) {
                     SearchIndex temp = shelf.getSearchIndexes().get(0);
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Update shelf. Call number : \"" + temp.getCallNumber() + "\" -> \"" + shelf.getCallNo() + "\", collection code : \"" + temp.getCollectionCode() + "\" -> \"" + collection.getCollectionCode() + "\"");
-                    }
+                    logger.debug("Update shelf. Call number : \"{}\" -> \"{}\", collection code : \"{}\" -> \"{}\"", temp.getCallNumber(), shelf.getCallNo(), temp.getCollectionCode(), collection.getCollectionCode());
                     temp.setCallNumber(shelf.getCallNo());
                     temp.setCollectionCode(collection.getCollectionCode());
                     if (!dao.save(temp)) {
-                        logger.error(new StringBuilder("Updating index entry failed! Index id : ").append(temp.getId()));
+                        logger.error("Updating index entry failed! Index id : {}", temp.getId());
                     }
                 }
                 // Update external index
                 this.updateToIndex(shelf);
             }
-            if (logger.isDebugEnabled()) {
-                logger.debug("Done! Index is up-to-date.");
-            }
+            logger.debug("Done! Index is up-to-date.");
         }
         return true;
     }
 
     /**
-     * Adds the given shelf object to the database and updates search index. 
+     * Adds the given shelf object to the database and updates search index.
+     *
      * @param shelf the shelf to be added
      */
+    @Override
     public boolean create(Shelf shelf) {
         // Remove empty descriptions and notes
         this.checkDescriptions(shelf);
@@ -631,9 +664,7 @@ public class LocationsServiceImpl implements LocationsService {
         shelf.setCreated(new Date());
         // Add shelf to the database
         if (dao.create(shelf)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Shelf created : ").append(this.shelfJsonizer.jsonize(shelf, true)));
-            }
+            logger.info("Shelf created : {}", this.shelfJsonizer.jsonize(shelf, true));
             // Load collection object with all the lazy associations loaded
             shelf.setCollection(dao.getCollection(shelf.getCollection().getLocationId(), shelf.getOwner()));
             // Create index entry
@@ -648,9 +679,11 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Updates the given shelf object to the database and updates search index. 
+     * Updates the given shelf object to the database and updates search index.
+     *
      * @param shelf the shelf to be updated
      */
+    @Override
     public boolean update(Shelf shelf) {
         // Remove unused descriptions, notes and areas, and get ids that must be deleted
         List<Integer> descriptionIds = this.checkDescriptions(shelf);
@@ -661,7 +694,7 @@ public class LocationsServiceImpl implements LocationsService {
         shelf.setUpdated(new Date());
         // Update shelf to the database
         if (!dao.update(shelf)) {
-            logger.info(new StringBuilder("Failed to update shelf : ").append(this.shelfJsonizer.jsonize(shelf, true)));
+            logger.info("Failed to update shelf : {}", this.shelfJsonizer.jsonize(shelf, true));
             return false;
         }
 
@@ -685,9 +718,7 @@ public class LocationsServiceImpl implements LocationsService {
         // Set the collection object
         shelf.setCollection(collection);
 
-        if (logger.isInfoEnabled()) {
-            logger.info(new StringBuilder("Shelf updated : ").append(this.shelfJsonizer.jsonize(shelf, true)));
-        }
+        logger.info("Shelf updated : {}", this.shelfJsonizer.jsonize(shelf, true));
 
         // Update external index
         this.updateToIndex(shelf);
@@ -700,119 +731,110 @@ public class LocationsServiceImpl implements LocationsService {
             shelf.setCollection(dao.getCollection(shelf.getCollection().getLocationId(), shelf.getOwner()));
             // Get index entry
             SearchIndex index = indexes.get(0);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Shelf's location code and/or call number have changed -> update index.");
-                logger.debug("Location code : \"" + indexes.get(0).getLocationCode() + "\" -> \"" + shelf.getLocationCode() + "\"");
-                logger.debug("Call number : \"" + indexes.get(0).getCallNumber() + "\" -> \"" + shelf.getCallNo() + "\"");
-            }
+            logger.info("Shelf's location code and/or call number have changed -> update index.");
+            logger.debug("Location code : \"{}\" -> \"{}\"", indexes.get(0).getLocationCode(), shelf.getLocationCode());
+            logger.debug("Call number : \"{}\" -> \"{}\"", indexes.get(0).getCallNumber(), shelf.getCallNo());
             // Update location code
             index.setLocationCode(shelf.getLocationCode());
             // Update call number
             index.setCallNumber(shelf.getCallNo());
             // Save changes to DB
             if (!dao.save(index)) {
-                logger.error(new StringBuilder("Updating index entry failed! Index id : ").append(index.getId()));
+                logger.error("Updating index entry failed! Index id : {}", index.getId());
             }
-            if (logger.isDebugEnabled()) {
-                logger.debug("Done! Index is up-to-date.");
-            }
+            logger.debug("Done! Index is up-to-date.");
         }
         return true;
     }
 
     /**
-     * Deletes the given library object from the database. All the collections and shelves
-     * attached to the library will be deleted as well.
+     * Deletes the given library object from the database. All the collections
+     * and shelves attached to the library will be deleted as well.
+     *
      * @param library the library to be deleted
-     * @return true if and only if the library was succesfully deleted;
+     * @return true if and only if the library was successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean delete(Library library) {
         // JSON presentation of the Library object
         String json = this.libJsonizer.jsonize(library, true);
         if (dao.delete(library)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Library deleted : ").append(json));
-            }
+            logger.info("Library deleted : {}", json);
             // Delete from external index
             this.deleteFromIndex(library);
             return true;
         }
-        logger.warn(new StringBuilder("Failed to delete library : ").append(json));
+        logger.warn("Failed to delete library : {}", json);
         return false;
     }
 
     /**
      * Deletes the given location object from the database. All the shelves
      * attached to the collection will be deleted as well.
+     *
      * @param collection the collection to be deleted
-     * @return true if and only if the collection was succesfully deleted;
+     * @return true if and only if the collection was successfully deleted;
      * otherwise false
      */
+    @Override
     public boolean delete(LibraryCollection collection) {
         // JSON presentation of the LibraryCollection object
         String json = this.colJsonizer.jsonize(collection, true);
         if (dao.delete(collection)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Collection deleted : ").append(json));
-            }
+            logger.info("Collection deleted : {}", json);
             // Delete from external index
             this.deleteFromIndex(collection);
             return true;
         }
-        logger.warn(new StringBuilder("Failed to delete collection : ").append(json));
+        logger.warn("Failed to delete collection : {}", json);
         return false;
     }
 
     /**
      * Deletes the given shelf object from the database.
+     *
      * @param shelf the shelf to be deleted
      */
+    @Override
     public boolean delete(Shelf shelf) {
         // JSON presentation of the Shelf object
         String json = this.shelfJsonizer.jsonize(shelf, true);
         if (dao.delete(shelf)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Shelf deleted : ").append(json));
-            }
+            logger.info("Shelf deleted : {}", json);
             // Delete from external index
             this.deleteFromIndex(shelf);
             return true;
         }
-        logger.warn(new StringBuilder("Failed to delete shelf : ").append(json));
+        logger.warn("Failed to delete shelf : {}", json);
         return false;
     }
 
     /**
-     * Recreates search index. Removes all the entries first and
-     * then regenerates all the search indexes.
+     * Recreates search index. Removes all the entries first and then
+     * regenerates all the search indexes.
      */
+    @Override
     public void recreateSearchIndex() {
         logger.info("Recreate locations search index.");
         dao.clearSearchIndex();
         this.deleteAllFromIndex();
         for (Library library : dao.getAllLibraries()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Create index entry for library. Id : " + library.getLocationId());
-            }
+            logger.debug("Create index entry for library. Id : {}", library.getLocationId());
             if (!dao.save(new SearchIndex(library.getLocationId(), LocationType.LIBRARY, library.getCallNo(), library.getLocationCode(), library.getOwner()))) {
-                logger.error("Creating index entry for library failed! Id : " + library.getLocationId());
+                logger.error("Creating index entry for library failed! Id : {}", library.getLocationId());
             }
             this.addToIndex(library);
             for (LibraryCollection collection : library.getCollections()) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Create index entry for collection. Library id : " + library.getLocationId() + ", collection id : " + collection.getLocationId());
-                }
+                logger.debug("Create index entry for collection. Library id : {}, collection id : {}", library.getLocationId(), collection.getLocationId());
                 if (!dao.save(new SearchIndex(collection.getLocationId(), LocationType.COLLECTION, collection.getCallNo(), collection.getLocationCode(), library.getOwner(), collection.getCollectionCode()))) {
-                    logger.error("Creating index entry for collection failed! Id : " + collection.getLocationId());
+                    logger.error("Creating index entry for collection failed! Id : {}", collection.getLocationId());
                 }
                 this.addToIndex(collection);
                 for (Shelf shelf : collection.getShelves()) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Create index entry for shelf. Library id : " + library.getLocationId() + ", collection id : " + collection.getLocationId() + ", shelf id : " + shelf.getLocationId());
-                    }
+                    logger.debug("Create index entry for shelf. Library id : {}, collection id : {}, shelf id : {}", library.getLocationId(), collection.getLocationId(), shelf.getLocationId());
                     if (!dao.save(new SearchIndex(shelf.getLocationId(), LocationType.SHELF, shelf.getCallNo(), shelf.getLocationCode(), library.getOwner(), collection.getCollectionCode()))) {
-                        logger.error("Creating index entry for shelf failed! Id : " + shelf.getLocationId());
+                        logger.error("Creating index entry for shelf failed! Id : {}", shelf.getLocationId());
                     }
                     this.addToIndex(shelf);
                 }
@@ -822,12 +844,14 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Returns the search index entry of the Location with the given
-     * location id. If no matching the given id is found, null is returned.
+     * Returns the search index entry of the Location with the given location
+     * id. If no matching the given id is found, null is returned.
+     *
      * @param locationId id of the location object
-     * @return search index entry of the location with the given id or null,
-     * if matching entry is not found
+     * @return search index entry of the location with the given id or null, if
+     * matching entry is not found
      */
+    @Override
     public SearchIndex getIndexEntry(int locationId) {
         List<SearchIndex> indexes = dao.findSearchIndexes(locationId);
         if (indexes.isEmpty()) {
@@ -839,10 +863,12 @@ public class LocationsServiceImpl implements LocationsService {
     /**
      * Returns a list of all the locations in the database that are related to
      * the given owner. All the collections and shelves are loaded. The results
-     * are sorted by call numer.
+     * are sorted by call number.
+     *
      * @param owner owner of the object
      * @return all the libraries in the database
      */
+    @Override
     public List<SimpleLocation> getLocations(Owner owner) {
         List result = dao.getAllLocationsWithDependecies(owner);
         Collections.sort(result, new LocationCallnoComparator());
@@ -850,11 +876,13 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Returns the id of the library in which the collection with the given
-     * id belongs to.
+     * Returns the id of the library in which the collection with the given id
+     * belongs to.
+     *
      * @param collectionId id of the collection
      * @return id of the library or zero if no library is found
      */
+    @Override
     public int getLibraryId(String collectionId) {
         int id = 0;
         try {
@@ -866,11 +894,13 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Returns the id of the collection in which the shelf with the given
-     * id belongs to.
+     * Returns the id of the collection in which the shelf with the given id
+     * belongs to.
+     *
      * @param shelfId id of the shelf
      * @return id of the collection or zero if no library is found
      */
+    @Override
     public int getCollectionId(String shelfId) {
         int id = 0;
         try {
@@ -883,10 +913,11 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Checks the Descriptions related to the given Location and returns a list
-     * of Description ids that must be deleted from the DB. Descriptions can
-     * be deleted because they are empty or because the association between
-     * the Description and the Location does not exist anymore. Removes the
+     * of Description ids that must be deleted from the DB. Descriptions can be
+     * deleted because they are empty or because the association between the
+     * Description and the Location does not exist anymore. Removes the
      * association between new empty Description objects and the Location too.
+     *
      * @param location Location object
      * @return list of Description ids that should be deleted from the db
      */
@@ -940,11 +971,12 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Checks the Notes related to the given Location and returns a list
-     * of Note ids that must be deleted from the DB. Notes can
-     * be deleted because they are empty or because the association between
-     * the Note and the Location does not exist anymore. Removes the
-     * association between new empty Note objects and the Location too.
+     * Checks the Notes related to the given Location and returns a list of Note
+     * ids that must be deleted from the DB. Notes can be deleted because they
+     * are empty or because the association between the Note and the Location
+     * does not exist anymore. Removes the association between new empty Note
+     * objects and the Location too.
+     *
      * @param location Location object
      * @return list of Note ids that should be deleted from the db
      */
@@ -998,10 +1030,10 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     /**
-     * Checks the Areas related to the given Location and returns a list
-     * of Area ids that must be deleted from the DB. Areas are deleted
-     * because the association between the Area and the Location does not 
-     * exist anymore. 
+     * Checks the Areas related to the given Location and returns a list of Area
+     * ids that must be deleted from the DB. Areas are deleted because the
+     * association between the Area and the Location does not exist anymore.
+     *
      * @param location Location object
      * @return list of Area ids that should be deleted from the db
      */
@@ -1032,6 +1064,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Can be used for adding Locations to external index. Not implemented.
+     *
      * @param location Location to be added
      * @return always true, not implemented
      */
@@ -1041,6 +1074,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Can be used for updating Locations to external index. Not implemented.
+     *
      * @param location Location to be updated
      * @return always true, not implemented
      */
@@ -1050,6 +1084,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Can be used for deleting Locations from external index. Not implemented.
+     *
      * @param location Location to be deleted
      * @return always true, not implemented
      */
@@ -1059,6 +1094,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     /**
      * Deletes all the entries from external index. Not implemented
+     *
      * @return always true, not implemented
      */
     protected boolean deleteAllFromIndex() {

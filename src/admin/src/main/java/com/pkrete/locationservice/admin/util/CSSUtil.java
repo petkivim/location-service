@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.util;
 
@@ -23,15 +23,15 @@ import java.io.FileFilter;
 
 /**
  * This utility class contains helper methods related to CSS files.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class CSSUtil {
 
     /**
-     * Checks that the name has a valid file extension and adds it if
-     * necessary.
-     * @param name name of the css file
+     * Checks that the name has a valid file extension and adds it if necessary.
+     *
+     * @param name name of the CSS file
      * @return name with ".css" file extension
      */
     public static String buildCssName(String name) {
@@ -47,9 +47,10 @@ public class CSSUtil {
     }
 
     /**
-     * Checks if the format of the given css file name is valid. If the
-     * name is valid returns true, otherwise returns false.
-     * @param name css file name to be checked
+     * Checks if the format of the given CSS file name is valid. If the name is
+     * valid returns true, otherwise returns false.
+     *
+     * @param name CSS file name to be checked
      * @return if name is valid returns true; otherwise returns false
      */
     public static boolean isCssNameValid(String name) {
@@ -65,14 +66,16 @@ public class CSSUtil {
     }
 
     /**
-     * Returns a FileFilter object that can used for getting a list of all
-     * the css files in a directory. All the visible files with ".css"
-     * extension are considered as css files.
-     * @return FileFilter object for css files
+     * Returns a FileFilter object that can used for getting a list of all the
+     * CSS files in a directory. All the visible files with ".css" extension are
+     * considered as CSS files.
+     *
+     * @return FileFilter object for CSS files
      */
     public static FileFilter getCssFilter() {
         FileFilter filter = new FileFilter() {
 
+            @Override
             public boolean accept(File file) {
                 if (file.isFile() && !file.isHidden() && file.getName().endsWith(".css")) {
                     return true;
@@ -84,12 +87,12 @@ public class CSSUtil {
     }
 
     /**
-     * Builds the absolute path of the given file based on filename
-     * and owner information. However, it's not tested whether the file exists
-     * or not.
-     * @param filename name of the css file
-     * @param owner owner of the css file
-     * @return absolute css file path
+     * Builds the absolute path of the given file based on filename and owner
+     * information. However, it's not tested whether the file exists or not.
+     *
+     * @param filename name of the CSS file
+     * @param owner owner of the CSS file
+     * @return absolute CSS file path
      */
     public static String buildFilePath(String filename, Owner owner) {
         // Get stylesheets path for the given Owner

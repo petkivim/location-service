@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.generator.xml;
 
@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
- * This class creates a XML presentation of a given Location object and
- * returns it as a String. This functionality is needed when exporting data
- * from LocationService or returning results to a query received via
- * a search interface.
+ *
+ * This class creates a XML presentation of a given Location object and returns
+ * it as a String. This functionality is needed when exporting data from
+ * LocationService or returning results to a query received via a search
+ * interface.
  *
  * @author Petteri Kivimäki
  */
@@ -51,6 +51,7 @@ public class XmlGenerator implements Generator {
 
     /**
      * Sets the filters variable.
+     *
      * @param filters new value
      */
     public void setFilters(Map<String, String> filters) {
@@ -59,9 +60,11 @@ public class XmlGenerator implements Generator {
 
     /**
      * Returns XML presentation of the given locations.
+     *
      * @param locations locations to be presented in XML
      * @return XML presentation of the given locations
      */
+    @Override
     public String generate(List locations) {
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -82,9 +85,11 @@ public class XmlGenerator implements Generator {
 
     /**
      * Returns XML presentation of the given location.
+     *
      * @param location location to be presented in XML
      * @return XML presentation of the given location
      */
+    @Override
     public String generate(SimpleLocation location) {
         StringBuilder builder = new StringBuilder();
         String collectionCode = "";

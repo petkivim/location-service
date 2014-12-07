@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.owner;
 
@@ -22,9 +22,9 @@ import java.io.Serializable;
 
 /**
  * This abstract class represents the rules of a modification operation that can
- * be applied to a call number. The rules consist of a condition that
- * defines the conditions when modification is applied, and the modification
- * that's applied to the call number when the condition is true.
+ * be applied to a call number. The rules consist of a condition that defines
+ * the conditions when modification is applied, and the modification that's
+ * applied to the call number when the condition is true.
  *
  * The actual modification operation is done by the
  * {@link CallnoModifier CallnoModifier} class.
@@ -57,8 +57,9 @@ public abstract class CallnoModification implements Serializable, Comparable {
     }
 
     /**
-     * Initializes a CallnoModification object with the given conditino and
+     * Initializes a CallnoModification object with the given condition and
      * operation.
+     *
      * @param condition condition for the operation
      * @param operation operation when the condition is true
      */
@@ -70,6 +71,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Returns the database id of this object.
+     *
      * @return id number of this object in the db
      */
     public int getId() {
@@ -78,6 +80,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Returns the condition that defines the condition for the modification.
+     *
      * @return condition for the modification
      */
     public String getCondition() {
@@ -86,6 +89,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Returns the modification that's applied when the rule is true.
+     *
      * @return modification that's applied when the rule is true
      */
     public String getOperation() {
@@ -94,6 +98,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Returns a boolean value that indicates if this object is acitve.
+     *
      * @return true if active, otherwise false
      */
     public boolean getIsActive() {
@@ -102,6 +107,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Changes the database id of this object.
+     *
      * @param id new id
      */
     public void setId(int id) {
@@ -110,6 +116,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Changes the condition that defines the condition for the modification.
+     *
      * @param condition new condition
      */
     public void setCondition(String condition) {
@@ -118,6 +125,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Changes the modification that's applied when the rule is true.
+     *
      * @param opeartion new operation
      */
     public void setOperation(String operation) {
@@ -125,7 +133,8 @@ public abstract class CallnoModification implements Serializable, Comparable {
     }
 
     /**
-     * Changes the boolean value that indicates if this object is acitve.
+     * Changes the boolean value that indicates if this object is active.
+     *
      * @param active new value
      */
     public void setIsActive(boolean active) {
@@ -133,8 +142,9 @@ public abstract class CallnoModification implements Serializable, Comparable {
     }
 
     /**
-     * Checks if the object is empty or not. Object is empty if both codition
+     * Checks if the object is empty or not. Object is empty if both condition
      * and operation are empty. Otherwise object is not empty.
+     *
      * @return true if operation is empty, otherwise false
      */
     public boolean isEmpty() {
@@ -145,8 +155,9 @@ public abstract class CallnoModification implements Serializable, Comparable {
     }
 
     /**
-     * Checks if the object is empty or not. Object is empty if both codition
+     * Checks if the object is empty or not. Object is empty if both condition
      * and operation are empty. Otherwise object is not empty.
+     *
      * @return true if operation is empty, otherwise false
      */
     public boolean getEmpty() {
@@ -155,6 +166,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Returns the owner of this object
+     *
      * @return owner of this object
      */
     public Owner getOwner() {
@@ -163,6 +175,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Sets the owner of this object.
+     *
      * @param owner owner of this object
      */
     public void setOwner(Owner owner) {
@@ -172,9 +185,10 @@ public abstract class CallnoModification implements Serializable, Comparable {
     @Override
     /**
      * Compares this object with the specified object for order.
+     *
      * @param o the object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(Object o) {
         return compareTo((Location) o);
@@ -182,9 +196,10 @@ public abstract class CallnoModification implements Serializable, Comparable {
 
     /**
      * Compares this object with the specified object for order.
+     *
      * @param mod the object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(CallnoModification mod) {
         return Integer.toString(this.id).compareTo(Integer.toString(mod.id));
@@ -193,8 +208,10 @@ public abstract class CallnoModification implements Serializable, Comparable {
     @Override
     /**
      * Indicates whether some other object is "equal to" this one.
+     *
      * @param o the reference object with which to compare
-     * @return true if this object is the same as the obj argument; false otherwise
+     * @return true if this object is the same as the o argument; false
+     * otherwise
      */
     public boolean equals(Object o) {
         if (o instanceof CallnoModification) {
@@ -213,6 +230,7 @@ public abstract class CallnoModification implements Serializable, Comparable {
     @Override
     /**
      * Returns a hash code value for the object.
+     *
      * @return a hash code value for this object
      */
     public int hashCode() {

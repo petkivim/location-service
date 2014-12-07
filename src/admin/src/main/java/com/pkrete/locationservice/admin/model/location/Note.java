@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.location;
 
@@ -21,10 +21,9 @@ import com.pkrete.locationservice.admin.model.language.Language;
 import java.io.Serializable;
 
 /**
- * This class represents a note related to a location object.
- * Location object can have several notes, one in each language
- * configured in the system. Each note can be related to only
- * one location at a time.
+ * This class represents a note related to a location object. Location object
+ * can have several notes, one in each language configured in the system. Each
+ * note can be related to only one location at a time.
  *
  * @author Petteri Kivimäki
  */
@@ -38,7 +37,7 @@ public class Note implements Serializable, Comparable {
     private Language language;
 
     /**
-     * Initializes and constructs a new Descroption object.
+     * Initializes and constructs a new Note object.
      */
     public Note() {
         this.id = 0;
@@ -46,6 +45,7 @@ public class Note implements Serializable, Comparable {
 
     /**
      * Initializes and constructs a new Note with the given language.
+     *
      * @param lang language of the note
      */
     public Note(Language lang) {
@@ -54,8 +54,9 @@ public class Note implements Serializable, Comparable {
     }
 
     /**
-     * Initializes and constructs a new Note with the given id, language
-     * and note value.
+     * Initializes and constructs a new Note with the given id, language and
+     * note value.
+     *
      * @param id id number of the note
      * @param lang language of the note
      * @param value value of the note
@@ -68,6 +69,7 @@ public class Note implements Serializable, Comparable {
 
     /**
      * Returns the id number of this note in the database.
+     *
      * @return id number of this object
      */
     public int getId() {
@@ -75,8 +77,8 @@ public class Note implements Serializable, Comparable {
     }
 
     /**
-     * Returns the note of the object which this
-     * note is related to.
+     * Returns the note of the object which this note is related to.
+     *
      * @return note of the object
      */
     public String getNote() {
@@ -85,6 +87,7 @@ public class Note implements Serializable, Comparable {
 
     /**
      * Returns the language of this note.
+     *
      * @return language of this note
      */
     public Language getLanguage() {
@@ -93,6 +96,7 @@ public class Note implements Serializable, Comparable {
 
     /**
      * Changes the id number of this object.
+     *
      * @param id new id number
      */
     public void setId(int id) {
@@ -100,8 +104,9 @@ public class Note implements Serializable, Comparable {
     }
 
     /**
-     * Changes the value of the note of the object which
-     * this note is related to.
+     * Changes the value of the note of the object which this note is related
+     * to.
+     *
      * @param note new note
      */
     public void setNote(String note) {
@@ -110,6 +115,7 @@ public class Note implements Serializable, Comparable {
 
     /**
      * Changes the language of this note.
+     *
      * @param language new language
      */
     public void setLanguage(Language language) {
@@ -119,9 +125,10 @@ public class Note implements Serializable, Comparable {
     @Override
     /**
      * Compares this object with the specified object for order.
+     *
      * @param o the object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(Object o) {
         return compareTo((Note) o);
@@ -129,9 +136,10 @@ public class Note implements Serializable, Comparable {
 
     /**
      * Compares this object with the specified object for order.
+     *
      * @param note the object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(Note note) {
         return this.language.getName().compareTo(note.language.getName());
@@ -140,8 +148,10 @@ public class Note implements Serializable, Comparable {
     @Override
     /**
      * Indicates whether some other object is "equal to" this one.
+     *
      * @param o the reference object with which to compare
-     * @return true if this object is the same as the obj argument; false otherwise
+     * @return true if this object is the same as the o argument; false
+     * otherwise
      */
     public boolean equals(Object o) {
         if (o instanceof Note) {
@@ -158,6 +168,7 @@ public class Note implements Serializable, Comparable {
     @Override
     /**
      * Returns a hash code value for the object.
+     *
      * @return a hash code value for this object
      */
     public int hashCode() {

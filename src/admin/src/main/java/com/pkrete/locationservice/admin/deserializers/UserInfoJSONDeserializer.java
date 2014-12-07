@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.deserializers;
 
@@ -32,8 +32,8 @@ import com.pkrete.locationservice.admin.util.ApplicationContextUtils;
 import java.io.IOException;
 
 /**
- * Custom Deserializer for UserInfo objects.
- * 
+ * Custom deserializer for UserInfo objects.
+ *
  * @author Petteri Kivimäki
  */
 public class UserInfoJSONDeserializer extends JsonDeserializer<UserInfo> {
@@ -71,7 +71,7 @@ public class UserInfoJSONDeserializer extends JsonDeserializer<UserInfo> {
         OwnersService ownersService = (OwnersService) ApplicationContextUtils.getApplicationContext().getBean("ownersService");
         // Get Owner
         Owner owner = ownersService.getOwner(ownerId);
-        
+
         // Create new UserFull object
         UserFull user = new UserFull();
         user.setUsername(username);
@@ -82,14 +82,14 @@ public class UserInfoJSONDeserializer extends JsonDeserializer<UserInfo> {
         user.setPasswordUi(password);
         user.setPasswordControl(passwordControl);
         user.setOwner(owner);
-        
+
         // Create new UserInfo object
-        UserInfo info = new UserInfo();      
+        UserInfo info = new UserInfo();
         // Set user group
         info.setGroup(group);
         // Set user
         info.setUser(user);
-        
+
         return info;
     }
 }

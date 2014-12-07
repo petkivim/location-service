@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.location;
 
@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 /**
  * An area specifies a rectangle in a coordinate space.
+ *
  * @author Petteri Kivimäki
  */
 public class Area implements Serializable {
@@ -66,7 +67,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Constructs and initializes an area thats top-left point is defined by (x1, y1) and low-right point by (x2, y2).
+     * Constructs and initializes an area thats top-left point is defined by
+     * (x1, y1) and low-right point by (x2, y2).
+     *
      * @param x1 the x coordinate of the upper left corner.
      * @param y1 the y coordinate of the upper left corner.
      * @param x2 the x coordinate of the lower right corner.
@@ -81,7 +84,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Constructs and initializes an area thats top-left point is defined by (x1, y1) and low-right point by (x2, y2).
+     * Constructs and initializes an area thats top-left point is defined by
+     * (x1, y1) and low-right point by (x2, y2).
+     *
      * @param x1 the x coordinate of the upper left corner.
      * @param y1 the y coordinate of the upper left corner.
      * @param x2 the x coordinate of the lower right corner.
@@ -94,7 +99,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Constructs and initializes an area thats top-left point is defined by (x1, y1) and low-right point by (x2, y2).
+     * Constructs and initializes an area thats top-left point is defined by
+     * (x1, y1) and low-right point by (x2, y2).
+     *
      * @param x1 the x coordinate of the upper left corner.
      * @param y1 the y coordinate of the upper left corner.
      * @param x2 the x coordinate of the lower right corner.
@@ -107,8 +114,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Constructs and initializes an area thats top-left point is 
-     * defined by (x1, y1) and low-right point by (x2, y2).
+     * Constructs and initializes an area thats top-left point is defined by
+     * (x1, y1) and low-right point by (x2, y2).
+     *
      * @param id of this object
      * @param x1 the x coordinate of the upper left corner
      * @param y1 the y coordinate of the upper left corner
@@ -123,8 +131,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Constructs and initializes an area thats top-left point is 
-     * defined by (x1, y1) and low-right point by (x2, y2).
+     * Constructs and initializes an area thats top-left point is defined by
+     * (x1, y1) and low-right point by (x2, y2).
+     *
      * @param id of this object
      * @param x1 the x coordinate of the upper left corner
      * @param y1 the y coordinate of the upper left corner
@@ -141,6 +150,7 @@ public class Area implements Serializable {
 
     /**
      * Returns the areaId of the area in the database.
+     *
      * @return the id number of the area in the database
      */
     public int getAreaId() {
@@ -149,6 +159,7 @@ public class Area implements Serializable {
 
     /**
      * Returns the x coordinate of the upper left corner of the area.
+     *
      * @return the x coordinate of the upper left corner of the area
      */
     public int getX1() {
@@ -157,6 +168,7 @@ public class Area implements Serializable {
 
     /**
      * Returns the y coordinate of the upper left corner of the area.
+     *
      * @return the y coordinate of the upper left corner of the area
      */
     public int getY1() {
@@ -165,6 +177,7 @@ public class Area implements Serializable {
 
     /**
      * Returns the x coordinate of the lower right corner of the area.
+     *
      * @return the x coordinate of the lower right corner of the area
      */
     public int getX2() {
@@ -173,6 +186,7 @@ public class Area implements Serializable {
 
     /**
      * Returns the y coordinate of the lower right corner of the area.
+     *
      * @return the y coordinate of the lower right corner of the area
      */
     public int getY2() {
@@ -181,6 +195,7 @@ public class Area implements Serializable {
 
     /**
      * Returns the owner of the area.
+     *
      * @return the location that owns the area
      */
     public Location getLocation() {
@@ -189,6 +204,7 @@ public class Area implements Serializable {
 
     /**
      * Changes the areaId of the area.
+     *
      * @param areaId the new areaId of the area
      */
     public void setAreaId(int areaId) {
@@ -196,7 +212,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Changes the x coordinate of the upper left corner to the specified location.
+     * Changes the x coordinate of the upper left corner to the specified
+     * location.
+     *
      * @param x1 the x coordinate of the new location
      */
     public void setX1(int x1) {
@@ -204,7 +222,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Changes the y coordinate of the upper left corner to the specified location.
+     * Changes the y coordinate of the upper left corner to the specified
+     * location.
+     *
      * @param y1 the y coordinate of the new location
      */
     public void setY1(int y1) {
@@ -212,7 +232,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Changes the x coordinate of the lower right corner to the specified location.
+     * Changes the x coordinate of the lower right corner to the specified
+     * location.
+     *
      * @param x2 the x coordinate of the new location
      */
     public void setX2(int x2) {
@@ -220,7 +242,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Changes the y coordinate of the lower right corner to the specified location.
+     * Changes the y coordinate of the lower right corner to the specified
+     * location.
+     *
      * @param y2 the y coordinate of the new location
      */
     public void setY2(int y2) {
@@ -228,8 +252,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Returns the angle of the area in degrees. If the area is rotated the 
-     * angle is greater than zero. 
+     * Returns the angle of the area in degrees. If the area is rotated the
+     * angle is greater than zero.
+     *
      * @return angle of the area
      */
     public int getAngle() {
@@ -237,8 +262,9 @@ public class Area implements Serializable {
     }
 
     /**
-     * Changes the angle of the area, that must be given in degrees. If the 
-     * area is rotated the value is greater than zero.
+     * Changes the angle of the area, that must be given in degrees. If the area
+     * is rotated the value is greater than zero.
+     *
      * @param angle new value in degrees
      */
     public void setAngle(int angle) {
@@ -247,6 +273,7 @@ public class Area implements Serializable {
 
     /**
      * Changes the owner of the area.
+     *
      * @param location new location that owns the area
      */
     public void setLocation(Location location) {
@@ -256,8 +283,10 @@ public class Area implements Serializable {
     @Override
     /**
      * Indicates whether some other object is "equal to" this one.
+     *
      * @param o the reference object with which to compare
-     * @return true if this object is the same as the obj argument; false otherwise
+     * @return true if this object is the same as the o argument; false
+     * otherwise
      */
     public boolean equals(Object o) {
         if (o instanceof Area) {
@@ -275,18 +304,20 @@ public class Area implements Serializable {
     }
 
     @Override
-        /**
-         * Returns a hash code value for the object.
-         * @return a hash code value for this object
-         */
-        public int hashCode() {
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for this object
+     */
+    public int hashCode() {
         return this.areaId;
     }
 
     /**
      * Returns true if and only this Area is empty. Area is considered empty
      * when all the coordinates (x1, y1, x2, y2) are set to 0.
-     * @return  true if and only if this Area is empty; otherwise false
+     *
+     * @return true if and only if this Area is empty; otherwise false
      */
     public boolean isEmpty() {
         if (this.x1 == 0 && this.y1 == 0 && this.x2 == 0 && this.y2 == 0) {

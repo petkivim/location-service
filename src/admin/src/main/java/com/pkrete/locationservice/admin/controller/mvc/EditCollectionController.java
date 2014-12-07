@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.mvc;
 
@@ -40,9 +40,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * The {@link EditCollectionController EditCollectionController} handles the requests
- * that are related to editing a collection object and then saving it to the database.
- * This class extends abstract {@link HandleLocationController HandleLocationController} class.
+ * The {@link EditCollectionController EditCollectionController} handles the
+ * requests that are related to editing a collection object and then saving it
+ * to the database. This class extends abstract
+ * {@link HandleLocationController HandleLocationController} class.
  *
  * @author Petteri Kivimäki
  */
@@ -69,7 +70,7 @@ public class EditCollectionController extends HandleLocationController {
     public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response,
             @ModelAttribute("collection") LibraryCollection collection,
             BindingResult result) throws Exception {
-        
+
         collection.setAreas(parseAreas(request, collection));
         super.parseSubjectMatters(request, collection);
         validator.validate(collection, result);
@@ -81,7 +82,7 @@ public class EditCollectionController extends HandleLocationController {
         }
 
         String libraryId = request.getParameter("select_library");
-        String collectionId = request.getParameter("select_collection");     
+        String collectionId = request.getParameter("select_collection");
         collection.setUpdater(getUser(request).getUsername());
         if (!locationsService.update(collection)) {
             throw new Exception("Updating collection failed.");

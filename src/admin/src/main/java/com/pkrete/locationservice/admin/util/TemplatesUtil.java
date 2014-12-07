@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.util;
 
@@ -22,14 +22,15 @@ import com.pkrete.locationservice.admin.model.owner.Owner;
 
 /**
  * This utility class contains helper methods related to templates.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class TemplatesUtil {
 
     /**
-     * Checks if the format of the given template name is valid. If the
-     * name is valid returns true, otherwise returns false.
+     * Checks if the format of the given template name is valid. If the name is
+     * valid returns true, otherwise returns false.
+     *
      * @param name template name to be checked
      * @return if name is valid returns true, otherwise returns false
      */
@@ -49,7 +50,7 @@ public class TemplatesUtil {
         // If name contains slashes or backslashes, it's not valid
         if (name.matches(".*[/\\\\].*")) {
             return false;
-        }        
+        }
         if (name.matches("^template_(library|collection|shelf)(\\.txt|_.*\\.txt)$")) {
             return true;
         }
@@ -63,10 +64,12 @@ public class TemplatesUtil {
     }
 
     /**
-     * Returns a TemplateType enum corresponding the given string presentation.
-     * If no matching enum value is found, null is returned.
+     * Returns a TemplateType enumeration corresponding the given string
+     * presentation. If no matching enumeration value is found, null is
+     * returned.
+     *
      * @param type string presentation of template type
-     * @return TemplateType enum or null
+     * @return TemplateType enumeration or null
      */
     public static TemplateType getTemplateType(String type) {
         // Check that the type is not null
@@ -93,6 +96,7 @@ public class TemplatesUtil {
      * Builds the absolute path of the given file based on filename, language
      * and owner information. However, it's not tested whether the file exists
      * or not.
+     *
      * @param filename name of the template
      * @param lang language of the template
      * @param owner owner of the template
@@ -110,29 +114,30 @@ public class TemplatesUtil {
         filePath.append(filename);
         return filePath.toString();
     }
-    
+
     /**
      * Validates the given template type - location type combination, and
      * returns true if and only if the given combination is valid.
+     *
      * @param templateType template type
      * @param locationType location type
-     * @return returns true if and only if the given combination is valid; 
+     * @return returns true if and only if the given combination is valid;
      * otherwise false
      */
     public static boolean validate(TemplateType templateType, LocationType locationType) {
         // Location type can be null, because some templates are not related
         // to any specific location
-        if(locationType == null) {
+        if (locationType == null) {
             return true;
         }
         // Template type can't be null
-        if(templateType == null) {
+        if (templateType == null) {
             return false;
         }
         // If template type is LIBRARY, location type must be LIBRARY
-        if(templateType == TemplateType.LIBRARY && locationType != LocationType.LIBRARY) {
+        if (templateType == TemplateType.LIBRARY && locationType != LocationType.LIBRARY) {
             return false;
-        } else if(templateType != TemplateType.SHELF && locationType == LocationType.SHELF) {
+        } else if (templateType != TemplateType.SHELF && locationType == LocationType.SHELF) {
             // If location type is SHELF, template type can't be anything else
             // than SHELF
             return false;

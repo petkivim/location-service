@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.service.owners;
 
@@ -32,23 +32,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class implements {@link OwnersService OwnersService} interface, which
  * defines service layer for Owner objects.
- * 
- * This class offers methods for adding, editing and removing Owner
- * objects. Operations related to Owner objects require both database
- * and file system operations, and single method may include multiple
- * database and/or file system calls. This class doesn't implement the 
- * operations, but it delegates them to other objects.
- * 
+ *
+ * This class offers methods for adding, editing and removing Owner objects.
+ * Operations related to Owner objects require both database and file system
+ * operations, and single method may include multiple database and/or file
+ * system calls. This class doesn't implement the operations, but it delegates
+ * them to other objects.
+ *
  * @author Petteri Kivimäki
  */
 public class OwnersServiceImpl implements OwnersService {
 
-    private final static Logger logger = Logger.getLogger(OwnersServiceImpl.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(OwnersServiceImpl.class.getName());
     private OwnersDao dao;
     private DirectoryService dirService;
     private JSONizerService jsonizer;
@@ -56,6 +57,7 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Sets the data access object.
+     *
      * @param dao new value
      */
     public void setDao(OwnersDao dao) {
@@ -64,6 +66,7 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Sets the directory service object.
+     *
      * @param dirService new value
      */
     public void setDirService(DirectoryService dirService) {
@@ -72,6 +75,7 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Sets the JSON converter object.
+     *
      * @param dao new value
      */
     public void setJsonizer(JSONizerService jsonizer) {
@@ -80,6 +84,7 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Sets the ignored files list.
+     *
      * @param ignoredFiles new list
      */
     public void setIgnoredFiles(Map<String, Boolean> ignoredFiles) {
@@ -88,17 +93,21 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Returns a list of all the owners in the database.
+     *
      * @return all the owners in the database
      */
+    @Override
     public List<Owner> getOwners() {
         return dao.getOwners();
     }
 
     /**
      * Returns the owner with the given id.
+     *
      * @param id the id that is used for searching
      * @return the owner with the given id
      */
+    @Override
     public Owner getOwner(int id) {
         Owner owner = dao.getOwner(id);
         if (owner != null) {
@@ -108,11 +117,13 @@ public class OwnersServiceImpl implements OwnersService {
     }
 
     /**
-     * Returns the owner with the given id with all the collections related
-     * to the owner loaded.
+     * Returns the owner with the given id with all the collections related to
+     * the owner loaded.
+     *
      * @param id the id that is used for searching
      * @return the owner with the given id
      */
+    @Override
     public Owner getFullOwner(int id) {
         Owner owner = dao.getFullOwner(id);
         if (owner != null) {
@@ -123,9 +134,11 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Returns the owner with the given code.
+     *
      * @param code the code that is used for searching
      * @return the owner with the given code
      */
+    @Override
     public Owner getOwnerByCode(String code) {
         Owner owner = dao.getOwnerByCode(code);
         if (owner != null) {
@@ -135,11 +148,13 @@ public class OwnersServiceImpl implements OwnersService {
     }
 
     /**
-     * Checks if the owner object corresponding the give id can be removed
-     * from the database.
+     * Checks if the owner object corresponding the give id can be removed from
+     * the database.
+     *
      * @param id the id number of the owner to be removed
      * @return true if the owner object can be removed, otherwise returns false
      */
+    @Override
     public boolean canBeDeleted(Owner owner) {
         // Get list of all owner specific directories
         List<File> dirs = Settings.getInstance().getOwnerDirs(owner.getCode());
@@ -155,12 +170,14 @@ public class OwnersServiceImpl implements OwnersService {
     }
 
     /**
-     * Add the given owner object to the database and creates all the
-     * owner specific folders.
-     * @param owner the owner to be addedd
-     * @return true if and only if all the folders were succesfully created
-     * and the object saved to the database; otherwise false 
+     * Add the given owner object to the database and creates all the owner
+     * specific folders.
+     *
+     * @param owner the owner to be added
+     * @return true if and only if all the folders were successfully created and
+     * the object saved to the database; otherwise false
      */
+    @Override
     public boolean create(Owner owner) {
         // Get list of all owner specific directories
         List<File> dirs = Settings.getInstance().getOwnerDirs(owner.getCode());
@@ -181,14 +198,12 @@ public class OwnersServiceImpl implements OwnersService {
             // Set created date
             owner.setCreated(new Date());
             if (dao.create(owner)) {
-                if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("Owner created : ").append(this.jsonizer.jsonize(owner, true)));
-                }
+                logger.info("Owner created : {}", this.jsonizer.jsonize(owner, true));
                 // Add to external index
                 this.addToIndex(owner);
                 return true;
             }
-            logger.warn(new StringBuilder("Failed to create owner : ").append(this.jsonizer.jsonize(owner, true)));
+            logger.warn("Failed to create owner : {}", this.jsonizer.jsonize(owner, true));
         } else {
             logger.warn("Creating new owner directories failed -> ROLLBACK.");
         }
@@ -211,12 +226,14 @@ public class OwnersServiceImpl implements OwnersService {
     }
 
     /**
-     * Updates the given owner object to the database. If the owner code
-     * has changed, all the owner directory names are updated too.
+     * Updates the given owner object to the database. If the owner code has
+     * changed, all the owner directory names are updated too.
+     *
      * @param owner the owner to be updated
-     * @return true if and only the object and the directories were
-     * succesfully updated; otherwise false
+     * @return true if and only the object and the directories were successfully
+     * updated; otherwise false
      */
+    @Override
     public boolean update(Owner owner) {
         // Get owner code's post modify value
         String codePrev = owner.getCodePrevious();
@@ -224,9 +241,7 @@ public class OwnersServiceImpl implements OwnersService {
         boolean hasChanged = false;
         // Check if the current and previous value are not equal
         if (!owner.getCode().equals(codePrev)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Owner's code changed -> update directories : \"" + codePrev + "\" -> \"" + owner.getCode() + "\"");
-            }
+            logger.debug("Owner's code changed -> update directories : \"{}\" -> \"{}\"", codePrev, owner.getCode());
             hasChanged = true;
             // Get current path
             String oldPath = Settings.getInstance().getOwnersPath() + codePrev;
@@ -262,23 +277,23 @@ public class OwnersServiceImpl implements OwnersService {
         if (dao.update(owner)) {
             // Remove orphan redirects
             this.dao.deleteOrphanRedirects();
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Owner updated : ").append(this.jsonizer.jsonize(owner, true)));
-            }
+            logger.info("Owner updated : {}", this.jsonizer.jsonize(owner, true));
             // Update to external index
             this.updateToIndex(owner, hasChanged);
             return true;
         }
-        logger.warn(new StringBuilder("Failed to update owner : ").append(this.jsonizer.jsonize(owner, true)));
+        logger.warn("Failed to update owner : {}", this.jsonizer.jsonize(owner, true));
         return false;
     }
 
     /**
-     * Deletes the given owner object from the database and deletes
-     * all the owner directories.
+     * Deletes the given owner object from the database and deletes all the
+     * owner directories.
+     *
      * @param owner the owner to be deleted
      * @return true if and only if the owner was deleted; otherwise false
      */
+    @Override
     public boolean delete(Owner owner) {
         if (!canBeDeleted(owner)) {
             logger.warn("Unable to delete the given owner, because the owner has dependencies in the database.");
@@ -297,35 +312,37 @@ public class OwnersServiceImpl implements OwnersService {
         }
         if (!deleted) {
             logger.warn("Failed to delete all the owner related directories.");
-            logger.warn(new StringBuilder("Failed to delete owner : ").append(json));
+            logger.warn("Failed to delete owner : {}", json);
             return false;
         }
         if (dao.delete(owner)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Owner deleted : ").append(json));
-            }
+            logger.info("Owner deleted : {}", json);
             // Delete from external index
             this.deleteFromIndex(owner);
             return true;
         }
-        logger.warn(new StringBuilder("Failed to delete owner : ").append(json));
+        logger.warn("Failed to delete owner : {}", json);
         return false;
     }
 
     /**
      * Deletes the given call number modification object from the database.
+     *
      * @param mod the call number modification to be deleted
      */
+    @Override
     public void delete(CallnoModification mod) {
         dao.delete(mod);
     }
 
     /**
-     * Returns a map of PreprocessingRedirect ids related to the owner with
-     * the given id.
+     * Returns a map of PreprocessingRedirect ids related to the owner with the
+     * given id.
+     *
      * @param id owner id
      * @return list of PreprocessingRedirect ids related to the owner
      */
+    @Override
     public Map<Integer, Boolean> getPreprocessingRedirectIds(int id) {
         List<Integer> list = this.dao.getPreprocessingRedirectIds(id);
         Map<Integer, Boolean> map = new HashMap<Integer, Boolean>();
@@ -336,11 +353,13 @@ public class OwnersServiceImpl implements OwnersService {
     }
 
     /**
-     * Returns a map of NotFoundRedirect ids related to the owner with
-     * the given id.
+     * Returns a map of NotFoundRedirect ids related to the owner with the given
+     * id.
+     *
      * @param id owner id
      * @return list of NotFoundRedirect ids related to the owner
      */
+    @Override
     public Map<Integer, Boolean> getNotFoundRedirectIds(int id) {
         List<Integer> list = this.dao.getNotFoundRedirectIds(id);
         Map<Integer, Boolean> map = new HashMap<Integer, Boolean>();
@@ -351,8 +370,9 @@ public class OwnersServiceImpl implements OwnersService {
     }
 
     /**
-     * Goes through all the redirects related to the given owner and
-     * deletes all the empty ones from the database.
+     * Goes through all the redirects related to the given owner and deletes all
+     * the empty ones from the database.
+     *
      * @param owner Owner to be checked
      */
     private void removeUnusedRedirects(Owner owner) {
@@ -387,6 +407,7 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Can be used for adding Owners to external index. Not implemented.
+     *
      * @param owner Owner to be added
      * @return always true, not implemented
      */
@@ -396,9 +417,9 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Can be used for updating Owners to external index. Not implemented.
+     *
      * @param owner Owner to be updated
-     * @param hasChanged boolean value that tells if the owner code has
-     * changed
+     * @param hasChanged boolean value that tells if the owner code has changed
      * @return always true, not implemented
      */
     protected boolean updateToIndex(Owner owner, boolean hasChanged) {
@@ -407,16 +428,18 @@ public class OwnersServiceImpl implements OwnersService {
 
     /**
      * Can be used for deleting Owners from external index. Not implemented.
+     *
      * @param owner Owner to be deleted
      * @return always true, not implemented
      */
     protected boolean deleteFromIndex(Owner owner) {
         return true;
     }
-    
+
     /**
      * Recreates the search index if it exists. Not supported.
      */
+    @Override
     public void recreateSearchIndex() {
         logger.info("Search index not supported. Nothing to do.");
     }

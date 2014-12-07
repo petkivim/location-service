@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.rest.v1;
 
@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -44,20 +45,18 @@ import org.springframework.validation.Validator;
 /**
  * This class provides REST API to SubjectMatter objects. This class implements
  * create, read, update, delete and list all subject matter functions.
- * 
- * INDEX    /subjectmatters      [GET]   
- * CREATE   /subjectmatters      [POST]
- * READ     /subjectmatters/{id} [GET]
- * UPDATE   /subjectmatters/{id} [PUT]
- * DELETE   /subjectmatters/{id} [DELETE]
- * 
+ *
+ * INDEX /subjectmatters [GET] CREATE /subjectmatters [POST] READ
+ * /subjectmatters/{id} [GET] UPDATE /subjectmatters/{id} [PUT] DELETE
+ * /subjectmatters/{id} [DELETE]
+ *
  * @author Petteri Kivimäki
  */
 @Controller
 @RequestMapping("/subjectmatters")
 public class SubjectMattersRestController extends RestController {
 
-    private final static Logger logger = Logger.getLogger(LanguagesRestController.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(LanguagesRestController.class.getName());
     @Autowired
     @Qualifier("subjectMatterMapService")
     private ObjectMapService mapConverter;

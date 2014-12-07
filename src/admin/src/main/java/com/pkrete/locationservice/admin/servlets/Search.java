@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.servlets;
 
@@ -30,22 +30,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This servlet offers an interface for searching and retrieving information
- * from LocationService database so that it's possible to fetch data
- * without connecting the database directly. The results are returned
- * in XML format.
+ * from LocationService database so that it's possible to fetch data without
+ * connecting the database directly. The results are returned in XML format.
  *
  * @author Petteri Kivimäki
  */
 public class Search extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(Search.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(Search.class.getName());
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -61,7 +63,7 @@ public class Search extends HttpServlet {
 
         String ownerCode = request.getParameter("owner");
         String searchStr = request.getParameter("search");
-        SearchLevel level = (SearchLevel)converterService.convert(request.getParameter("level"), SearchLevel.class, SearchLevel.LIBRARY);
+        SearchLevel level = (SearchLevel) converterService.convert(request.getParameter("level"), SearchLevel.class, SearchLevel.LIBRARY);
 
         try {
             // Fetch Spring's searcher bean 
@@ -76,7 +78,7 @@ public class Search extends HttpServlet {
             out.println(output);
 
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
         } finally {
             out.close();
         }
@@ -85,6 +87,7 @@ public class Search extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -98,6 +101,7 @@ public class Search extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -111,6 +115,7 @@ public class Search extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

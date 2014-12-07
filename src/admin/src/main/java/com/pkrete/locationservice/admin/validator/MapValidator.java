@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.validator;
 
@@ -30,13 +30,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Deprecated
 /**
- * This class is deprecated. Use 
+ * This class is deprecated. Use
  * {@link SimplifiedMapValidator SimplifiedMapValidator} instead.
- * 
- * The {@link MapValidator MapValidator} class validates the values
- * inserted via addmap and editmap forms. This class defines the
- * obligatory fields and returns an error message associated with the field
- * when the value of the field is not valid.
+ *
+ * The {@link MapValidator MapValidator} class validates the values inserted via
+ * addmap and editmap forms. This class defines the obligatory fields and
+ * returns an error message associated with the field when the value of the
+ * field is not valid.
  *
  * @author Petteri Kivimäki
  */
@@ -46,6 +46,7 @@ public class MapValidator implements Validator {
 
     /**
      * Changes the value of converterService instance variable
+     *
      * @param converterService new value to be set
      */
     public void setConverterService(ConverterService converterService) {
@@ -164,7 +165,7 @@ public class MapValidator implements Validator {
                 }
                 if (files.size() > 1) {
                     List<MultipartFile> list = map.getFilesList();
-                    for (int i=0; i < list.size() - 1; i++) {
+                    for (int i = 0; i < list.size() - 1; i++) {
                         String file1 = list.get(i).getOriginalFilename();
                         String file2 = list.get(i + 1).getOriginalFilename();
                         int length = file1.length();
@@ -197,7 +198,7 @@ public class MapValidator implements Validator {
                 for (Entry<Integer, MultipartFile> entry : files.entrySet()) {
                     if (entry.getValue().getOriginalFilename().length() > 0) {
                         if (!entry.getValue().getOriginalFilename().endsWith(ending) || !map.getPath().endsWith(ending)) {
-                           errors.rejectValue("files[" + entry.getKey() + "]", "error.map.file.format.different");
+                            errors.rejectValue("files[" + entry.getKey() + "]", "error.map.file.format.different");
                         }
                     }
                 }

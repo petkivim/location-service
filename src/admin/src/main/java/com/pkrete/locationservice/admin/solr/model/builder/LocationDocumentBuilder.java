@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.solr.model.builder;
 
@@ -32,13 +32,14 @@ import java.util.List;
 /**
  * This is a helper class that generates LocationDocument objects representing
  * the given Locations.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class LocationDocumentBuilder {
 
     /**
      * Creates a new LocationDocument that represents the given Location.
+     *
      * @param location Location object
      * @return LocationDocument that represents the given Location
      */
@@ -98,7 +99,8 @@ public class LocationDocumentBuilder {
     }
 
     /**
-     * Converts the given int id to a string by adding 'loc-' prefix to the id. 
+     * Converts the given int id to a string by adding 'loc-' prefix to the id.
+     *
      * @param id locationId of the Location
      * @return 'loc-' prefix + locationId
      */
@@ -107,8 +109,9 @@ public class LocationDocumentBuilder {
     }
 
     /**
-     * Converts the given string id to an int by removing 'loc-' prefix from
-     * the id.
+     * Converts the given string id to an int by removing 'loc-' prefix from the
+     * id.
+     *
      * @param id id of the LocationDocument
      * @return id without 'loc-' prefix, which is the locationId
      */
@@ -118,8 +121,9 @@ public class LocationDocumentBuilder {
     }
 
     /**
-     * Converts the given notes list into list of strings that contains only
-     * the value of each note.
+     * Converts the given notes list into list of strings that contains only the
+     * value of each note.
+     *
      * @param notes list of notes to be converted
      * @return list of strings containing the value of each note
      */
@@ -135,8 +139,9 @@ public class LocationDocumentBuilder {
     }
 
     /**
-     * Converts the given descriptions list into list of strings that contains 
+     * Converts the given descriptions list into list of strings that contains
      * only the value of each description.
+     *
      * @param descriptions list of descriptions to be converted
      * @return list of strings containing the value of each description
      */
@@ -152,8 +157,9 @@ public class LocationDocumentBuilder {
     }
 
     /**
-     * Converts the given subject matters list into list of strings that contains 
-     * only the value of each subject matter.
+     * Converts the given subject matters list into list of strings that
+     * contains only the value of each subject matter.
+     *
      * @param subjects list of subject matters to be converted
      * @return list of strings containing the value of each subject matter
      */
@@ -169,8 +175,9 @@ public class LocationDocumentBuilder {
     }
 
     /**
-     * Converts the given subject matters list into list of strings that contains 
-     * only the value of each subject matter.
+     * Converts the given subject matters list into list of strings that
+     * contains only the value of each subject matter.
+     *
      * @param subjects list of subject matters to be converted
      * @return list of strings containing the value of each subject matter
      */

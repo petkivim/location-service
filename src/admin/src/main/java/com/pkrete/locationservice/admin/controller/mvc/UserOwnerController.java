@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.mvc;
 
@@ -37,12 +37,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * The {@UserOwnerController UserOwnerController} class returns the page that
- * contains the list of all the users and owner groups in the LocationService
- * or redirects/forwards the user to another page. The function depends
- * on the request parameters. UserOwnerController returns a model that
- * contains all the objects that are needed in the page that is shown to
- * the user. UserOwnerController implements the Controller interface.
+ * The {
+ *
+ * @UserOwnerController UserOwnerController} class returns the page that
+ * contains the list of all the users and owner groups in the LocationService or
+ * redirects/forwards the user to another page. The function depends on the
+ * request parameters. UserOwnerController returns a model that contains all the
+ * objects that are needed in the page that is shown to the user.
+ * UserOwnerController implements the Controller interface.
  *
  * @author Petteri Kivimäki
  */
@@ -72,8 +74,8 @@ public class UserOwnerController {
         String ownerId = request.getParameter("select_owner");
 
         /**
-         * If user is administrator and index parameter is present in the
-         * URL, recreate search index.
+         * If user is administrator and index parameter is present in the URL,
+         * recreate search index.
          */
         if (request.isUserInRole(UserGroup.ADMIN.toString()) && request.getParameter("index") != null) {
             ownersService.recreateSearchIndex();

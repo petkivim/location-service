@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.rest.v1;
 
@@ -26,7 +26,8 @@ import com.pkrete.locationservice.admin.service.UsersService;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -38,19 +39,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.validation.Validator;
 
 /**
- * This class provides REST API to users for accessing their own account.
- * Users can read and update their account.
- * 
- * READ     /myaccount      [GET]   
- * UPDATE   /myaccount      [PUT]
- * 
+ * This class provides REST API to users for accessing their own account. Users
+ * can read and update their account.
+ *
+ * READ /myaccount [GET] UPDATE /myaccount [PUT]
+ *
  * @author Petteri Kivimäki
  */
 @Controller
 @RequestMapping("/myaccount")
 public class MyAccountRestController extends RestController {
 
-    private final static Logger logger = Logger.getLogger(UsersRestController.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(UsersRestController.class.getName());
     @Autowired
     @Qualifier("userInfoMapService")
     private ObjectMapService mapConverter;

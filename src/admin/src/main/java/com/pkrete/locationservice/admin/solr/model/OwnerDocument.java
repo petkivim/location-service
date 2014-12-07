@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.solr.model;
 
@@ -25,12 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.solr.client.solrj.beans.Field;
 
-/** 
- * This class represents an Owner object that is stored in an external
- * search index. Only information that is used in searches is
- * stored. When an Owner object with all the variables is needed,
- * it's fetched from the DB.
- * 
+/**
+ * This class represents an Owner object that is stored in an external search
+ * index. Only information that is used in searches is stored. When an Owner
+ * object with all the variables is needed, it's fetched from the DB.
+ *
  * @author Petteri Kivimäki
  */
 public class OwnerDocument extends RepositoryDocument implements Serializable {
@@ -63,6 +62,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Constructs and initializes a new OwnerDocument with the given values.
+     *
      * @param ownerId owner id
      * @param name name of the owner
      * @param ownerCode code of the owner
@@ -77,8 +77,8 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
     }
 
     /**
-     * Sets the id of this Document. 
-     * 
+     * Sets the id of this Document.
+     *
      * @param id new value
      */
     @Override
@@ -89,6 +89,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Returns the ownerId of this OwnerDocument.
+     *
      * @return ownerId number
      */
     public int getOwnerId() {
@@ -97,6 +98,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Sets the ownerId of this OwnerDocument.
+     *
      * @param ownerId new value
      */
     public void setOwnerId(int ownerId) {
@@ -106,6 +108,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Returns the owner code of the owner.
+     *
      * @return owner code of the owner
      */
     public String getOwnerCode() {
@@ -114,6 +117,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Sets the owner code.
+     *
      * @param ownerCode new value
      */
     public void setOwnerCode(String ownerCode) {
@@ -122,6 +126,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Returns the locating strategy that's used for searching call numbers.
+     *
      * @return locating strategy that's used for searching call numbers
      */
     public LocatingStrategy getLocatingStrategy() {
@@ -130,6 +135,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Sets the locating strategy that's used for searching call numbers.
+     *
      * @param locatingStrategy new strategy
      */
     public void setLocatingStrategy(LocatingStrategy locatingStrategy) {
@@ -138,6 +144,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Return the default drawing color of this owner.
+     *
      * @return default drawing color
      */
     public String getColor() {
@@ -146,6 +153,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Changes the default drawing color.
+     *
      * @param color new drawing color
      */
     public void setColor(String color) {
@@ -154,6 +162,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Returns the opacity of the drawing color.
+     *
      * @return opacity of the drawing color
      */
     public String getOpacity() {
@@ -162,6 +171,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Changes the opacity of the drawing color.
+     *
      * @param opacity new opacity
      */
     public void setOpacity(String opacity) {
@@ -169,8 +179,9 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
     }
 
     /**
-     * Returns a boolean value that tells if the Exporter interface
-     * is open for everyone.
+     * Returns a boolean value that tells if the Exporter interface is open for
+     * everyone.
+     *
      * @return true if Exported is open for everyone, otherwise false
      */
     public boolean getExporterVisible() {
@@ -178,8 +189,9 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
     }
 
     /**
-     * Changes the boolean value that tells if the Exporter interface
-     * is open for everyone.
+     * Changes the boolean value that tells if the Exporter interface is open
+     * for everyone.
+     *
      * @param visible new value
      */
     public void setExporterVisible(boolean visible) {
@@ -187,8 +199,9 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
     }
 
     /**
-     * Returns a string containing the IP addresses that are allowed
-     * to access the Exporter interface, even if the interface would be closed.
+     * Returns a string containing the IP addresses that are allowed to access
+     * the Exporter interface, even if the interface would be closed.
+     *
      * @return IP addresses that are allowed to access the Exporter interface
      */
     public String getAllowedIPs() {
@@ -196,8 +209,9 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
     }
 
     /**
-     * Changes the string containing the IP addresses that are allowed
-     * to access the Exporter interface, even if the interface would be closed.
+     * Changes the string containing the IP addresses that are allowed to access
+     * the Exporter interface, even if the interface would be closed.
+     *
      * @param ips new ips
      */
     public void setAllowedIPs(String ips) {
@@ -206,6 +220,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Returns a list of preprocessing redirects.
+     *
      * @return list of preprocessing redirects
      */
     public List<String> getPreprocessingRedirects() {
@@ -214,6 +229,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Sets the value of preprocessing redirects.
+     *
      * @param preprocessingRedirects new value
      */
     public void setPreprocessingRedirects(List<String> preprocessingRedirects) {
@@ -222,6 +238,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Returns a list of not found redirects.
+     *
      * @return list of not found redirects
      */
     public List<String> getNotFoundRedirects() {
@@ -230,6 +247,7 @@ public class OwnerDocument extends RepositoryDocument implements Serializable {
 
     /**
      * Sets the value of not found redirects.
+     *
      * @param notFoundRedirects new value
      */
     public void setNotFoundRedirects(List<String> notFoundRedirects) {

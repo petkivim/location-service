@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.servlets;
 
@@ -33,20 +33,24 @@ import com.pkrete.locationservice.admin.converter.ConverterService;
 import com.pkrete.locationservice.admin.service.MapsService;
 import com.pkrete.locationservice.admin.util.ApplicationContextUtils;
 import java.util.ArrayList;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The ImageCreator servlet class draws the location of the given {@link Location Location} object
- * on the map and returns the map as a png image.
+ * The ImageCreator servlet class draws the location of the given
+ * {@link Location Location} object on the map and returns the map as a png
+ * image.
  *
  * @author Petteri Kivimäki
  */
 public class ImageCreator extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(ImageCreator.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(ImageCreator.class.getName());
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -68,7 +72,7 @@ public class ImageCreator extends HttpServlet {
         if (!languages.isEmpty()) {
             lang = languages.get(0).getCode();
         } else {
-            logger.error("Owner \"" + user.getOwner() + "\" doesn't have any languages configured.");
+            logger.error("Owner \"{}\" doesn't have any languages configured.", user.getOwner());
             return;
         }
 
@@ -90,15 +94,13 @@ public class ImageCreator extends HttpServlet {
 
         if (validateParams(mapId)) {
             Map map = mapsService.get(converterService.strToInt(mapId), user.getOwner());
-            if(map == null) {
+            if (map == null) {
                 logger.warn("Unable to find a map matching the given id-owner combination.");
                 return;
             }
             // If map is a Google Map, there's nothing to do
             if (map.isGoogleMap()) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("The given Map is a Google Map -> there's nothing to do here : {\"mapId\":" + map.getId() + "}");
-                }
+                logger.debug("The given Map is a Google Map -> there's nothing to do here : { \"mapId\":{} }", map.getId());
                 return;
             }
             try {
@@ -124,7 +126,7 @@ public class ImageCreator extends HttpServlet {
                     logger.warn(builder.toString());
                 }
             } catch (Exception e) {
-                logger.error(e);
+                logger.error(e.getMessage(), e);
             }
         }
     }
@@ -134,18 +136,19 @@ public class ImageCreator extends HttpServlet {
             try {
                 Integer.parseInt(mapId);
             } catch (NumberFormatException ex) {
-                logger.error("Invalid mapId: " + mapId);
+                logger.error("Invalid mapId: {}", mapId);
                 return false;
             }
             return true;
         }
-        logger.error("Invalid mapId: " + mapId);
+        logger.error("Invalid mapId: {}", mapId);
         return false;
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
     /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -159,6 +162,7 @@ public class ImageCreator extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -172,6 +176,7 @@ public class ImageCreator extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

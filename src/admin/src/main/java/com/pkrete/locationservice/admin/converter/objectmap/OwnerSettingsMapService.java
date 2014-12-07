@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.converter.objectmap;
 
@@ -29,7 +29,7 @@ import java.util.Map;
 
 /**
  * This class converts Owner objects to Map.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class OwnerSettingsMapService implements ObjectMapService<Owner> {
@@ -37,9 +37,11 @@ public class OwnerSettingsMapService implements ObjectMapService<Owner> {
     /**
      * Converts settings related to a single Owner object to Map object. Only
      * the settings variables of the Owner object are included.
+     *
      * @param source Owner object to be converted
      * @return Map object
      */
+    @Override
     public Map convert(Owner source) {
         return this.convert(source, false);
     }
@@ -47,10 +49,12 @@ public class OwnerSettingsMapService implements ObjectMapService<Owner> {
     /**
      * Converts settings related to a single Owner object to Map object. Only
      * the settings variables of the Owner object are included.
+     *
      * @param source Owner object to be converted
      * @param logEntry is this for a log entry, ignored
      * @return Map object
      */
+    @Override
     public Map convert(Owner source, boolean logEntry) {
         Map owner = new LinkedHashMap();
         owner.put("id", source.getId());
@@ -67,24 +71,24 @@ public class OwnerSettingsMapService implements ObjectMapService<Owner> {
         }
         owner.put("allowed_ips", ips);
         List redirects = new ArrayList();
-            for (PreprocessingRedirect temp : source.getPreprocessingRedirects()) {
-                Map redirect = new LinkedHashMap();
-                redirect.put("id", temp.getId());
-                redirect.put("type", "PREPROCESS");
-                redirect.put("condition", temp.getCondition());
-                redirect.put("operation", temp.getOperation());
-                redirect.put("is_active", temp.getIsActive());
-                redirects.add(redirect);
-            }
-            for (NotFoundRedirect temp : source.getNotFoundRedirects()) {
-                Map redirect = new LinkedHashMap();
-                redirect.put("id", temp.getId());
-                redirect.put("type", "NOTFOUND");
-                redirect.put("condition", temp.getCondition());
-                redirect.put("operation", temp.getOperation());
-                redirect.put("is_active", temp.getIsActive());
-                redirects.add(redirect);
-            }
+        for (PreprocessingRedirect temp : source.getPreprocessingRedirects()) {
+            Map redirect = new LinkedHashMap();
+            redirect.put("id", temp.getId());
+            redirect.put("type", "PREPROCESS");
+            redirect.put("condition", temp.getCondition());
+            redirect.put("operation", temp.getOperation());
+            redirect.put("is_active", temp.getIsActive());
+            redirects.add(redirect);
+        }
+        for (NotFoundRedirect temp : source.getNotFoundRedirects()) {
+            Map redirect = new LinkedHashMap();
+            redirect.put("id", temp.getId());
+            redirect.put("type", "NOTFOUND");
+            redirect.put("condition", temp.getCondition());
+            redirect.put("operation", temp.getOperation());
+            redirect.put("is_active", temp.getIsActive());
+            redirects.add(redirect);
+        }
         owner.put("redirects", redirects);
         owner.put("created_at", (source.getCreated() == null ? "" : DateTimeUtil.dateToString(source.getCreated())));
         owner.put("create_operator", (source.getCreator() == null ? "" : source.getCreator()));
@@ -94,11 +98,13 @@ public class OwnerSettingsMapService implements ObjectMapService<Owner> {
     }
 
     /**
-     * Converts a list of Owner objects to a list of Map objects. Only 
-     * selected variables are included.
+     * Converts a list of Owner objects to a list of Map objects. Only selected
+     * variables are included.
+     *
      * @param sources Owner objects to be converted
      * @return list of Map objects
      */
+    @Override
     public List convert(List<Owner> sources) {
         List owners = new ArrayList();
         for (Owner source : sources) {

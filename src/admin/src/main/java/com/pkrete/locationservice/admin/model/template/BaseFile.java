@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.template;
 
@@ -23,7 +23,7 @@ import java.io.Serializable;
 
 /**
  * This is a base class for classes representing template, JS and CSS files.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class BaseFile extends DateInfo implements Serializable, Comparable {
@@ -43,8 +43,9 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
     }
 
     /**
-     * Creates and initializes a new BaseFile object with the given id, filename,
-     * and owner.
+     * Creates and initializes a new BaseFile object with the given id,
+     * filename, and owner.
+     *
      * @param id id of the base file
      * @param filename name of the base file
      * @param owner owner of the base file
@@ -57,8 +58,9 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
     }
 
     /**
-     * Creates and initializes a new BaseFile object with the given id, filename,
-     * contents and owner.
+     * Creates and initializes a new BaseFile object with the given id,
+     * filename, contents and owner.
+     *
      * @param id id of the base file
      * @param filename name of the base file
      * @param contents contents of the base file
@@ -73,8 +75,9 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
     }
 
     /**
-     * Creates and initializes a new BaseFile object with the given id, filename,
-     * old filename, contents and owner.
+     * Creates and initializes a new BaseFile object with the given id,
+     * filename, old filename, contents and owner.
+     *
      * @param id id of the base file
      * @param filename name of the base file
      * @param filenameOld old name of the base file
@@ -92,6 +95,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the id of the base file.
+     *
      * @return id of the base file
      */
     public int getId() {
@@ -100,6 +104,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Sets the id of the base file
+     *
      * @param id new value
      */
     public void setId(int id) {
@@ -108,6 +113,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the name of the base file
+     *
      * @return name of the base file
      */
     public String getFilename() {
@@ -116,6 +122,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Sets the name of the base file.
+     *
      * @param filename new name
      */
     public void setFilename(String filename) {
@@ -124,6 +131,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the old name of the base file
+     *
      * @return old name of the base file
      */
     public String getFilenameOld() {
@@ -132,6 +140,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Sets the old name of the base file.
+     *
      * @param filename new old name
      */
     public void setFilenameOld(String filename) {
@@ -140,6 +149,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the contents of the base file
+     *
      * @return contents of the base file
      */
     public String getContents() {
@@ -148,6 +158,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Sets the contents of the base file.
+     *
      * @param contents new contents
      */
     public void setContents(String contents) {
@@ -156,6 +167,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Returns the owner of the base file.
+     *
      * @return owner of the base file
      */
     public Owner getOwner() {
@@ -164,6 +176,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Sets the owner of the tepmlate.
+     *
      * @param owner new value
      */
     public void setOwner(Owner owner) {
@@ -173,9 +186,10 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
     @Override
     /**
      * Compares this object with the specified object for order.
+     *
      * @param o the object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(Object o) {
         return compareTo((BaseFile) o);
@@ -183,9 +197,10 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
 
     /**
      * Compares this object with the specified object for order.
+     *
      * @param base file the object to be compared
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object
      */
     public int compareTo(BaseFile file) {
         return this.filename.compareTo(file.filename);
@@ -194,9 +209,10 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
     @Override
     /**
      * Indicates whether some other object is "equal to" this one.
+     *
      * @param o the reference object with which to compare
-     * @return true if this object is the same as the obj argument; 
-     * false otherwise
+     * @return true if this object is the same as the obj argument; false
+     * otherwise
      */
     public boolean equals(Object o) {
         if (o instanceof BaseFile && filename.equals(((BaseFile) o).filename)) {
@@ -208,6 +224,7 @@ public class BaseFile extends DateInfo implements Serializable, Comparable {
     @Override
     /**
      * Returns a hash code value for the object.
+     *
      * @return a hash code value for this object
      */
     public int hashCode() {

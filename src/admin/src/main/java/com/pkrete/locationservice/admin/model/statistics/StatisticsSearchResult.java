@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.statistics;
 
@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * This class represents statistics search results.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class StatisticsSearchResult {
@@ -36,12 +36,13 @@ public class StatisticsSearchResult {
      * Constructs and initializes a new StatisticsSearchResult object.
      */
     public StatisticsSearchResult() {
-        
+
     }
-    
+
     /**
      * Constructs and initializes a new StatisticsSearchResult object with the
      * given statistics group and data.
+     *
      * @param group statistics group
      * @param type search event type
      * @param from begin date of the date range
@@ -54,11 +55,12 @@ public class StatisticsSearchResult {
         this.from = from;
         this.to = to;
         this.data = data;
-        
+
     }
-    
+
     /**
      * Returns the statistics group of this object.
+     *
      * @return statistics group
      */
     public StatisticsGroup getGroup() {
@@ -67,6 +69,7 @@ public class StatisticsSearchResult {
 
     /**
      * Sets the statistics group of this object.
+     *
      * @param group new value
      */
     public void setGroup(StatisticsGroup group) {
@@ -74,7 +77,8 @@ public class StatisticsSearchResult {
     }
 
     /**
-     * Retursn the statistics data of this object.
+     * Returns the statistics data of this object.
+     *
      * @return statistics data
      */
     public List<Object[]> getData() {
@@ -83,6 +87,7 @@ public class StatisticsSearchResult {
 
     /**
      * Sets the statistics data of this object.
+     *
      * @param data new value
      */
     public void setData(List<Object[]> data) {
@@ -91,6 +96,7 @@ public class StatisticsSearchResult {
 
     /**
      * Returns the search event type of this object.
+     *
      * @return search event type
      */
     public SearchEventType getType() {
@@ -99,6 +105,7 @@ public class StatisticsSearchResult {
 
     /**
      * Sets the search event type of this object
+     *
      * @param type new value
      */
     public void setType(SearchEventType type) {
@@ -107,6 +114,7 @@ public class StatisticsSearchResult {
 
     /**
      * Returns the begin date of the date range.
+     *
      * @return begin date of the date range
      */
     public String getFrom() {
@@ -115,6 +123,7 @@ public class StatisticsSearchResult {
 
     /**
      * Sets the begin date of the date range.
+     *
      * @param from new value
      */
     public void setFrom(String from) {
@@ -123,6 +132,7 @@ public class StatisticsSearchResult {
 
     /**
      * Returns the end date of the date range.
+     *
      * @return end date of the date range
      */
     public String getTo() {
@@ -131,6 +141,7 @@ public class StatisticsSearchResult {
 
     /**
      * Sets the end date of the date range.
+     *
      * @param to new value
      */
     public void setTo(String to) {

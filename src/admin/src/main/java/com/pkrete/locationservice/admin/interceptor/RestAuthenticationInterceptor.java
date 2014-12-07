@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.interceptor;
 
@@ -25,19 +25,20 @@ import com.pkrete.locationservice.admin.service.UsersService;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * This interceptor checks that the credentials that are provided as
- * request parameters are valid.
- * 
+ * This interceptor checks that the credentials that are provided as request
+ * parameters are valid.
+ *
  * @author Petteri Kivimäki
  */
 public class RestAuthenticationInterceptor extends HandlerInterceptorAdapter {
 
-    private final static Logger logger = Logger.getLogger(RestAuthenticationInterceptor.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(RestAuthenticationInterceptor.class.getName());
     private UsersService usersService;
     private EncryptionService encryptionService;
     private MessageSource messageSource;
@@ -72,13 +73,13 @@ public class RestAuthenticationInterceptor extends HandlerInterceptorAdapter {
             UserFull user = this.usersService.getFullUser(username);
             // If user is null, throw an exception
             if (user == null) {
-                logger.warn(new StringBuilder("Authenticating user \"").append(username).append("\" failed! Reason : unknown user."));
+                logger.warn("Authenticating user \"{}\" failed! Reason : unknown user.", username);
                 throw new AuthenticationException(this.messageSource.getMessage("rest.invalid.authentication", null, null));
             }
             // Validate password
             if (user.getPassword().equals(this.encryptionService.encrypt(password))) {
                 if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("User \"").append(username).append("\" was authenticated succesfully."));
+                    logger.info("User \"{}\" was authenticated succesfully.", username);
                 }
                 // Add Owner object to the request
                 request.setAttribute("owner", user.getOwner());
@@ -90,7 +91,7 @@ public class RestAuthenticationInterceptor extends HandlerInterceptorAdapter {
                     UserGroup group = this.usersService.getUserGroup(username);
                     // Is the user's group in the allowed groups list?
                     if (group == null || !this.allowedGroups.containsKey(group.toString())) {
-                        logger.warn(new StringBuilder("Access denied from user \"").append(username).append("\"! Reason : wrong user group."));
+                        logger.warn("Access denied from user \"{}\"! Reason : wrong user group.", username);
                         throw new AuthenticationException(this.messageSource.getMessage("rest.invalid.authentication.denied", null, null));
                     }
                     // Add group attribute to the request
@@ -99,7 +100,7 @@ public class RestAuthenticationInterceptor extends HandlerInterceptorAdapter {
                 // Match -> continue handler execution chain
                 return true;
             }
-            logger.warn(new StringBuilder("Authenticating user \"").append(username).append("\" failed! Reason : invalid password."));
+            logger.warn("Authenticating user \"{}\" failed! Reason : invalid password.", username);
 
         } else {
             logger.warn("Authenticating user failed! Reason : username and/or password missing.");

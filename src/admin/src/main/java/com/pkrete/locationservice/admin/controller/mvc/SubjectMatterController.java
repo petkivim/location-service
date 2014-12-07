@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.mvc;
 
@@ -38,12 +38,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * The {@SubjectMatterController SubjectMatterController} class returns the page that
- * contains the list of all the subject matters or redirects/forwards
- * the user to another page. The function depends on the request parameters.
- * SubjectMatterController returns a model that contains all the objects that are
- * needed in the page that is shown to the user. SubjectMatterController implements
- * the Controller interface.
+ * The {
+ *
+ * @SubjectMatterController SubjectMatterController} class returns the page that
+ * contains the list of all the subject matters or redirects/forwards the user
+ * to another page. The function depends on the request parameters.
+ * SubjectMatterController returns a model that contains all the objects that
+ * are needed in the page that is shown to the user. SubjectMatterController
+ * implements the Controller interface.
  *
  * @author Petteri Kivimäki
  */
@@ -70,7 +72,6 @@ public class SubjectMatterController extends BaseController {
         Map<String, Object> model = new HashMap<String, Object>();
         /* Id of the selected  subject matter */
         String idSubject = request.getParameter("select_subject");
-
 
         if (request.getParameter("btn_add_subject") != null) {
             return new ModelAndView("redirect:addsubjectmatter.htm");

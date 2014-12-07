@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.rest.v1;
 
@@ -29,7 +29,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,13 +48,13 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 /**
  * This class is reponsible of handling errors thrown in REST controllers.
- * 
+ *
  * @author Petteri Kivimäki
  */
 @ControllerAdvice
 public class RestExceptionHandler {
 
-    private final static Logger logger = Logger.getLogger(RestExceptionHandler.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class.getName());
     @Autowired
     @Qualifier("messageSource")
     private MessageSource messageSource;
@@ -223,7 +224,7 @@ public class RestExceptionHandler {
         // Create Map containing all the fields   
         Map errors = new HashMap<String, String>();
         // Write exception stack trace to String
-        StringWriter  errorsStr = new StringWriter();
+        StringWriter errorsStr = new StringWriter();
         ex.printStackTrace(new PrintWriter(errorsStr));
         // Log error
         logger.error(errorsStr.toString());

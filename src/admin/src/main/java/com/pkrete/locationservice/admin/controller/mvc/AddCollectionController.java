@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.controller.mvc;
 
@@ -34,9 +34,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * The {@link AddCollectionController AddCollectionController} handles the requests
- * that are related to adding a new collection to the database. This class extends
- * abstract {@link HandleLocationController HandleLocationController} class.
+ * The {@link AddCollectionController AddCollectionController} handles the
+ * requests that are related to adding a new collection to the database. This
+ * class extends abstract
+ * {@link HandleLocationController HandleLocationController} class.
  *
  * @author Petteri Kivimäki
  */
@@ -64,7 +65,7 @@ public class AddCollectionController extends HandleLocationController {
             return new ModelAndView("add_collection", model);
         }
 
-        String libraryId = request.getParameter("select_library");      
+        String libraryId = request.getParameter("select_library");
         collection.setCreator(getUser(request).getUsername());
         if (!locationsService.create(collection)) {
             throw new Exception("Creating collection failed.");

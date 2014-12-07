@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.location;
 
@@ -24,10 +24,11 @@ import com.pkrete.locationservice.admin.model.search.LocationType;
 import java.util.*;
 
 /**
- * The <code>LibraryCollection</code> class extends the {@link Location Location} class.
+ * The <code>LibraryCollection</code> class extends the
+ * {@link Location Location} class.
  *
- * The LibraryCollection class represents a collection that belongs to a library. A collection
- * can belong to only one library at a time. A collection
+ * The LibraryCollection class represents a collection that belongs to a
+ * library. A collection can belong to only one library at a time. A collection
  * can include shelves that are represented by the {@link Shelf Shelf} class.
  *
  * @author Petteri Kivimäki
@@ -42,8 +43,8 @@ public class LibraryCollection extends Location {
      */
     private List<Shelf> shelves;
     /**
-     * The number or the code of physical shelf
-     * where this collection is located.
+     * The number or the code of physical shelf where this collection is
+     * located.
      */
     private String shelfNumber;
     /**
@@ -52,8 +53,8 @@ public class LibraryCollection extends Location {
     private Library library;
 
     /**
-     * Constructs and initializes a collection with no location code and with 
-     * no owning library.
+     * Constructs and initializes a collection with no location code and with no
+     * owning library.
      */
     public LibraryCollection() {
         super("");
@@ -61,8 +62,9 @@ public class LibraryCollection extends Location {
     }
 
     /**
-     * Construct and initializes a new LibraryCollection with the given 
-     * location id.
+     * Construct and initializes a new LibraryCollection with the given location
+     * id.
+     *
      * @param locationId id number of the LibraryCollection
      */
     public LibraryCollection(int locationId) {
@@ -71,7 +73,9 @@ public class LibraryCollection extends Location {
     }
 
     /**
-     * Construct and initializes a collection with the given location code and owning library.
+     * Construct and initializes a collection with the given location code and
+     * owning library.
+     *
      * @param locationCode the location code of the collection
      * @param library the library that owns the collection
      */
@@ -82,7 +86,9 @@ public class LibraryCollection extends Location {
     }
 
     /**
-     * Construct and initializes a collection with the given location code, description and owning library.
+     * Construct and initializes a collection with the given location code,
+     * description and owning library.
+     *
      * @param locationCode the location code of the collection
      * @param description the description of the collection
      * @param library the library that owns the collection
@@ -95,14 +101,17 @@ public class LibraryCollection extends Location {
 
     /**
      * Returns the code of the collection that's used in the ILS.
+     *
      * @return code of the collection that's used in the ILS
      */
+    @Override
     public String getCollectionCode() {
         return this.collectionCode;
     }
 
     /**
      * Changes the code of the collection that's used in the ILS.
+     *
      * @param collectionCode new collection code
      */
     public void setCollectionCode(String collectionCode) {
@@ -110,8 +119,9 @@ public class LibraryCollection extends Location {
     }
 
     /**
-     * Returns a boolean value that indicates if this collection
-     * has a collection code.
+     * Returns a boolean value that indicates if this collection has a
+     * collection code.
+     *
      * @return true if the collection has a collection code, otherwise false
      */
     @Override
@@ -127,6 +137,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Returns the shelves that belong to the collection.
+     *
      * @return the shelves of the collection
      */
     public List<Shelf> getShelves() {
@@ -136,6 +147,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Changes all the shelves that related to the collection.
+     *
      * @param shelves the new shelves
      */
     public void setShelves(List<Shelf> shelves) {
@@ -144,6 +156,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Adds a new shelf to the collection.
+     *
      * @param shelf the new shelf
      */
     public void addShelf(Shelf shelf) {
@@ -152,6 +165,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Removes the specified shelf from the collection
+     *
      * @param shelf the shelf to be removed from the collection
      */
     public void removeShelf(Shelf shelf) {
@@ -160,6 +174,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Changes the owning library of the collection.
+     *
      * @param library the new owning library
      */
     public void setLibrary(Library library) {
@@ -168,6 +183,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Returns the owning library of the collection.
+     *
      * @return the owning library of the collection
      */
     public Library getLibrary() {
@@ -176,6 +192,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Returns the shelf number of this collection object.
+     *
      * @return the number of the shelf where this collection is located
      */
     public String getShelfNumber() {
@@ -184,6 +201,7 @@ public class LibraryCollection extends Location {
 
     /**
      * Changes the shelf number of this collection object.
+     *
      * @param shelfNumber new shelf number
      */
     public void setShelfNumber(String shelfNumber) {
@@ -193,6 +211,7 @@ public class LibraryCollection extends Location {
     @Override
     /**
      * Returns the owner of the collection.
+     *
      * @return owner of the location
      */
     public Owner getOwner() {
@@ -200,10 +219,13 @@ public class LibraryCollection extends Location {
     }
 
     /**
-     * Returns the call number of the collection. The call number is formed by the
-     * location code of the owning library and the location code of the collection.
+     * Returns the call number of the collection. The call number is formed by
+     * the location code of the owning library and the location code of the
+     * collection.
+     *
      * @return the call number of the collection
      */
+    @Override
     public String getCallNo() {
         String callno = "";
         if (!getLibrary().getLocationCode().isEmpty()) {
@@ -219,14 +241,16 @@ public class LibraryCollection extends Location {
     }
 
     /**
-     * Returns the call number of the location in a format that is
-     * used in templates' names.All the whitespaces in the call number are 
-     * replaced with underscores.
-     * @param incCollectionCode boolean value that tells if collection
-     * code should be included in the returned call number. If true, collection
-     * code is included only if it exists and is not empty
+     * Returns the call number of the location in a format that is used in
+     * templates names.All the white spaces in the call number are replaced with
+     * underscores.
+     *
+     * @param incCollectionCode boolean value that tells if collection code
+     * should be included in the returned call number. If true, collection code
+     * is included only if it exists and is not empty
      * @return the call number of the location
      */
+    @Override
     public String getCallNoForTemplateName(boolean incCollectionCode) {
         StringBuilder builder = new StringBuilder();
         builder.append(this.library.getLocationCode()).append(" ");
@@ -239,8 +263,10 @@ public class LibraryCollection extends Location {
 
     /**
      * Returns the location type COLLECTION.
+     *
      * @return location type COLLECTION
      */
+    @Override
     public LocationType getLocationType() {
         return LocationType.COLLECTION;
     }

@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.util;
 
@@ -23,15 +23,15 @@ import java.io.FileFilter;
 
 /**
  * This utility class contains helper methods related to JavaScript files.
- * 
+ *
  * @author Petteri Kivimäki
  */
 public class JSUtil {
 
     /**
-     * Checks that the name has a valid file extension and adds it if
-     * necessary.
-     * @param name name of the css file
+     * Checks that the name has a valid file extension and adds it if necessary.
+     *
+     * @param name name of the JS file
      * @return name with ".js" file extension
      */
     public static String buildJsName(String name) {
@@ -47,9 +47,10 @@ public class JSUtil {
     }
 
     /**
-     * Checks if the format of the given js file name is valid. If the
-     * name is valid returns true, otherwise returns false.
-     * @param name js file name to be checked
+     * Checks if the format of the given JS file name is valid. If the name is
+     * valid returns true, otherwise returns false.
+     *
+     * @param name JS file name to be checked
      * @return if name is valid returns true; otherwise returns false
      */
     public static boolean isJsNameValid(String name) {
@@ -65,14 +66,16 @@ public class JSUtil {
     }
 
     /**
-     * Returns a FileFilter object that can used for getting a list of all
-     * the JavaScript files in a directory. All the visible files with ".js"
+     * Returns a FileFilter object that can used for getting a list of all the
+     * JavaScript files in a directory. All the visible files with ".js"
      * extension are considered as JavaScript files.
-     * @return FileFilter object for js files
+     *
+     * @return FileFilter object for JS files
      */
     public static FileFilter getJsFilter() {
         FileFilter filter = new FileFilter() {
 
+            @Override
             public boolean accept(File file) {
                 if (file.isFile() && !file.isHidden() && file.getName().endsWith(".js")) {
                     return true;
@@ -84,12 +87,12 @@ public class JSUtil {
     }
 
     /**
-     * Builds the absolute path of the given file based on filename
-     * and owner information. However, it's not tested whether the file exists
-     * or not.
-     * @param filename name of the js file
-     * @param owner owner of the js file
-     * @return absolute js file path
+     * Builds the absolute path of the given file based on filename and owner
+     * information. However, it's not tested whether the file exists or not.
+     *
+     * @param filename name of the JS file
+     * @param owner owner of the JS file
+     * @return absolute JS file path
      */
     public static String buildFilePath(String filename, Owner owner) {
         // Get scripts path for the given Owner

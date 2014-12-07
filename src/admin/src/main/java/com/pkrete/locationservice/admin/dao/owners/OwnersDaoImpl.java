@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.dao.owners;
 
@@ -21,31 +21,33 @@ import com.pkrete.locationservice.admin.dao.OwnersDao;
 import com.pkrete.locationservice.admin.model.owner.CallnoModification;
 import com.pkrete.locationservice.admin.model.owner.Owner;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Hibernate;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.hibernate.Session;
 
 /**
- * This class implements {@link OwnersDao OwnersDao} interface that
- * defines data access layer for Owner objects.
- * 
- * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class 
- * that is a wrapper over {@link HibernateTemplate HibernateTemplate} class. 
- * HibernateTemplate is a convenience class for Hibernate based database access. 
- * HibernateDaoSupport creates the HibernateTemplate and subclasses can use 
- * the getHibernateTemplate() method to obtain the hibernateTemplate and 
- * then perform operations on it. HibernateTemplate takes care of obtaining or 
- * releasing sessions and managing exceptions. 
- * 
+ * This class implements {@link OwnersDao OwnersDao} interface that defines data
+ * access layer for Owner objects.
+ *
+ * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class that
+ * is a wrapper over {@link HibernateTemplate HibernateTemplate} class.
+ * HibernateTemplate is a convenience class for Hibernate based database access.
+ * HibernateDaoSupport creates the HibernateTemplate and subclasses can use the
+ * getHibernateTemplate() method to obtain the hibernateTemplate and then
+ * perform operations on it. HibernateTemplate takes care of obtaining or
+ * releasing sessions and managing exceptions.
+ *
  * @author Petteri Kivimäki
  */
 public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
 
-    private final static Logger localLogger = Logger.getLogger(OwnersDaoImpl.class.getName());
+    private final static Logger localLogger = LoggerFactory.getLogger(OwnersDaoImpl.class.getName());
 
     /**
      * Returns a list of all the owners in the database.
+     *
      * @return all the owners in the database
      */
     @Override
@@ -55,8 +57,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     }
 
     /**
-     * Returns the owner with the given id or null, if the owner cannot
-     * be found.
+     * Returns the owner with the given id or null, if the owner cannot be
+     * found.
+     *
      * @param id the id that is used for searching
      * @return the owner with the given id or null
      */
@@ -72,8 +75,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     }
 
     /**
-     * Returns the owner with the given id with all the collections related
-     * to the owner loaded. If the owner cannot be found, null is returned.
+     * Returns the owner with the given id with all the collections related to
+     * the owner loaded. If the owner cannot be found, null is returned.
+     *
      * @param id the id that is used for searching
      * @return the owner with the given id or null
      */
@@ -92,8 +96,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     }
 
     /**
-     * Returns the owner with the given code or null, if the owner cannot
-     * be found.
+     * Returns the owner with the given code or null, if the owner cannot be
+     * found.
+     *
      * @param code the code that is used for searching
      * @return the owner with the given code or null
      */
@@ -109,6 +114,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
 
     /**
      * Checks if the given owner object can be removed from the database.
+     *
      * @param owner owner object to be removed
      * @return true if the owner object can be removed; otherwise false
      */
@@ -151,6 +157,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
 
     /**
      * Saves the given owner object to the database.
+     *
      * @param owner the owner to be created
      * @return true if and only if the object was successfully created;
      * otherwise false
@@ -168,6 +175,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
 
     /**
      * Updates the given owner object to the database.
+     *
      * @param owner the owner to be updated
      * @return true if and only if the object was successfully updated;
      * otherwise false
@@ -185,6 +193,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
 
     /**
      * Deletes the given owner object from the database.
+     *
      * @param owner the owner to be deleted
      * @return true if and only if the object was successfully deleted;
      * otherwise false
@@ -204,6 +213,7 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
 
     /**
      * Deletes the given call number modification object from the database.
+     *
      * @param mod the call number modification to be deleted
      * @return true if and only if the object was successfully deleted;
      * otherwise false
@@ -220,8 +230,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     }
 
     /**
-     * Deletes all the PreporcessingRedirects and NotFoundRedirects that
-     * don't have an Owner.
+     * Deletes all the PreporcessingRedirects and NotFoundRedirects that don't
+     * have an Owner.
+     *
      * @return true if and only if all the orphans were successfully deleted;
      * otherwise false
      */
@@ -239,8 +250,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     }
 
     /**
-     * Returns a list of PreprocessingRedirect ids related to the owner with
-     * the given id.
+     * Returns a list of PreprocessingRedirect ids related to the owner with the
+     * given id.
+     *
      * @param ownerId owner id
      * @return list of PreprocessingRedirect ids related to the owner
      */
@@ -251,8 +263,9 @@ public class OwnersDaoImpl extends HibernateDaoSupport implements OwnersDao {
     }
 
     /**
-     * Returns a list of NotFoundRedirect ids related to the owner with
-     * the given id.
+     * Returns a list of NotFoundRedirect ids related to the owner with the
+     * given id.
+     *
      * @param ownerId owner id
      * @return list of NotFoundRedirect ids related to the owner
      */

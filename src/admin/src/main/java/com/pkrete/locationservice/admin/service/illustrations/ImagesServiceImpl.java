@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.service.illustrations;
 
@@ -31,18 +31,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * This class implements {@link ImagesService ImagesService} interface, 
- * which defines service layer for Image objects.
- * 
+ * This class implements {@link ImagesService ImagesService} interface, which
+ * defines service layer for Image objects.
+ *
  * @author Petteri Kivimäki
  */
 public class ImagesServiceImpl implements ImagesService {
 
-    private final static Logger logger = Logger.getLogger(ImagesServiceImpl.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(ImagesServiceImpl.class.getName());
     private ImagesDao dao;
     private FileService fileService;
     private DirectoryService dirService;
@@ -50,6 +51,7 @@ public class ImagesServiceImpl implements ImagesService {
 
     /**
      * Sets the data access object.
+     *
      * @param dao new value
      */
     public void setDao(ImagesDao dao) {
@@ -58,6 +60,7 @@ public class ImagesServiceImpl implements ImagesService {
 
     /**
      * Sets the file service object.
+     *
      * @param fileService new value
      */
     public void setFileService(FileService fileService) {
@@ -66,6 +69,7 @@ public class ImagesServiceImpl implements ImagesService {
 
     /**
      * Sets the directory service object.
+     *
      * @param dirService new value
      */
     public void setDirService(DirectoryService dirService) {
@@ -74,6 +78,7 @@ public class ImagesServiceImpl implements ImagesService {
 
     /**
      * Sets the JSON converter object.
+     *
      * @param dao new value
      */
     public void setJsonizer(JSONizerService jsonizer) {
@@ -81,33 +86,38 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     /**
-     * Returns the image with given id.
-     * This method is only for editor classes. All the other classes must give
-     * also the owner parameter.
+     * Returns the image with given id. This method is only for editor classes.
+     * All the other classes must give also the owner parameter.
+     *
      * @param id the id that is used for searching
      * @return the image with the given id
      */
+    @Override
     public Image get(int id) {
         return dao.get(id);
     }
 
     /**
      * Returns the image with given id.
+     *
      * @param id the id that is used for searching
      * @param owner the owner of the object
      * @return the image with the given id
      */
+    @Override
     public Image get(int id, Owner owner) {
         return dao.get(id, owner);
     }
 
     /**
      * Deletes the image with the given id and owner.
+     *
      * @param id id of the image
      * @param owner owner of the image
-     * @return true if and only if the image was succesfully deleted;
-     * otherwise false
+     * @return true if and only if the image was successfully deleted; otherwise
+     * false
      */
+    @Override
     public boolean delete(int id, Owner owner) {
         Image image = dao.get(id, owner);
         return delete(image);
@@ -115,10 +125,12 @@ public class ImagesServiceImpl implements ImagesService {
 
     /**
      * Deletes the given image object from the database.
+     *
      * @param image the image to be deleted
-     * @return true if and only if the image was succesfully deleted;
-     * otherwise false
+     * @return true if and only if the image was successfully deleted; otherwise
+     * false
      */
+    @Override
     public boolean delete(Image image) {
         // Check for null
         if (image == null) {
@@ -130,7 +142,7 @@ public class ImagesServiceImpl implements ImagesService {
 
         // Make sure that the image can be deleted
         if (!dao.canBeDeleted(image.getId())) {
-            logger.warn(new StringBuilder("Deleting image failed! Image has dependencies in the database. Image : ").append(json));
+            logger.warn("Deleting image failed! Image has dependencies in the database. Image : {}", json);
             return false;
         }
 
@@ -141,52 +153,50 @@ public class ImagesServiceImpl implements ImagesService {
             // Build absolute path of the image file
             String path = IllustrationsUtil.buildFilePath(image);
             if (path == null) {
-                logger.warn(new StringBuilder("Deleting image failed! Unable to build path for the image file. Image : ").append(json));
+                logger.warn("Deleting image failed! Unable to build path for the image file. Image : {}", json);
                 return false;
             }
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Delete image file : ").append(path));
-            }
+            logger.info("Delete image file : {}", path);
             // Try to delete the file, if it exists
             if (fileService.exists(path)) {
                 // Delete the file
                 success = fileService.delete(path);
             } else {
-                if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("Image file doesn't exist : ").append(path));
-                }
+                logger.info("Image file doesn't exist : {}", path);
             }
         }
         // Delete the image from DB, if success == true
         if (success) {
             if (dao.delete(image)) {
-                if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("Image deleted : ").append(json));
-                }
+                logger.info("Image deleted : {}", json);
                 return true;
             }
-            logger.warn(new StringBuilder("Failed to delete image : ").append(json));
+            logger.warn("Failed to delete image : {}", json);
             return false;
         }
         return false;
     }
 
     /**
-     * Returns a list of all the images in the database that are related
-     * to the given owner object.
+     * Returns a list of all the images in the database that are related to the
+     * given owner object.
+     *
      * @param owner the owner of the objects
      * @return all the images in the database
      */
+    @Override
     public List<Image> get(Owner owner) {
         return dao.get(owner);
     }
 
     /**
-     * Addsthe given image object to the database and to the filesystem.
+     * Adds the given image object to the database and to the file system.
+     *
      * @param image the image to be added
-     * @return true if and only if the image was succesfully added; otherwise
+     * @return true if and only if the image was successfully added; otherwise
      * false
      */
+    @Override
     public boolean create(Image image) {
         // Set created date
         image.setCreated(new Date());
@@ -196,9 +206,7 @@ public class ImagesServiceImpl implements ImagesService {
         String adminPath = Settings.getInstance().getImagesPathAdmin(image.getOwner().getCode());
 
         if (image.getFilePath() != null && image.getFilePath().length() > 0) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Move uploaded image file from admin dir to service dir.");
-            }
+            logger.debug("Move uploaded image file from admin dir to service dir.");
             // Image is moved from admin dir to service dir.
             // FilePath variable contains the name of the image file
             String name = image.getFilePath();
@@ -214,12 +222,10 @@ public class ImagesServiceImpl implements ImagesService {
             adminPath += image.getFilePath();
             // Check that the file really exists
             if (!this.adminImageExists(image.getFilePath(), image.getOwner())) {
-                logger.warn(new StringBuilder("Creating image failed, because the given file doesn't exist! Path : ").append(adminPath));
+                logger.warn("Creating image failed, because the given file doesn't exist! Path : {}", adminPath);
                 return false;
             }
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Move image file : \"").append(adminPath).append("\" -> \"").append(path).append("\""));
-            }
+            logger.info("Move image file : \"{}\" -> \"{}\"", adminPath, path);
             // Try to rename (=move) the file
             if (!fileService.rename(adminPath, path)) {
                 logger.warn("Moving image file failed! Creating new image failed!");
@@ -231,9 +237,7 @@ public class ImagesServiceImpl implements ImagesService {
             // Image is external
             image.setIsExternal(true);
         } else if (image.getFile() != null && image.getFile().getSize() > 0) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Add uploaded image file.");
-            }
+            logger.debug("Add uploaded image file.");
             // User has uploaded a file
             MultipartFile file = image.getFile();
             // Get the name of the file
@@ -248,40 +252,40 @@ public class ImagesServiceImpl implements ImagesService {
             image.setIsExternal(false);
             // Create a new File object for the uploaded file
             File imageFile = new File(path);
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Write uploaded image file to disk. Path : \"").append(path).append("\""));
-            }
+
+            logger.info("Write uploaded image file to disk. Path : \"{}\"", path);
+
             try {
                 // Write the uploaded file to disk
                 file.transferTo(imageFile);
             } catch (IOException ex) {
                 logger.warn("Writing image file to disk failed! Creating image failed!");
-                logger.error(ex);
+                logger.error(ex.getMessage(), ex);
                 return false;
             }
             // Check that the file really exists
             if (!fileService.exists(path)) {
-                logger.warn(new StringBuilder("Writing image file to disk failed! File doesn't exist. Path : \"").append(path).append("\""));
+                logger.warn("Writing image file to disk failed! File doesn't exist. Path : \"{}\"", path);
                 return false;
             }
         }
         // Try to save the image to DB
         if (dao.create(image)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Image created : ").append(this.jsonizer.jsonize(image, true)));
-            }
+            logger.info("Image created : {}", this.jsonizer.jsonize(image, true));
             return true;
         }
-        logger.warn(new StringBuilder("Failed to create image : ").append(this.jsonizer.jsonize(image, true)));
+        logger.warn("Failed to create image : {}", this.jsonizer.jsonize(image, true));
         return false;
     }
 
     /**
-     * Updates the given image object to the database and to the filesystem.
+     * Updates the given image object to the database and to the file system.
+     *
      * @param image the image to be saved
-     * @return true if and only if the image was succesfully added; otherwise
+     * @return true if and only if the image was successfully added; otherwise
      * false
      */
+    @Override
     public boolean update(Image image) {
         // Get JSON presentation
         String json = this.jsonizer.jsonize(image, true);
@@ -293,12 +297,12 @@ public class ImagesServiceImpl implements ImagesService {
         if (image.getFilePath() != null && image.getFilePath().length() > 0) {
             // Absolute source path
             String source = adminPath + image.getFilePath();
-            if (logger.isDebugEnabled()) {
-                logger.debug("Move uploaded image file from admin dir to service dir.");
-            }
+
+            logger.debug("Move uploaded image file from admin dir to service dir.");
+
             // Check that the source file really exists
             if (!this.adminImageExists(image.getFilePath(), image.getOwner())) {
-                logger.warn(new StringBuilder("Updating image failed, because the given file doesn't exist! Path : ").append(source));
+                logger.warn("Updating image failed, because the given file doesn't exist! Path : {}", source);
                 return false;
             }
             // Absolute target path
@@ -313,13 +317,13 @@ public class ImagesServiceImpl implements ImagesService {
                 target = path + name;
                 // Update path
                 image.setPath(name);
-            } 
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Move image file : \"").append(source).append("\" -> \"").append(target).append("\""));
             }
+
+            logger.info("Move image file : \"{}\" -> \"{}\"", source, target);
+
             // Try to rename (=move) the file
             if (!fileService.replace(source, target)) {
-                logger.warn(new StringBuilder("Moving image file failed!").append("Updating image failed!").append(json));
+                logger.warn("Moving image file failed! Updating image failed! Image : {}", json);
                 return false;
             }
             // The image is not external
@@ -331,8 +335,8 @@ public class ImagesServiceImpl implements ImagesService {
                 String target = IllustrationsUtil.buildFilePath(image);
                 // Remove the file
                 if (this.fileService.exists(target) && !this.fileService.delete(target)) {
-                    logger.warn(new StringBuilder("Unable to delete the old image file while updating image from internal to external. Path : \"").append(target).append("\""));
-                    logger.warn(new StringBuilder("Updating image failed!").append(json));
+                    logger.warn("Unable to delete the old image file while updating image from internal to external. Path : \"{}\"", target);
+                    logger.warn("Updating image failed! Image : {}", json);
                     return false;
                 }
             }
@@ -342,9 +346,7 @@ public class ImagesServiceImpl implements ImagesService {
             image.setIsExternal(true);
         } else if (image.getFile() != null && image.getFile().getSize() > 0) {
             // Check if user has uploaded a new image file
-            if (logger.isDebugEnabled()) {
-                logger.debug("Update image file.");
-            }
+            logger.debug("Update image file.");
             // Get the uploaded file
             MultipartFile file = image.getFile();
             // Absolute target path
@@ -353,26 +355,25 @@ public class ImagesServiceImpl implements ImagesService {
             File imageFile = new File(target);
             // Delete the old image file, if file exists
             if (fileService.exists(target) && !fileService.delete(target)) {
-                logger.warn(new StringBuilder("Updating image failed! Unable to delete the old image file. Path : \"").append(target).append("\""));
-                logger.warn(new StringBuilder("Updating image failed!").append(json));
+                logger.warn("Updating image failed! Unable to delete the old image file. Path : \"{}\"", target);
+                logger.warn("Updating image failed! Image : {}", json);
                 return false;
             }
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Write uploaded image file to disk. Path : \"").append(target).append("\""));
-            }
+            logger.info("Write uploaded image file to disk. Path : \"{}\"", target);
+
             try {
                 // Write the uploaded file to disk
                 file.transferTo(imageFile);
             } catch (IOException ex) {
                 logger.warn("Writing image file to disk failed!");
-                logger.error(ex);
-                logger.warn(new StringBuilder("Updating image failed!").append(json));
+                logger.error(ex.getMessage(), ex);
+                logger.warn("Updating image failed! Image : {}", json);
                 return false;
             }
             // Check that the file really exists
             if (!fileService.exists(target)) {
-                logger.warn(new StringBuilder("Writing image file to disk failed! File doesn't exist. Path : \"").append(target).append("\""));
-                logger.warn(new StringBuilder("Updating image failed!").append(json));
+                logger.warn("Writing image file to disk failed! File doesn't exist. Path : \"{}\"", target);
+                logger.warn("Updating image failed! Image : {}", json);
                 return false;
             }
         }
@@ -380,21 +381,21 @@ public class ImagesServiceImpl implements ImagesService {
         image.setUpdated(new Date());
         // Try to update the DB
         if (dao.update(image)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Image updated : ").append(this.jsonizer.jsonize(image, true)));
-            }
+            logger.info("Image updated : {}", this.jsonizer.jsonize(image, true));
             return true;
         }
-        logger.warn(new StringBuilder("Failed to update image : ").append(json));
+        logger.warn("Failed to update image : {}", json);
         return false;
     }
 
     /**
-     * Checks if the image object corresponding the give id can be removed
-     * from the database.
+     * Checks if the image object corresponding the give id can be removed from
+     * the database.
+     *
      * @param imageId the id number of the image to be removed
      * @return true if the image object can be removed, otherwise returns false
      */
+    @Override
     public boolean canBeDeleted(int imageId) {
         return dao.canBeDeleted(imageId);
     }
@@ -402,9 +403,11 @@ public class ImagesServiceImpl implements ImagesService {
     /**
      * Returns a list of image files that are located in the images admin
      * directory related to the given owner.
+     *
      * @param owner owner of the image files
      * @return list of image files
      */
+    @Override
     public List<String> getAdminImages(Owner owner) {
         // Get path of the images admin dir
         String path = Settings.getInstance().getImagesPathAdmin(owner.getCode());
@@ -414,11 +417,13 @@ public class ImagesServiceImpl implements ImagesService {
 
     /**
      * Saves the given file in the images directory of the Admin app.
+     *
      * @param file file to be saved
      * @param owner owner of the file
      * @return name of the file if and only if the file was saved; otherwise
      * null
      */
+    @Override
     public String upload(MultipartFile file, Owner owner) {
         // Check for null values
         if (file == null || owner == null) {
@@ -438,34 +443,36 @@ public class ImagesServiceImpl implements ImagesService {
 
         // Create a new File object for the uploaded file
         File imageFile = new File(path);
-        if (logger.isInfoEnabled()) {
-            logger.info("Write uploaded image file to disk. Path : \"" + path + "\"");
-        }
+
+        logger.info("Write uploaded image file to disk. Path : \"{}\"", path);
+
         try {
             // Write the uploaded file to disk
             file.transferTo(imageFile);
         } catch (IOException ex) {
             logger.warn("Writing image file to disk failed!");
-            logger.error(ex);
+            logger.error(ex.getMessage(), ex);
             return null;
         }
         // Check that the file really exists
         if (!fileService.exists(path)) {
-            logger.warn("Writing image file to disk failed! File doesn't exist. Path : \"" + path + "\"");
+            logger.warn("Writing image file to disk failed! File doesn't exist. Path : \"{}\"", path);
             return null;
         }
-        if (logger.isInfoEnabled()) {
-            logger.info("Writing uploaded image file to disk done. Path : \"" + path + "\"");
-        }
+
+        logger.info("Writing uploaded image file to disk done. Path : \"{}\"", path);
+
         return name;
     }
 
     /**
      * Deletes the uploaded image file with given name and owner.
+     *
      * @param fileName name of the image file
      * @param owner owner of the image
      * @return true if and only if the file was deleted; otherwise false
      */
+    @Override
     public boolean delete(String fileName, Owner owner) {
         // Check for null values
         if (fileName == null || owner == null) {
@@ -478,27 +485,29 @@ public class ImagesServiceImpl implements ImagesService {
         path += fileName;
         // The file doesn't exist -> exit
         if (!this.adminImageExists(fileName, owner)) {
-            logger.warn(new StringBuilder("Unable to delete the uploaded image file \"").append(path).append("\", because the file doesn't exist."));
+            logger.warn("Unable to delete the uploaded image file \"{}\", because the file doesn't exist.", path);
             return false;
         }
         // Try to delete the file
         if (!this.fileService.delete(path)) {
-            logger.warn(new StringBuilder("Failed to delete the uploaded image file \"").append(path).append("\"."));
+            logger.warn("Failed to delete the uploaded image file \"{}\".", path);
             return false;
         }
-        if (logger.isInfoEnabled()) {
-            logger.info(new StringBuilder("Uploaded image file \"").append(path).append("\" was succesfully deleted."));
-        }
+
+        logger.info("Uploaded image file \"{}\" was succesfully deleted.", path);
+
         return true;
     }
 
     /**
-     * Checks that an image file with the given name exists in images
-     * admin directory related to the given owner.
+     * Checks that an image file with the given name exists in images admin
+     * directory related to the given owner.
+     *
      * @param fileName name of the image file
      * @param owner owner of the file
      * @return true if and only if the image exists; otherwise false
      */
+    @Override
     public boolean adminImageExists(String fileName, Owner owner) {
         // Get list of uploaded images related to the given owner
         List<String> images = this.getAdminImages(owner);
@@ -512,9 +521,10 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     /**
-     * Checks if a file denoted by the given dir and filename exists, and
-     * adds a timestamp in the beginning of the filename if another file
-     * with the same name already exists.
+     * Checks if a file denoted by the given dir and filename exists, and adds a
+     * timestamp in the beginning of the filename if another file with the same
+     * name already exists.
+     *
      * @param dir absolute directory
      * @param filename name of the file
      * @return unique filename

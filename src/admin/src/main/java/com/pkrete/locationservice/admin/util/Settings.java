@@ -1,26 +1,27 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.util;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Settings class contains information used by other parts of the program.
@@ -31,7 +32,7 @@ import org.apache.log4j.Logger;
  */
 public class Settings {
 
-    private final static Logger logger = Logger.getLogger(Settings.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(Settings.class.getName());
     private static Settings ref;
     private String servicePath;
     private String webPath;
@@ -127,30 +128,31 @@ public class Settings {
         this.imagesPathAdmin = ownersPathAdmin + "$DIR/images/";
 
         if (logger.isInfoEnabled()) {
-            logger.info("Service path: " + this.servicePath);
-            logger.info("Service URL: " + this.webPath);
-            logger.info("Service owners path: " + this.ownersPath);
-            logger.info("Relative home path: " + this.homeDirRel);
-            logger.info("Templates path: " + this.templatePath);
-            logger.info("Maps path: " + this.mapsPath);
-            logger.info("Images path: " + this.imagesPath);
-            logger.info("Sripts path: " + this.scriptsPath);
-            logger.info("Sripts relative path: " + this.scriptsPathRel);
-            logger.info("Stylesheets path: " + this.stylesheetsPath);
-            logger.info("Stylesheets relative path: " + this.stylesheetsPathRel);
-            logger.info("jQuery path: " + this.scriptsSysPath);
-            logger.info("jQuery relative path: " + this.scriptsSysPathRel);
-            logger.info("Plugins path: " + this.scriptsPluginsPath);
-            logger.info("Plugins relative path: " + this.scriptsPluginsPathRel);
-            logger.info("Admin owners path: " + this.ownersPathAdmin);
-            logger.info("Admin maps path: " + this.mapsPathAdmin);
-            logger.info("Admin images path: " + this.imagesPathAdmin);
+            logger.info("Service path: {}", this.servicePath);
+            logger.info("Service URL: {}", this.webPath);
+            logger.info("Service owners path: {}", this.ownersPath);
+            logger.info("Relative home path: {}", this.homeDirRel);
+            logger.info("Templates path: {}", this.templatePath);
+            logger.info("Maps path: {}", this.mapsPath);
+            logger.info("Images path: {}", this.imagesPath);
+            logger.info("Sripts path: {}", this.scriptsPath);
+            logger.info("Sripts relative path: {}", this.scriptsPathRel);
+            logger.info("Stylesheets path: {}", this.stylesheetsPath);
+            logger.info("Stylesheets relative path: {}", this.stylesheetsPathRel);
+            logger.info("jQuery path: {}", this.scriptsSysPath);
+            logger.info("jQuery relative path: {}", this.scriptsSysPathRel);
+            logger.info("Plugins path: {}", this.scriptsPluginsPath);
+            logger.info("Plugins relative path: {}", this.scriptsPluginsPathRel);
+            logger.info("Admin owners path: {}", this.ownersPathAdmin);
+            logger.info("Admin maps path: {}", this.mapsPathAdmin);
+            logger.info("Admin images path: {}", this.imagesPathAdmin);
         }
     }
 
     /**
      * Returns an instance of Settings. The instance is created when the method
      * is called for the first time.
+     *
      * @return instance of Settings class
      */
     public static Settings getInstance() {
@@ -161,8 +163,9 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the directory where all the owner related 
-     * directories are located under LocationService.
+     * Returns the path of the directory where all the owner related directories
+     * are located under LocationService.
+     *
      * @return root directory of the owner directories under LocationService
      */
     public String getOwnersPath() {
@@ -170,16 +173,19 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the directory where all the owner related
-     * directories are located under LocationServiceAdmin.
-     * @return root directory of the owner directories under LocationServiceAdmin
+     * Returns the path of the directory where all the owner related directories
+     * are located under LocationServiceAdmin.
+     *
+     * @return root directory of the owner directories under
+     * LocationServiceAdmin
      */
     public String getOwnersPathAdmin() {
         return this.ownersPathAdmin;
     }
 
     /**
-     * Returns the relative path of owner's home direcotry.
+     * Returns the relative path of owner's home directory.
+     *
      * @param ownerCode owner whose home directory's path is requested
      * @return relative path of the owner's home directory
      */
@@ -189,8 +195,9 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the templates directory related to the
-     * given owner code.
+     * Returns the path of the templates directory related to the given owner
+     * code.
+     *
      * @param ownerCode owner whose template directory's path is requested
      * @return path of the templates directory related to the given owner
      */
@@ -200,10 +207,11 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the stylesheets directory related to the
-     * given owner code.
-     * @param ownerCode owner whose stylesheet directory's path is requested
-     * @return path of the stylesheet directory related to the given owner
+     * Returns the path of the style sheets directory related to the given owner
+     * code.
+     *
+     * @param ownerCode owner whose style sheet directory's path is requested
+     * @return path of the style sheet directory related to the given owner
      */
     public String getStylesheetsPath(String ownerCode) {
         String path = stylesheetsPath.replace("$DIR", ownerCode);
@@ -211,11 +219,12 @@ public class Settings {
     }
 
     /**
-     * Returns the relative path of the stylesheets directory related to the
+     * Returns the relative path of the style sheets directory related to the
      * given owner code. This path can be used in template files when
-     * referencing a css file.
-     * @param ownerCode owner whose stylesheet directory's path is requested
-     * @return relative path of the stylesheet directory related to the given 
+     * referencing a CSS file.
+     *
+     * @param ownerCode owner whose style sheet directory's path is requested
+     * @return relative path of the style sheet directory related to the given
      * owner
      */
     public String getStylesheetsPathRel(String ownerCode) {
@@ -224,8 +233,9 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the scripts directory related to the
-     * given owner code.
+     * Returns the path of the scripts directory related to the given owner
+     * code.
+     *
      * @param ownerCode owner whose scripts directory's path is requested
      * @return path of the scripts directory related to the given owner
      */
@@ -235,9 +245,10 @@ public class Settings {
     }
 
     /**
-     * Returns the relative path of the scripts directory related to the
-     * given owner code. This path can be used in template files when
-     * referencing a script file.
+     * Returns the relative path of the scripts directory related to the given
+     * owner code. This path can be used in template files when referencing a
+     * script file.
+     *
      * @param ownerCode owner whose scripts directory's path is requested
      * @return relative path of the scripts directory related to the given owner
      */
@@ -247,9 +258,9 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the scripts directory shared by all the users.
-     * The users cannot write to this folder, only read and link to
-     * the files in it.
+     * Returns the path of the scripts directory shared by all the users. The
+     * users cannot write to this folder, only read and link to the files in it.
+     *
      * @return path of the scripts directory shared by all the users
      */
     public String getScriptsSysPath() {
@@ -257,10 +268,11 @@ public class Settings {
     }
 
     /**
-     * Returns the relative path of the scripts directory shared by all the users.
-     * This path can be used in template files when referencing a script file. 
-     * The users cannot write to this folder, only read and link to
-     * the files in it.
+     * Returns the relative path of the scripts directory shared by all the
+     * users. This path can be used in template files when referencing a script
+     * file. The users cannot write to this folder, only read and link to the
+     * files in it.
+     *
      * @return relative path of the scripts directory shared by all the users
      */
     public String getScriptsSysPathRel() {
@@ -268,9 +280,9 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the plugins directory shared by all the users.
-     * The users cannot write to this folder, only read and link to
-     * the files in it.
+     * Returns the path of the plugins directory shared by all the users. The
+     * users cannot write to this folder, only read and link to the files in it.
+     *
      * @return path of the plugins directory shared by all the users
      */
     public String getScriptsPluginsPath() {
@@ -278,9 +290,10 @@ public class Settings {
     }
 
     /**
-     * Returns the relative path of the plugins directory shared by all the users.
-     * This path can be used in template files when referencing a script file. 
-     * The users cannot write to this folder, only read and link to
+     * Returns the relative path of the plugins directory shared by all the
+     * users. This path can be used in template files when referencing a script
+     * file. The users cannot write to this folder, only read and link to
+     *
      * @return relative path of the plugins directory shared by all the users
      */
     public String getScriptsPluginsPathRel() {
@@ -288,8 +301,8 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the maps directory related to the
-     * given owner code.
+     * Returns the path of the maps directory related to the given owner code.
+     *
      * @param ownerCode owner whose maps directory's path is requested
      * @return path of the maps directory related to the given owner
      */
@@ -299,10 +312,12 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the admin module maps directory related to the
-     * given owner code.
+     * Returns the path of the admin module maps directory related to the given
+     * owner code.
+     *
      * @param ownerCode owner whose maps directory's path is requested
-     * @return path of the admin module maps directory related to the given owner
+     * @return path of the admin module maps directory related to the given
+     * owner
      */
     public String getMapsPathAdmin(String ownerCode) {
         String path = mapsPathAdmin.replace("$DIR", ownerCode);
@@ -310,8 +325,8 @@ public class Settings {
     }
 
     /**
-     * Returns the path of the images directory related to the
-     * given owner code.
+     * Returns the path of the images directory related to the given owner code.
+     *
      * @param ownerCode owner whose images directory's path is requested
      * @return path of the images directory related to the given owner
      */
@@ -323,8 +338,10 @@ public class Settings {
     /**
      * Returns the path of the admin module images directory related to the
      * given owner code.
+     *
      * @param ownerCode owner whose maps directory's path is requested
-     * @return path of the admin module images directory related to the given owner
+     * @return path of the admin module images directory related to the given
+     * owner
      */
     public String getImagesPathAdmin(String ownerCode) {
         String path = imagesPathAdmin.replace("$DIR", ownerCode);
@@ -332,16 +349,17 @@ public class Settings {
     }
 
     /**
-     * Returns the url where LocationService is running.
-     * @return url of LocationService
+     * Returns the URL where LocationService is running.
+     *
+     * @return URL of LocationService
      */
     public String getWebpath() {
         return this.webPath;
     }
 
     /**
-     * Returns the URL of the images directory related to the
-     * given owner code.
+     * Returns the URL of the images directory related to the given owner code.
+     *
      * @param ownerCode owner whose image directory's URL is requested
      * @return URL of the images directory related to the given owner
      */
@@ -351,8 +369,8 @@ public class Settings {
     }
 
     /**
-     * Returns the URL of the maps directory related to the
-     * given owner code.
+     * Returns the URL of the maps directory related to the given owner code.
+     *
      * @param ownerCode owner whose map directory's URL is requested
      * @return URL of the map directory related to the given owner
      */
@@ -362,10 +380,10 @@ public class Settings {
     }
 
     /**
-     * Returns an array of default template file names, that should
-     * exist in each language. Without these files the system may not
-     * work correctly in all the situations. The number of default
-     * templates is five.
+     * Returns an array of default template file names, that should exist in
+     * each language. Without these files the system may not work correctly in
+     * all the situations. The number of default templates is five.
+     *
      * @return an array of default template file names
      */
     public String[] getDefaultTemplates() {
@@ -378,6 +396,7 @@ public class Settings {
 
     /**
      * Returns a list of directories that contains language specific files.
+     *
      * @param ownerCode owner code of the organization
      * @return list of language specific directories
      */
@@ -391,6 +410,7 @@ public class Settings {
 
     /**
      * Returns a list of directories that contains owner specific files.
+     *
      * @param ownerCode owner code of the organization
      * @return list of owner specific directories
      */

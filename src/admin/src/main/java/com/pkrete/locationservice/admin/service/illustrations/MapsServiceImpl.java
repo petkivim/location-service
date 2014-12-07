@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.service.illustrations;
 
@@ -37,18 +37,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * This class implements {@link MapsService MapsService} interface, 
- * which defines service layer for Map objects.
- * 
+ * This class implements {@link MapsService MapsService} interface, which
+ * defines service layer for Map objects.
+ *
  * @author Petteri Kivimäki
  */
 public class MapsServiceImpl implements MapsService {
 
-    private final static Logger logger = Logger.getLogger(MapsServiceImpl.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(MapsServiceImpl.class.getName());
     private MapsDao dao;
     private FileService fileService;
     private DirectoryService dirService;
@@ -57,6 +58,7 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Sets the data access object.
+     *
      * @param dao new value
      */
     public void setDao(MapsDao dao) {
@@ -65,6 +67,7 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Sets the file service object.
+     *
      * @param fileService new value
      */
     public void setFileService(FileService fileService) {
@@ -73,6 +76,7 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Sets the directory service object.
+     *
      * @param dirService new value
      */
     public void setDirService(DirectoryService dirService) {
@@ -81,6 +85,7 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Sets the language service object.
+     *
      * @param languageService new value
      */
     public void setLanguagesService(LanguagesService languagesService) {
@@ -89,6 +94,7 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Sets the JSON converter object.
+     *
      * @param dao new value
      */
     public void setJsonizer(JSONizerService jsonizer) {
@@ -96,33 +102,38 @@ public class MapsServiceImpl implements MapsService {
     }
 
     /**
-     * Returns the map with given id.
-     * This method is only for editor classes. All the other classes must give
-     * also the owner parameter.
+     * Returns the map with given id. This method is only for editor classes.
+     * All the other classes must give also the owner parameter.
+     *
      * @param id the id that is used for searching
      * @return the map with the given id
      */
+    @Override
     public Map get(int id) {
         return dao.get(id);
     }
 
     /**
      * Returns the map with given id.
+     *
      * @param id the id that is used for searching
      * @param owner the owner of the object
      * @return the map with the given id
      */
+    @Override
     public Map get(int id, Owner owner) {
         return dao.get(id, owner);
     }
 
     /**
      * Deletes the map with the given id and owner.
+     *
      * @param id id of the map
      * @param owner owner of the map
-     * @return true if and only if the map was succesfully deleted;
-     * otherwise false
+     * @return true if and only if the map was successfully deleted; otherwise
+     * false
      */
+    @Override
     public boolean delete(int id, Owner owner) {
         Map map = dao.get(id, owner);
         return delete(map);
@@ -130,8 +141,10 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Deletes the given map object from the database.
+     *
      * @param map the map to be deleted
      */
+    @Override
     public boolean delete(Map map) {
         // Check for null
         if (map == null) {
@@ -143,7 +156,7 @@ public class MapsServiceImpl implements MapsService {
 
         // Make sure that the map can be deleted
         if (!dao.canBeDeleted(map.getId())) {
-            logger.warn(new StringBuilder("Deleting map failed! Map has dependencies in the database. Map : ").append(json));
+            logger.warn("Deleting map failed! Map has dependencies in the database. Map : {}", json);
             return false;
         }
         boolean success = true;
@@ -155,32 +168,34 @@ public class MapsServiceImpl implements MapsService {
         // Delete the map from DB, if success == true
         if (success) {
             if (dao.delete(map)) {
-                if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("Map deleted : ").append(json));
-                }
+                logger.info("Map deleted : {}", json);
                 return true;
             }
         }
-        logger.warn(new StringBuilder("Failed to delete map : ").append(json));
+        logger.warn("Failed to delete map : {}", json);
         return false;
     }
 
     /**
-     * Returns a list of all the maps in the database that are related
-     * to the given owner object.
+     * Returns a list of all the maps in the database that are related to the
+     * given owner object.
+     *
      * @param owner the owner of the objects
      * @return all the maps in the database
      */
+    @Override
     public List<Map> get(Owner owner) {
         return dao.get(owner);
     }
 
     /**
-     * Adds the given map object to the database and to the filesystem.
+     * Adds the given map object to the database and to the file system.
+     *
      * @param map the map to be added
-     * @return true if and only if the map was succesfully added; otherwise
+     * @return true if and only if the map was successfully added; otherwise
      * false
      */
+    @Override
     public boolean create(Map map) {
         // Set created date
         map.setCreated(new Date());
@@ -190,15 +205,13 @@ public class MapsServiceImpl implements MapsService {
         final String adminPath = Settings.getInstance().getMapsPathAdmin(map.getOwner().getCode());
 
         if (map.getFilePath() != null && map.getFilePath().length() > 0) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Move uploaded maps files from admin dir to service dir.");
-            }
+            logger.debug("Move uploaded maps files from admin dir to service dir.");
             // Map files are moved from admin dir to service dir.
             // FilePath variable contains the name of the map files
             String name = map.getFilePath();
             // Check that the file really exists in all the languages
             if (!this.adminMapExists(map.getFilePath(), map.getOwner())) {
-                logger.warn(new StringBuilder("Creating map failed, because the given file doesn't exist in all the language directories! File : ").append(map.getFilePath()));
+                logger.warn("Creating map failed, because the given file doesn't exist in all the language directories! File : {}", map.getFilePath());
                 return false;
             }
             // Get all the languages related to the Map owner
@@ -218,9 +231,8 @@ public class MapsServiceImpl implements MapsService {
                 String sourcePath = adminPath + lang.getCode() + "/" + map.getFilePath();
                 // Absolute target path
                 String targetPath = path + lang.getCode() + "/" + map.getPath();
-                if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("Move map file : \"").append(sourcePath).append("\" -> \"").append(targetPath).append("\""));
-                }
+                logger.info("Move map file : \"{}\" -> \"{}\"", sourcePath, targetPath);
+
                 // Try to rename (=move) the file
                 if (!fileService.rename(sourcePath, targetPath)) {
                     logger.warn("Moving map file failed!");
@@ -257,9 +269,7 @@ public class MapsServiceImpl implements MapsService {
             // Map is external
             map.setIsExternal(true);
         } else if (map.hasFiles()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Add uploaded map files.");
-            }
+            logger.debug("Add uploaded map files.");
             // User has uploaded files, one file for each language
             java.util.Map<Integer, MultipartFile> files = map.getFiles();
             // Get the name of the first file
@@ -281,21 +291,19 @@ public class MapsServiceImpl implements MapsService {
             for (Entry<Integer, MultipartFile> entry : files.entrySet()) {
                 // New file object for the target file
                 File mapFile = new File(path + languagesMap.get(entry.getKey()).getCode() + "/" + name);
-                if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("Write uploaded map file to disk. Path : \"").append(mapFile.getAbsolutePath()).append("\""));
-                }
+                logger.info("Write uploaded map file to disk. Path : \"{}\"", mapFile.getAbsolutePath());
                 try {
                     // Write the uploaded file to disk
                     entry.getValue().transferTo(mapFile);
                 } catch (IOException ex) {
                     logger.warn("Writing map file to disk failed!");
-                    logger.error(ex);
+                    logger.error(ex.getMessage(), ex);
                     success = false;
                     break;
                 }
                 // Check that the file really exists
                 if (!fileService.exists(mapFile.getAbsolutePath())) {
-                    logger.warn(new StringBuilder("Writing map file to disk failed! File doesn't exist. Path : \"").append(mapFile.getAbsolutePath()).append("\""));
+                    logger.warn("Writing map file to disk failed! File doesn't exist. Path : \"{}\"", mapFile.getAbsolutePath());
                     success = false;
                     break;
                 }
@@ -325,21 +333,21 @@ public class MapsServiceImpl implements MapsService {
         }
         // Try to save the map to DB
         if (dao.create(map)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Map created : ").append(this.jsonizer.jsonize(map, true)));
-            }
+            logger.info("Map created : {}", this.jsonizer.jsonize(map, true));
             return true;
         }
-        logger.warn(new StringBuilder("Failed to create map : ").append(this.jsonizer.jsonize(map, true)));
+        logger.warn("Failed to create map : {}", this.jsonizer.jsonize(map, true));
         return false;
     }
 
     /**
      * Updates the given map object to the database.
+     *
      * @param map the map to be updated
-     * @return true if and only if the map was succesfully added; otherwise
+     * @return true if and only if the map was successfully added; otherwise
      * false
      */
+    @Override
     public boolean update(Map map) {
         // Get JSON presentation
         String json = this.jsonizer.jsonize(map, true);
@@ -351,16 +359,14 @@ public class MapsServiceImpl implements MapsService {
         final String adminPath = Settings.getInstance().getMapsPathAdmin(map.getOwner().getCode());
 
         if (map.getFilePath() != null && map.getFilePath().length() > 0) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Move uploaded maps files from admin dir to service dir.");
-            }
+            logger.debug("Move uploaded maps files from admin dir to service dir.");
             // Get name of the map file
             String name = map.getPath();
             // Get all the languages related to the Map owner
             List<Language> languages = this.languagesService.getLanguages(map.getOwner());
             // Check that the file really exists in one language at least
             if (!this.adminMapExists(map.getFilePath(), languages, map.getOwner())) {
-                logger.warn(new StringBuilder("Updating map failed, because the given file doesn't exist in any language! File : ").append(map.getFilePath()));
+                logger.warn("Updating map failed, because the given file doesn't exist in any language! File : {}", map.getFilePath());
                 return false;
             }
             // If the current map is external, name must be checked
@@ -402,9 +408,7 @@ public class MapsServiceImpl implements MapsService {
             // The map is external
             map.setIsExternal(true);
         } else if (map.hasFile()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Update map file(s).");
-            }
+            logger.debug("Update map file(s).");
             boolean success = true;
             // Get uploaded files
             java.util.Map<Integer, MultipartFile> files = map.getFiles();
@@ -424,26 +428,24 @@ public class MapsServiceImpl implements MapsService {
                 File tempFile = new File(path + languagesMap.get(entry.getKey()).getCode() + "/temp." + map.getPath());
                 // Try to rename the old file
                 if (this.fileService.exists(mapFile.getAbsolutePath()) && !fileService.rename(mapFile.getAbsolutePath(), tempFile.getAbsolutePath())) {
-                    logger.warn(new StringBuilder("Renaming the old map file failed! Path : ").append(mapFile.getAbsolutePath()));
+                    logger.warn("Renaming the old map file failed! Path : {}", mapFile.getAbsolutePath());
                     continue;
                 }
-                if (logger.isInfoEnabled()) {
-                    logger.info(new StringBuilder("Write uploaded map file to disk. Path : \"").append(mapFile.getAbsolutePath()).append("\""));
-                }
+                logger.info("Write uploaded map file to disk. Path : \"{}\"", mapFile.getAbsolutePath());
                 try {
                     // Write the uploaded file to disk
                     entry.getValue().transferTo(mapFile);
                 } catch (IOException ex) {
                     logger.warn("Writing map file to disk failed!");
-                    logger.error(ex);
+                    logger.error(ex.getMessage(), ex);
                     success = false;
                 }
                 // Check that the file really exists
                 if (!fileService.exists(mapFile.getAbsolutePath())) {
-                    logger.warn(new StringBuilder("Writing map file to disk failed! File doesn't exist. Path : \"").append(mapFile.getAbsolutePath()).append("\""));
+                    logger.warn("Writing map file to disk failed! File doesn't exist. Path : \"{}\"", mapFile.getAbsolutePath());
                     // If temp file exists, try to recover it
                     if (this.fileService.exists(tempFile.getAbsolutePath()) && !fileService.rename(tempFile.getAbsolutePath(), mapFile.getAbsolutePath())) {
-                        logger.warn(new StringBuilder("Recovering the old map file failed! Path : ").append(mapFile.getAbsolutePath()));
+                        logger.warn("Recovering the old map file failed! Path : {}", mapFile.getAbsolutePath());
                     } else if (logger.isDebugEnabled()) {
                         logger.debug("Old map file succesfully recovered from the temp file.");
                     }
@@ -451,7 +453,7 @@ public class MapsServiceImpl implements MapsService {
                 } else {
                     // If temp file exists, delete it
                     if (fileService.exists(tempFile.getAbsolutePath()) && !fileService.delete(tempFile.getAbsolutePath())) {
-                        logger.warn(new StringBuilder("Updating map failed! Unable to delete the temp file. Path : \"").append(tempFile.getAbsolutePath()).append("\""));
+                        logger.warn("Updating map failed! Unable to delete the temp file. Path : \"{}\"", tempFile.getAbsolutePath());
                     } else if (logger.isDebugEnabled()) {
                         logger.debug("Temp file succesfully deleted.");
                     }
@@ -463,23 +465,23 @@ public class MapsServiceImpl implements MapsService {
         }
         // Try to update the DB
         if (dao.update(map)) {
-            if (logger.isInfoEnabled()) {
-                logger.info(new StringBuilder("Map updated : ").append(this.jsonizer.jsonize(map, true)));
-            }
+            logger.info("Map updated : {}", this.jsonizer.jsonize(map, true));
             return true;
         }
-        logger.warn(new StringBuilder("Failed to update Map : ").append(json));
+        logger.warn("Failed to update Map : {}", json);
         return false;
     }
 
     /**
-     * Returns a list of map files that exist in all the language
-     * admin directories related to the given owner. If file is missing
-     * from one or more language directory, it's not included in the results.
+     * Returns a list of map files that exist in all the language admin
+     * directories related to the given owner. If file is missing from one or
+     * more language directory, it's not included in the results.
+     *
      * @param owner owner of the map files
      * @return list of files that are present in all the language admin
      * directories
      */
+    @Override
     public List<String> getAdminMaps(Owner owner) {
         // List for the results
         List<String> list = new ArrayList<String>();
@@ -514,19 +516,22 @@ public class MapsServiceImpl implements MapsService {
     }
 
     /**
-     * Checks if the map object corresponding the give id can be removed
-     * from the database.
+     * Checks if the map object corresponding the give id can be removed from
+     * the database.
+     *
      * @param mapId the id number of the map to be removed
      * @return true if the map object can be removed, otherwise returns false
      */
+    @Override
     public boolean canBeDeleted(int mapId) {
         return dao.canBeDeleted(mapId);
     }
 
     /**
-     * Checks if a file denoted by the given dir and filename exists, and
-     * adds a timestamp in the beginning of the filename if another file
-     * with the same name already exists.
+     * Checks if a file denoted by the given dir and filename exists, and adds a
+     * timestamp in the beginning of the filename if another file with the same
+     * name already exists.
+     *
      * @param dir absolute directory
      * @param filename name of the file
      * @return unique filename
@@ -542,8 +547,9 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Checks if a file denoted by the given dir and filename exists in the
-     * language directories, and adds a timestamp in the beginning of the 
-     * filename if another file with the same name already exists. The 
+     * language directories, and adds a timestamp in the beginning of the
+     * filename if another file with the same name already exists. The
+     *
      * @param dir absolute directory
      * @param filename name of the file
      * @param languages list of languages to be checked
@@ -578,10 +584,12 @@ public class MapsServiceImpl implements MapsService {
     /**
      * Returns a Map containing all the uploaded map files and a list of
      * languages in which they're available.
+     *
      * @param owner owner of the map files
-     * @return Map containing all the uploaded map files and a list of
-     * languages in which they're available
+     * @return Map containing all the uploaded map files and a list of languages
+     * in which they're available
      */
+    @Override
     public java.util.Map<String, List<Language>> getUploadedMaps(Owner owner) {
         // Map for the results
         java.util.Map maps = new LinkedHashMap();
@@ -615,11 +623,13 @@ public class MapsServiceImpl implements MapsService {
 
     /**
      * Deletes the uploaded map file with given name, language and owner.
+     *
      * @param fileName name of the map file
      * @param language language of the map file
      * @param owner owner of the map file
      * @return true if and only if the file was deleted; otherwise false
      */
+    @Override
     public boolean delete(String fileName, Language language, Owner owner) {
         // Check for null values
         if (fileName == null || owner == null) {
@@ -634,23 +644,22 @@ public class MapsServiceImpl implements MapsService {
         path += fileName;
         // The file doesn't exist -> exit
         if (!this.adminMapExists(fileName, language, owner)) {
-            logger.warn(new StringBuilder("Unable to delete the uploaded map file \"").append(path).append("\", because the file doesn't exist."));
+            logger.warn("Unable to delete the uploaded map file \"{}\", because the file doesn't exist.", path);
             return false;
         }
         // Try to delete the file
         if (!this.fileService.delete(path)) {
-            logger.warn(new StringBuilder("Failed to delete the uploaded map file \"").append(path).append("\"."));
+            logger.warn("Failed to delete the uploaded map file \"{}\".", path);
             return false;
         }
-        if (logger.isInfoEnabled()) {
-            logger.info(new StringBuilder("Uploaded map file \"").append(path).append("\" was succesfully deleted."));
-        }
+        logger.info("Uploaded map file \"{}\" was succesfully deleted.", path);
         return true;
     }
 
     /**
-     * Returns a list of maps files that are located in the maps admin
-     * directory under the given language related to the given owner.
+     * Returns a list of maps files that are located in the maps admin directory
+     * under the given language related to the given owner.
+     *
      * @param language language of the map
      * @param owner owner of the map files
      * @return list of map files
@@ -663,14 +672,16 @@ public class MapsServiceImpl implements MapsService {
     }
 
     /**
-     * Checks that a map file with the given name exists in all the maps
-     * admin directories. Returns true if and only if the given file is 
-     * present in all the admin language directories. Otherwise returns false.
+     * Checks that a map file with the given name exists in all the maps admin
+     * directories. Returns true if and only if the given file is present in all
+     * the admin language directories. Otherwise returns false.
+     *
      * @param fileName name of the file
      * @param owner owner of the file
-     * @return true if and only if the given file is present in all the
-     * admin language directories; otherwise false
+     * @return true if and only if the given file is present in all the admin
+     * language directories; otherwise false
      */
+    @Override
     public boolean adminMapExists(String fileName, Owner owner) {
         // Get list of files that exist in all the admin language dirs
         List<String> files = this.getAdminMaps(owner);
@@ -686,13 +697,15 @@ public class MapsServiceImpl implements MapsService {
     }
 
     /**
-     * Checks that a map file with the given name exists in maps
-     * admin directory in the given language related to the given owner.
+     * Checks that a map file with the given name exists in maps admin directory
+     * in the given language related to the given owner.
+     *
      * @param fileName name of the map file
      * @param language language of the map file
      * @param owner owner of the file
      * @return true if and only if the map exists; otherwise false
      */
+    @Override
     public boolean adminMapExists(String fileName, Language language, Owner owner) {
         // Get list of uploaded maps related to the given owner
         List<String> maps = this.getAdminMaps(language, owner);
@@ -706,14 +719,15 @@ public class MapsServiceImpl implements MapsService {
     }
 
     /**
-     * Checks that a map file with the given name exists in maps
-     * admin directory at least in one of the languages related to the 
-     * given owner.
+     * Checks that a map file with the given name exists in maps admin directory
+     * at least in one of the languages related to the given owner.
+     *
      * @param fileName name of the map file
      * @param languages languages related to the given owner
      * @param owner owner of the file
      * @return true if and only if the map exists; otherwise false
      */
+    @Override
     public boolean adminMapExists(String fileName, List<Language> languages, Owner owner) {
         if (languages == null) {
             languages = this.languagesService.getLanguages(owner);
@@ -727,14 +741,16 @@ public class MapsServiceImpl implements MapsService {
     }
 
     /**
-     * Saves the given file in the maps directory of the Admin app under
-     * the given language.
+     * Saves the given file in the maps directory of the Admin app under the
+     * given language.
+     *
      * @param file file to be saved
      * @param language language of the file
      * @param owner owner of the file
      * @return name of the file if and only if the file was saved; otherwise
      * null
      */
+    @Override
     public String upload(MultipartFile file, Language language, Owner owner) {
         // Check for null values
         if (file == null || owner == null || language == null) {
@@ -756,33 +772,31 @@ public class MapsServiceImpl implements MapsService {
 
         // Create a new File object for the uploaded file
         File mapFile = new File(path);
-        if (logger.isInfoEnabled()) {
-            logger.info(new StringBuilder("Write uploaded map file to disk. Path : \"").append(path).append("\""));
-        }
+        logger.info("Write uploaded map file to disk. Path : \"{}\"", path);
+
         try {
             // Write the uploaded file to disk
             file.transferTo(mapFile);
         } catch (IOException ex) {
             logger.warn("Writing map file to disk failed!");
-            logger.error(ex);
+            logger.error(ex.getMessage(), ex);
             return null;
         }
         // Check that the file really exists
         if (!fileService.exists(path)) {
-            logger.warn(new StringBuilder("Writing map file to disk failed! File doesn't exist. Path : \"").append(path).append("\""));
+            logger.warn("Writing map file to disk failed! File doesn't exist. Path : \"{}\"", path);
             return null;
         }
-        if (logger.isInfoEnabled()) {
-            logger.info(new StringBuilder("Writing uploaded map file to disk done. Path : \"").append(path).append("\""));
-        }
+        logger.info("Writing uploaded map file to disk done. Path : \"{}\"", path);
         return name;
     }
 
     /**
      * Removes all the files related to the given Map object.
+     *
      * @param map Map object which files are deleted
-     * @return true if and only if all the existing files were
-     * succesfully deleted; otherwise false
+     * @return true if and only if all the existing files were successfully
+     * deleted; otherwise false
      */
     private boolean deleteFiles(Map map) {
         boolean success = true;
@@ -791,15 +805,13 @@ public class MapsServiceImpl implements MapsService {
             // Build absolute path of the map file
             String path = IllustrationsUtil.buildFilePath(map, lang.getCode());
             if (path == null) {
-                logger.warn(new StringBuilder("Deleting map file failed! Unable to build path for the map file. {\"id\":").append(map.getId()).append(",\"lang\":\"").append(lang.getCode()).append("\"}"));
+                logger.warn("Deleting map file failed! Unable to build path for the map file. {\"id\":{},\"lang\":\"{}\"}", map.getId(), lang.getCode());
                 // Jump to next language
                 continue;
             }
             // Try to delete the file only if it exists.
             if (!fileService.exists(path)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(new StringBuilder("Unable to delete map file, because it doesn't exist. File : ").append(path));
-                }
+                logger.debug("Unable to delete map file, because it doesn't exist. File : {}", path);
                 // Jump to next language
                 continue;
             }

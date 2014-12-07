@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.statistics;
 
@@ -21,12 +21,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * The <code>SearchEvent</code> class represents a single search event
- * that can be received through LocationHandler or Exporter servlets. This
- * class holds the information of all the parameters of a single request plus
- * client's IP address. The purpose of this class is purely to collect 
- * basic statisctics about the usage of the service.
- * 
+ * The <code>SearchEvent</code> class represents a single search event that can
+ * be received through LocationHandler or Exporter servlets. This class holds
+ * the information of all the parameters of a single request plus client's IP
+ * address. The purpose of this class is purely to collect basic statistics
+ * about the usage of the service.
+ *
  * @author Petteri Kivimäki
  */
 public class SearchEvent implements Serializable {
@@ -55,6 +55,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Constructs and initializes a SearchEvent object with the given values.
+     *
      * @param callno call number search parameter
      * @param collection collection code
      * @param lang language
@@ -79,10 +80,11 @@ public class SearchEvent implements Serializable {
 
     /**
      * Constructs and initializes a SearchEvent object with the given values.
+     *
      * @param callno call number search parameter
      * @param searchType search type
      * @param position position attribute
-     * @param authorized boolean value that tells if the request came from 
+     * @param authorized boolean value that tells if the request came from
      * authorized ip address
      * @param ip client's ip address
      * @param eventType type of the event
@@ -103,6 +105,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Returns the id of this event.
+     *
      * @return id of this event
      */
     public int getId() {
@@ -111,6 +114,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the id of this event.
+     *
      * @param id new id
      */
     public void setId(int id) {
@@ -119,6 +123,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Returns the call number related to this event.
+     *
      * @return call number related to this event
      */
     public String getCallno() {
@@ -127,6 +132,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the call number related to this event.
+     *
      * @param callno new call number
      */
     public void setCallno(String callno) {
@@ -135,6 +141,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Returns the search type related to this event.
+     *
      * @return search type related to this event
      */
     public String getSearchType() {
@@ -143,14 +150,16 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the search type related to this event.
+     *
      * @param searchType new call searchType
      */
     public void setSearchType(String searchType) {
         this.searchType = searchType;
     }
 
-        /**
+    /**
      * Returns the position attribute related to this event.
+     *
      * @return position attribute related to this event
      */
     public String getPosition() {
@@ -159,32 +168,36 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the position attribute related to this event.
+     *
      * @param position new position attribute
      */
     public void setPosition(String position) {
         this.position = position;
     }
-    
+
     /**
-     * Changes the boolean value that indicates if the request
-     * came from authorized ip address.
-     * @param authorized  new value
+     * Changes the boolean value that indicates if the request came from
+     * authorized IP address.
+     *
+     * @param authorized new value
      */
     public void setAuthorized(boolean authorized) {
         this.authorized = authorized;
     }
-    
+
     /**
-     * Returns a boolean value that indicates if the request
-     * came from authorized ip address.
-     * @return 
+     * Returns a boolean value that indicates if the request came from
+     * authorized IP address.
+     *
+     * @return
      */
     public boolean getAuthorized() {
         return this.authorized;
     }
-    
+
     /**
      * Returns the collection code related to this event.
+     *
      * @return collection code related to this event
      */
     public String getCollection() {
@@ -193,6 +206,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the collection code related to this event.
+     *
      * @param new collection code
      */
     public void setCollection(String collection) {
@@ -201,6 +215,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Returns the language related to this event.
+     *
      * @return language related to this event
      */
     public String getLang() {
@@ -209,6 +224,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the language related to this event.
+     *
      * @param lang new language
      */
     public void setLang(String lang) {
@@ -217,6 +233,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Returns the status of the publication related to this event.
+     *
      * @return status of the publication related to this event
      */
     public String getStatus() {
@@ -225,6 +242,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the status of the publication related to this event.
+     *
      * @param status new status
      */
     public void setStatus(String status) {
@@ -232,16 +250,18 @@ public class SearchEvent implements Serializable {
     }
 
     /**
-     * Returns the ip address of the client related to this event.
-     * @return ip address of the client related to this event
+     * Returns the IP address of the client related to this event.
+     *
+     * @return IP address of the client related to this event
      */
     public String getIpAddress() {
         return ipAddress;
     }
 
     /**
-     * Changes the ip address of the client related to this event.
-     * @param new ip address
+     * Changes the IP address of the client related to this event.
+     *
+     * @param new IP address
      */
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
@@ -249,6 +269,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Returns the type of this event.
+     *
      * @return type of this event
      */
     public SearchEventType getEventType() {
@@ -257,6 +278,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the type of this event.
+     *
      * @param new type
      */
     public void setEventType(SearchEventType eventType) {
@@ -264,8 +286,9 @@ public class SearchEvent implements Serializable {
     }
 
     /**
-     * Returns the date nad time of this event.
-     * @return date nad time of this event
+     * Returns the date and time of this event.
+     *
+     * @return date and time of this event
      */
     public Date getDate() {
         return date;
@@ -273,6 +296,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the date and time of this event
+     *
      * @param new date and time
      */
     public void setDate(Date date) {
@@ -281,6 +305,7 @@ public class SearchEvent implements Serializable {
 
     /**
      * Returns the owner code of the owner that's related to this event.
+     *
      * @return owner code of the owner that's related to this event
      */
     public String getOwner() {
@@ -289,23 +314,26 @@ public class SearchEvent implements Serializable {
 
     /**
      * Changes the owner code of the owner that's related to this event.
+     *
      * @param owner new owner code
      */
     public void setOwner(String owner) {
         this.owner = owner;
     }
-    
+
     /**
      * Returns the processing time of the event in milliseconds.
+     *
      * @return processing time of the event in milliseconds
      */
     public long getProcessingTime() {
         return this.processingTime;
     }
-    
+
     /**
-     * Changes the processing time of the event. Processing time
-     * must be given in milliseconds.
+     * Changes the processing time of the event. Processing time must be given
+     * in milliseconds.
+     *
      * @param processingTime new value
      */
     public void setProcessingTime(long processingTime) {

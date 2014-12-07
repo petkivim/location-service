@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.model.search;
 
@@ -21,9 +21,9 @@ import com.pkrete.locationservice.admin.model.owner.Owner;
 import java.io.Serializable;
 
 /**
- * The <code>SearchIndex</code> class represents a single entry in the
- * search index.
- * 
+ * The <code>SearchIndex</code> class represents a single entry in the search
+ * index.
+ *
  * @author Petteri Kivimäki
  */
 public class SearchIndex implements Serializable {
@@ -37,18 +37,19 @@ public class SearchIndex implements Serializable {
     private Owner owner;
 
     /**
-     * ontstructs and initializes a new SearchIndex object.
+     * Constructs and initializes a new SearchIndex object.
      */
     public SearchIndex() {
     }
 
     /**
-     * Contstructs and initializes a new SearchIndex object with the given
+     * Constructs and initializes a new SearchIndex object with the given
      * values.
-     * @param locationId id of the Location object to which this SearchIndex 
+     *
+     * @param locationId id of the Location object to which this SearchIndex is
+     * pointing
+     * @param locationType type of the Location object to which this SearchIndex
      * is pointing
-     * @param locationType type of the Location object to which
-     * this SearchIndex is pointing
      * @param callNo call number of the location
      * @param locationCode location code of the location
      * @param owner owner of this SearchIndex
@@ -62,12 +63,13 @@ public class SearchIndex implements Serializable {
     }
 
     /**
-     * Contstructs and initializes a new SearchIndex object with the given
+     * Constructs and initializes a new SearchIndex object with the given
      * values.
-     * @param locationId id of the Location object to which this SearchIndex 
+     *
+     * @param locationId id of the Location object to which this SearchIndex is
+     * pointing
+     * @param locationType type of the Location object to which this SearchIndex
      * is pointing
-     * @param locationType type of the Location object to which
-     * this SearchIndex is pointing
      * @param callNo call number of the location
      * @param locationCode location code of the location
      * @param owner owner of this SearchIndex
@@ -80,6 +82,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Returns the id of this SearchIndex.
+     *
      * @return id number
      */
     public int getId() {
@@ -88,6 +91,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Sets the id of this SearchIndex.
+     *
      * @param id new callNumber
      */
     public void setId(int id) {
@@ -95,18 +99,19 @@ public class SearchIndex implements Serializable {
     }
 
     /**
-     * Returns the id of the Location object to which
-     * this SearchIndex is pointing.
-     * @return location id of the Location object to which
-     * this SearchIndex is pointing
+     * Returns the id of the Location object to which this SearchIndex is
+     * pointing.
+     *
+     * @return location id of the Location object to which this SearchIndex is
+     * pointing
      */
     public int getLocationId() {
         return locationId;
     }
 
     /**
-     * Sets the id of the Location object to which
-     * this SearchIndex is pointing.
+     * Sets the id of the Location object to which this SearchIndex is pointing.
+     *
      * @param locationId new callNumber
      */
     public void setLocationId(int locationId) {
@@ -114,21 +119,20 @@ public class SearchIndex implements Serializable {
     }
 
     /**
-     * Returns the type of the Location object to which
-     * this SearchIndex is pointing. Type is LIBRARY,
-     * COLLECTION or SHELF.
-     * @return type of the Location object to which
-     * this SearchIndex is pointing
+     * Returns the type of the Location object to which this SearchIndex is
+     * pointing. Type is LIBRARY, COLLECTION or SHELF.
+     *
+     * @return type of the Location object to which this SearchIndex is pointing
      */
     public LocationType getLocationType() {
         return locationType;
     }
 
     /**
-     * Sets the location type of the Location object to which
-     * this SearchIndex is pointing. Type is LIBRARY,
-     * COLLECTION or SHELF.
-     * @param locationType new callNumber 
+     * Sets the location type of the Location object to which this SearchIndex
+     * is pointing. Type is LIBRARY, COLLECTION or SHELF.
+     *
+     * @param locationType new callNumber
      */
     public void setLocationType(LocationType locationType) {
         this.locationType = locationType;
@@ -136,6 +140,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Returns the callNumber that is indexed.
+     *
      * @return indexed callNumber
      */
     public String getValue() {
@@ -144,6 +149,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Sets the indexed callNumber.
+     *
      * @param callNumber new callNumber
      */
     public void setValue(String value) {
@@ -152,6 +158,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Returns the owner of this SearchIndex
+     *
      * @return owner of this SearchIndex
      */
     public Owner getOwner() {
@@ -160,6 +167,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Changes the owner of this SearchIndex.
+     *
      * @param owner new owner
      */
     public void setOwner(Owner owner) {
@@ -168,6 +176,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Returns the location code of the location.
+     *
      * @return locatioan code of the location
      */
     public String getLocationCode() {
@@ -176,6 +185,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Sets the location code.
+     *
      * @param locationCode new value
      */
     public void setLocationCode(String locationCode) {
@@ -184,6 +194,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Returns the code of the collection that's used in the ILS.
+     *
      * @return code of the collection that's used in the ILS
      */
     public String getCollectionCode() {
@@ -192,6 +203,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Changes the code of the collection that's used in the ILS.
+     *
      * @param collectionCode new collection code
      */
     public void setCollectionCode(String collectionCode) {
@@ -200,6 +212,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Returns the call number of the location.
+     *
      * @return call number of the location
      */
     public String getCallNumber() {
@@ -208,6 +221,7 @@ public class SearchIndex implements Serializable {
 
     /**
      * Sets the call number.
+     *
      * @param callNumber new value
      */
     public void setCallNumber(String callNumber) {
@@ -215,8 +229,9 @@ public class SearchIndex implements Serializable {
     }
 
     /**
-     * Returns a boolean value that indicates if this SearchIndex
-     * has a collection code.
+     * Returns a boolean value that indicates if this SearchIndex has a
+     * collection code.
+     *
      * @return true if this SeachIndex has a collection code, otherwise false
      */
     public boolean hasCollectionCode() {

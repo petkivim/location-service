@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.dao.subjectmatters;
 
@@ -22,26 +22,31 @@ import com.pkrete.locationservice.admin.model.owner.Owner;
 import com.pkrete.locationservice.admin.model.subjectmatter.SubjectMatter;
 import java.util.List;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class implements {@link SubjectMattersDao SubjectMattersDao} interface
  * that defines data access layer for SubjectMatter objects.
- * 
- * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class 
- * that is a wrapper over {@link HibernateTemplate HibernateTemplate} class. 
- * HibernateTemplate is a convenience class for Hibernate based database access. 
- * HibernateDaoSupport creates the HibernateTemplate and subclasses can use 
- * the getHibernateTemplate() method to obtain the hibernateTemplate and 
- * then perform operations on it. HibernateTemplate takes care of obtaining or 
- * releasing sessions and managing exceptions. 
- * 
+ *
+ * This class extends {@link HibernateDaoSupport HibernateDaoSupport} class that
+ * is a wrapper over {@link HibernateTemplate HibernateTemplate} class.
+ * HibernateTemplate is a convenience class for Hibernate based database access.
+ * HibernateDaoSupport creates the HibernateTemplate and subclasses can use the
+ * getHibernateTemplate() method to obtain the hibernateTemplate and then
+ * perform operations on it. HibernateTemplate takes care of obtaining or
+ * releasing sessions and managing exceptions.
+ *
  * @author Petteri Kivimäki
  */
 public class SubjectMattersDaoImpl extends HibernateDaoSupport implements SubjectMattersDao {
 
+    private final static Logger localLogger = LoggerFactory.getLogger(SubjectMattersDaoImpl.class.getName());
+
     /**
      * Returns a list of all the subject matters in the database that are
      * related to the given owner object.
+     *
      * @param owner the owner of the objects
      * @return all the subject matters in the database
      */
@@ -57,6 +62,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
     /**
      * Returns a list of all the subject matters in the database with the
      * language object initialized.
+     *
      * @param owner the owner of the objects
      * @return all the subject matters in the database
      */
@@ -72,6 +78,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
 
     /**
      * Returns the subject matter which id matches with the given id number.
+     *
      * @param id the id that is used for searching
      * @return the subject matter with the given id
      */
@@ -89,6 +96,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
 
     /**
      * Returns the subject matter which id matches with the given id number.
+     *
      * @param id the id that is used for searching
      * @param owner the owner of the object
      * @return the subject matter with the given id
@@ -110,9 +118,10 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
 
     /**
      * Returns the subject matter which id matches with the given id number.
-     * Initializes locations related to the given subject matter object, so
-     * it's easy to check whether the object can be deleted or not. The object
-     * can't be deleted if there are locations related to it.
+     * Initializes locations related to the given subject matter object, so it's
+     * easy to check whether the object can be deleted or not. The object can't
+     * be deleted if there are locations related to it.
+     *
      * @param id the id that is used for searching
      * @param owner the owner of the object
      * @return the subject matter with the given id
@@ -133,6 +142,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
 
     /**
      * Returns a list of SubjectMatter ids related to the given Owner.
+     *
      * @param owner Owner object
      * @return list of SubjectMatter ids related to the given Owner
      */
@@ -146,6 +156,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
 
     /**
      * Saves the given subject matter object to the database.
+     *
      * @param subjectMatter the subject matter to be saved
      */
     @Override
@@ -153,6 +164,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
         try {
             getHibernateTemplate().save(subjectMatter);
         } catch (Exception e) {
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -160,6 +172,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
 
     /**
      * Updates the given subject matter object to the database.
+     *
      * @param subjectMatter the subject matter to be updated
      */
     @Override
@@ -167,6 +180,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
         try {
             getHibernateTemplate().update(subjectMatter);
         } catch (Exception e) {
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -174,6 +188,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
 
     /**
      * Deletes the given subject matter object from the database.
+     *
      * @param subjectMatter the subject matter to be deleted
      */
     @Override
@@ -181,6 +196,7 @@ public class SubjectMattersDaoImpl extends HibernateDaoSupport implements Subjec
         try {
             getHibernateTemplate().delete(subjectMatter);
         } catch (Exception e) {
+            localLogger.error(e.getMessage(), e);
             return false;
         }
         return true;

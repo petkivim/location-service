@@ -1,19 +1,19 @@
 /**
- * This file is part of Location Service :: Admin.
- * Copyright (C) 2014 Petteri Kivimäki
+ * This file is part of Location Service :: Admin. Copyright (C) 2014 Petteri
+ * Kivimäki
  *
- * Location Service :: Admin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Location Service :: Admin is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
  *
  * Location Service :: Admin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Location Service :: Admin. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.pkrete.locationservice.admin.drawer;
 
@@ -30,22 +30,24 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 import javax.imageio.ImageIO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * This class implements {@link Drawer Drawer} interface and implements
- * all the methods defined in it. This class can be used for drawing
- * positions of Area objects over maps.
- * 
+ * This class implements {@link Drawer Drawer} interface and implements all the
+ * methods defined in it. This class can be used for drawing positions of Area
+ * objects over maps.
+ *
  * @author Petteri Kivimäki
  */
 public class MapDrawer implements Drawer {
 
-    private final static Logger logger = Logger.getLogger(MapDrawer.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(MapDrawer.class.getName());
     private ConverterService converterService;
 
     /**
      * Changes the value of converterService instance variable
+     *
      * @param converterService new value to be set
      */
     public void setConverterService(ConverterService converterService) {
@@ -53,15 +55,17 @@ public class MapDrawer implements Drawer {
     }
 
     /**
-     * Creates a BufferedImage that presents the location of the given
-     * areas on the given image. The image is expected to be a Map object.
-     * If the image is not a Map object, null is returned.
+     * Creates a BufferedImage that presents the location of the given areas on
+     * the given image. The image is expected to be a Map object. If the image
+     * is not a Map object, null is returned.
+     *
      * @param illustration image that's used as base
      * @param areas area that are drawn over the image
      * @param lang language of the image
-     * @return BufferedImage that presents the location of the given
-     * given areas on the given image
+     * @return BufferedImage that presents the location of the given given areas
+     * on the given image
      */
+    @Override
     public BufferedImage draw(Illustration illustration, List<Area> areas, String lang) {
         // If illustration is null, there's nothing to do
         if (illustration == null) {
@@ -133,17 +137,18 @@ public class MapDrawer implements Drawer {
             }
 
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
         }
         return bufferedImage;
     }
 
     /**
      * Loads the file related to the given Map object.
+     *
      * @param map Map object
      * @param lang the language of the UI
-     * @return file related to the given Map object or null if the file
-     * doesn't exist
+     * @return file related to the given Map object or null if the file doesn't
+     * exist
      */
     private File loadMapFile(Map map, String lang) {
         if (lang == null) {
@@ -157,13 +162,14 @@ public class MapDrawer implements Drawer {
         if (file.exists()) {
             return file;
         }
-        logger.error("The image file doesn't exist! Path: \"" + file.getAbsolutePath() + "\"");
+        logger.error("The image file doesn't exist! Path: \"{}\"", file.getAbsolutePath());
         return null;
     }
 
     /**
-     * Parses red, green or blue component value from the given HEX color 
-     * string according to the rgb parameter value.
+     * Parses red, green or blue component value from the given HEX color string
+     * according to the rgb parameter value.
+     *
      * @param color color as a HEX string, 3 or 6 characters long
      * @param rgb the value that is parsed from the HEX string
      * @return red, green or blue value
@@ -193,9 +199,10 @@ public class MapDrawer implements Drawer {
     }
 
     /**
-     * Returns the drawing color that is used with the given Map object.
-     * The color can be defined on owner or on map level. If map 
-     * level definition is missing, owner level definition is used.
+     * Returns the drawing color that is used with the given Map object. The
+     * color can be defined on owner or on map level. If map level definition is
+     * missing, owner level definition is used.
+     *
      * @param map Map object
      * @return drawing color as HEX decimal number
      */
@@ -215,11 +222,12 @@ public class MapDrawer implements Drawer {
     }
 
     /**
-     * Returns the opacity value that is used with the given Map object.
-     * The opacity can be defined on owner or on map level. If map 
-     * level definition is missing, owner level definition is used.
-     * @param map Map object 
-     * @return opacity value to be used with the map(0-255) 
+     * Returns the opacity value that is used with the given Map object. The
+     * opacity can be defined on owner or on map level. If map level definition
+     * is missing, owner level definition is used.
+     *
+     * @param map Map object
+     * @return opacity value to be used with the map(0-255)
      */
     private int getOpacity(Map map) {
         String opacity = "150";
