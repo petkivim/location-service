@@ -19,6 +19,8 @@ The Location Service has two user interfaces: One for customers (endpoint) and o
 
 How to install Solr, Location Service Endpoint and Location Service Admin on single Tomcat instance. MySQL is used as database.
 
+Instructions for migrations between different versions can be found from the Location Service [wiki](https://github.com/petkivim/location-service/wiki/Migration).
+
 #### Database
 
 * Download init_db.sql ([MySQL](https://github.com/petkivim/location-service/blob/master/db/mysql/init_db.sql), [Postgres](https://github.com/petkivim/location-service/blob/master/db/postgres/init_db.sql)) file that generates the 'location_service' database and creates admin user for the Location Service Admin application.
