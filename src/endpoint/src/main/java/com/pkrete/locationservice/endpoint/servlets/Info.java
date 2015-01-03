@@ -20,7 +20,6 @@ package com.pkrete.locationservice.endpoint.servlets;
 import com.pkrete.locationservice.endpoint.service.Service;
 import com.pkrete.locationservice.endpoint.solr.service.LocationIndexService;
 import com.pkrete.locationservice.endpoint.util.ApplicationContextUtils;
-import com.pkrete.locationservice.endpoint.util.PropertiesUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -36,8 +35,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author Petteri Kivimäki
  */
 public class Info extends HttpServlet {
-
-    private static final String version = PropertiesUtil.getProperty("service.version");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,6 +59,8 @@ public class Info extends HttpServlet {
 
         // Get dbService service from application context
         Service service = (Service) ApplicationContextUtils.getApplicationContext().getBean("dbService");
+        // Get Location Service Endpoint version number
+        String version = (String) ApplicationContextUtils.getApplicationContext().getBean("versionNumber");
 
         // Test db connection
         if (!service.testDbConnection()) {

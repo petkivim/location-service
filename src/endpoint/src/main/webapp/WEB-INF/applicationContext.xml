@@ -115,7 +115,7 @@
         <property name="ownerIndexService" ref="ownerIndexService" />      
     </bean>
 
-   <!-- DAO Data Access Object must implement Dao interface -->
+    <!-- DAO Data Access Object must implement Dao interface -->
     <bean id="dao" class="com.pkrete.locationservice.endpoint.dao.locations.LocationsDao" >
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
@@ -163,7 +163,7 @@
         <property name="runnable" ref="statisticsProcessor" />
     </bean>
 
-     <!-- Saves all the search events in the SearchEventStatisticsQueue in the db.  -->
+    <!-- Saves all the search events in the SearchEventStatisticsQueue in the db.  -->
     <bean id="statisticsProcessor" class="com.pkrete.locationservice.endpoint.statistics.StatisticsQueueProcessor">
         <property name="dbService" ref="dbService" />
         <property name="mailService" ref="mailService" />
@@ -206,7 +206,7 @@
         </constructor-arg>
     </bean>
     
-     <!-- HashMap containing LocatingStrategy - LocationsService -pairs -->
+    <!-- HashMap containing LocatingStrategy - LocationsService -pairs -->
     <bean id="services" class="java.util.HashMap">
         <constructor-arg>
             <!-- Services must implement Service interface -->
@@ -347,6 +347,11 @@
     <bean id="mailService" class="com.pkrete.locationservice.endpoint.mailer.impl.EmailServiceImpl">
         <property name="converterService" ref="converter"  />
         <property name="emailMessageFactoryService" ref="emailMessageFactoryService"  />
+    </bean>
+    
+    <!-- Location Service Endpoint version number -->
+    <bean id="versionNumber" class="java.lang.String">
+        <constructor-arg value="3.1.0"/>
     </bean>
     
     <!-- Solr configuration - START -->
