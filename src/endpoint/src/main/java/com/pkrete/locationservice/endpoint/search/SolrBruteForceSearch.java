@@ -72,7 +72,7 @@ public class SolrBruteForceSearch extends Search {
             StringBuilder builder = new StringBuilder("Exporter search - search string : \"");
             builder.append(search).append("\", type : \"").append(type);
             builder.append("\", owner : \"").append(owner.getCode());
-            builder.append("\", position : ").append(position.toString());
+            builder.append("\", position : \"").append(position.toString());
             builder.append("\", children : ").append(children);
             logger.debug(builder.toString());
         }
