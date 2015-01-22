@@ -15,13 +15,13 @@ $(document).ready( function() {
 
     $('.add_exception').click(function() {
         var id = $(this).parents('table').find('tr').last().find('td input').attr('id');
-        var id_new = parseInt(id.replace(/\w+([0-9]+).+/g, '$1'));
+        var id_new = parseInt(id.replace(/\w+?([0-9]+).+/g, '$1'));
         id_new++;
 
         var tr = $(this).parents('table').find('tr').last().clone(true);
         tr.find('td input').each(function() {
             if($(this).attr('id') != undefined) {
-                var attr_id = $(this).attr('id').replace(/(\w+)([0-9]+)(.+)/g, '$1' + id_new + '$3');
+                var attr_id = $(this).attr('id').replace(/(\w+?)([0-9]+)(.+)/g, '$1' + id_new + '$3');
                 $(this).attr('id', attr_id);
             }
             var attr_name = $(this).attr('name').replace(/(\w+\[)([0-9]+)(\].+)/g, '$1' + id_new + '$3');
