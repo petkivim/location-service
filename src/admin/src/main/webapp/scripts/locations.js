@@ -210,7 +210,9 @@ function get_map_url()
         params += "&y2_" + vals[i] + "=" + $("#y2_" + vals[i]).val();
         params += "&angle_" + vals[i] + "=" + $("#angle_" + vals[i]).val();
     }
-    url += params
+    // encode '|':
+    params = params.replace(/\|/g, "%7C");
+    url += params;
     return url;
 }
 
