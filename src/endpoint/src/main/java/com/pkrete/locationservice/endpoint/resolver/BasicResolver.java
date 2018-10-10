@@ -210,12 +210,18 @@ public class BasicResolver extends Resolver {
         // accent and case are ignored
         collator.setStrength(Collator.PRIMARY);
         // Get collections by collection code
-        LibraryCollection location = localService.getCollectionByCollectionCode(owner, collection);
-        if (location != null) {
-            if (LocationHelper.match(location.getCallNo(), callno) || LocationHelper.match(location.getCallNo(), callno, pattern, collator)) {
-                return location;
-            }
+        List list = localService.getCollectionsByCollectionCode(owner, collection);
+        for (LibraryCollection location : (List<LibraryCollection>) list) {
+					if (LocationHelper.match(location.getCallNo(), callno, pattern, collator)) {
+							return location;
+					}
         }
+
+        for (LibraryCollection location : (List<LibraryCollection>) list) {
+					if (LocationHelper.match(location.getCallNo(), callno)) {
+						return location;
+					}
+        }				
         return null;
     }
 }
