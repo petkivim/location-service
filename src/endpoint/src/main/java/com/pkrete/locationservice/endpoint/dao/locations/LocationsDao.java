@@ -546,6 +546,24 @@ public class LocationsDao extends HibernateDaoSupport implements Dao {
         return col;
     }
 
+	  /**
+     * Returns a list of collection with the given collection code.
+     *
+     * @param owner owner of the location
+     * @param collectionCode collection code of the collection to be searched
+     * @return collection matching the given code or null
+     */
+    @Override
+    public List<LibraryCollection> getCollectionsByCollectionCode(String owner, String collectionCode) {
+        List<LibraryCollection> result = (List<LibraryCollection>) getHibernateTemplate().findByNamedParam("from LibraryCollection c "
+                + "left join fetch c.image "
+                + "left join fetch c.map "
+                + "left join fetch c.areas "
+                + "where c.collectionCode = :collectionCode "
+                + "and c.owner.code = :owner", new String[]{"collectionCode", "owner"}, new Object[]{collectionCode, owner});
+				return result;
+    }
+
     /**
      * Returns a list of all the libraries in the database that are related to
      * the given owner. All the lazy relationships are loaded.

@@ -77,6 +77,8 @@ public interface Service {
 
     LibraryCollection getCollectionByCollectionCode(String owner, String collectionCode);
 
+	  List<LibraryCollection> getCollectionsByCollectionCode(String owner, String collectionCode);
+
     List<Library> getAllLocations(String owner);
 
     Owner getOwnerByCode(String code);
