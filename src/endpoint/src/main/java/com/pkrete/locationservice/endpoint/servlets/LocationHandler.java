@@ -152,7 +152,7 @@ public class LocationHandler extends HttpServlet {
                             collection,
                             lang,
                             statusStr,
-                            getIpAddress(request),
+                            "*.*.*.*", // getIpAddress(request), // GDPR!
                             SearchEventType.LOCATION_HANDLER,
                             owner,
                             System.currentTimeMillis() - start));
